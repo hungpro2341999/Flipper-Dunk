@@ -8,7 +8,7 @@ public class Ball : MonoBehaviour
     public static bool isCollWithFlipper = false;
     public Rigidbody2D body;
     public Vector3 PosInit;
-    
+    public float Angle = 0;
     private void Awake()
     {
         if (Ins != null)
@@ -21,11 +21,12 @@ public class Ball : MonoBehaviour
             Ins = this;
 
         }
-        CtrlGamePlay.Ins.eventForRerestGame += Reset;
+
     }
     // Start is called before the first frame update
     void Start()
     {
+        CtrlGamePlay.Ins.eventForRerestGame += Reset;
         body = GetComponent<Rigidbody2D>();
         Reset();
     }
@@ -61,8 +62,11 @@ public class Ball : MonoBehaviour
         {
 
             Instantiate(CtrlGamePlay.Ins.Test, CtrlGamePlay.Ins.MainCanvas);
-            body.AddForce(CtrlGamePlay.ForceFlipperThrow, ForceMode2D.Force);
-            Debug.Log("Add Force : " + CtrlGamePlay.ForceFlipperThrow);
+
+
+            //body.AddForce( CtrlGamePlay.ForceFlipperThrow , ForceMode2D.Force);
+
+            body.velocity = CtrlGamePlay.ForceFlipperThrow;
         }
 
            
@@ -73,7 +77,17 @@ public class Ball : MonoBehaviour
     {
         transform.position = PosInit;
         body.velocity = Vector3.zero;
+
         body.isKinematic = true;
+        body.simulated = false;
+
+        transform.eulerAngles = Vector3.zero;
+
+    }
+    public void ActiveBall()
+    {
+        body.simulated = true;
+        body.isKinematic = false;
     }
    
 }

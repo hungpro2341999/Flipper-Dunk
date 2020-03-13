@@ -44,7 +44,7 @@ public class CtrlGamePlay : MonoBehaviour
     private float Max=0;
     private float angle =0;
     private int count = 0;
-
+    private int farme = 0;
 
     public delegate void EventStartGame();
     public event EventStartGame eventForStartGame;
@@ -53,7 +53,7 @@ public class CtrlGamePlay : MonoBehaviour
 
     private void Awake()
     {
-        speedPlushThrow = (PLushPerSecond * MaxForceThrow) / Mathf.Abs(MinAngle);
+        //speedPlushThrow = (PLushPerSecond * MaxForceThrow) / Mathf.Abs(MinAngle);
         if (Ins != null)
         {
             Destroy(gameObject);
@@ -78,7 +78,8 @@ public class CtrlGamePlay : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             isStart = true;
-            Ball.Ins.body.isKinematic = false;
+            Ball.Ins.ActiveBall();
+           
         }
 
 
@@ -121,8 +122,8 @@ public class CtrlGamePlay : MonoBehaviour
         }
         if (isPress)
         {
-            
-          
+
+            farme++;
                 if (!isMax)
                 {
 
@@ -133,10 +134,21 @@ public class CtrlGamePlay : MonoBehaviour
 
                     angle = Mathf.Clamp(angle, MinAngle, 0);
 
-                
-                      
+                    Fliper.transform.eulerAngles = Vector3.forward * angle;
+
+                if (farme % 2 == 0)
+                {
                     ForceThrow += speedPlushThrow;
-                     
+                    if (ForceThrow >= MaxForceThrow)
+                    {
+                        if (!isAddForce)
+                        {
+                            Ball.Ins.ThrowBall();
+                            isAddForce = true;
+                        }
+                    }
+                }
+                   
                      
                     if(angle == MinAngle ||angle<=MinAngle )
                     {
@@ -151,27 +163,27 @@ public class CtrlGamePlay : MonoBehaviour
 
                 }
 
-                if (angle <= MinAngle * 0.9)
-                    {
+                //if (angle <= MinAngle * 0.9)
+                //    {
 
-                        if (!isAddForce)
-                        {
-                            Ball.Ins.ThrowBall();
-                            isAddForce = true;
-                        }
+                //        if (!isAddForce)
+                //        {
+                //            Ball.Ins.ThrowBall();
+                //            isAddForce = true;
+                //        }
 
                        
 
 
 
-                }
+                //}
                     else
                     {
 
                     }
 
 
-                    Fliper.transform.eulerAngles = Vector3.forward * angle;
+               
                 
 
 
@@ -211,9 +223,15 @@ public class CtrlGamePlay : MonoBehaviour
 
     public void ThrowBall()
     {
-      
+       
         ForceThrow = Mathf.Clamp(ForceThrow,0, MaxForceThrow);
-       ForceFlipperThrow = Vector3.Reflect(-Vector3.up,DirectFlipper.Direct) * ForceThrow;
+        if(ForceThrow!=0)
+        Debug.Log(ForceThrow);
+       ForceFlipperThrow = Vector3.Reflect(Vector3.up,DirectFlipper.Direct) * ForceThrow;
+
+      //  ForceFlipperThrow = new Vector3(-DirectFlipper.Direct.y,DirectFlipper.Direct.x) * ForceThrow;
+
+    //    Debug.Log(new Vector3(-DirectFlipper.Direct.y, DirectFlipper.Direct.x) + "  " + ForceThrow + "  " + ForceFlipperThrow);
     }
 
     
