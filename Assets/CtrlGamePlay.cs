@@ -17,6 +17,9 @@ public class CtrlGamePlay : MonoBehaviour
 
     public GameObject Fliper;
 
+    public List<Basket> basket;
+
+
 
     public static float ForceThrow;
     
@@ -81,6 +84,8 @@ public class CtrlGamePlay : MonoBehaviour
             Ball.Ins.ActiveBall();
            
         }
+
+       
 
 
 
@@ -226,7 +231,7 @@ public class CtrlGamePlay : MonoBehaviour
        
         ForceThrow = Mathf.Clamp(ForceThrow,0, MaxForceThrow);
         if(ForceThrow!=0)
-        Debug.Log(ForceThrow);
+      //  Debug.Log(ForceThrow);
        ForceFlipperThrow = Vector3.Reflect(Vector3.up,DirectFlipper.Direct) * ForceThrow;
 
       //  ForceFlipperThrow = new Vector3(-DirectFlipper.Direct.y,DirectFlipper.Direct.x) * ForceThrow;
@@ -238,13 +243,33 @@ public class CtrlGamePlay : MonoBehaviour
     public void Reset_Normal()
     {
         eventForRerestGame();
-    }    
+    }
+
+
+    //  Power Up
+
+    #region EFF_Basket
+
+    public void x2_Score(Basket basket)
+    {
+       
+    }
+    public void Power_Up_Hoot(Basket basket)
+    {
 
     }
 
-   
-    
-    
+    public void Power_Up_Ball()
+    {
 
-    
+    }
+    #endregion
+
+}
+
+
+
+
+
+
 

@@ -15,8 +15,8 @@ TagManager:
   - 
   - Ball
   - Flipper
-  - 
-  - 
+  - Power
+  - Basket
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Basket
+    uniqueID: 3931406283
+    locked: 0
+  - name: Power
+    uniqueID: 78758331
+    locked: 0
+  - name: Ball
+    uniqueID: 2946399749
+    locked: 0
+  - name: Flipper
+    uniqueID: 1706312227
     locked: 0

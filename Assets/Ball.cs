@@ -89,5 +89,12 @@ public class Ball : MonoBehaviour
         body.simulated = true;
         body.isKinematic = false;
     }
+
+    public void ReflectDirect()
+    {
+      //  body.velocity = Vector3.SqrMagnitude(body.velocity)*2*(Vector3.Reflect(body.velocity.normalized, Vector3.up)).normalized ;
+
+        body.AddForce(Vector3.Reflect(body.velocity.normalized,Vector3.forward)*Vector3.SqrMagnitude(body.velocity),ForceMode2D.Force);
+    }
    
 }
