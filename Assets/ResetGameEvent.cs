@@ -29,7 +29,7 @@ public class ResetGameEvent : MonoBehaviour
     public IEnumerator ResetGame()
     {
         yield return new  WaitForSeconds(0);
-        CtrlGamePlay.Ins.Reset_Normal();
+       StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
 
     }
 }

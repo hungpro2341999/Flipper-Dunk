@@ -9,6 +9,7 @@ public class Ball : MonoBehaviour
     public Rigidbody2D body;
     public Vector3 PosInit;
     public float Angle = 0;
+   
     private void Awake()
     {
         if (Ins != null)
@@ -21,6 +22,7 @@ public class Ball : MonoBehaviour
             Ins = this;
 
         }
+        PosInit = transform.position;
 
     }
     // Start is called before the first frame update
@@ -65,8 +67,12 @@ public class Ball : MonoBehaviour
 
 
             //body.AddForce( CtrlGamePlay.ForceFlipperThrow , ForceMode2D.Force);
+            Vector3 vec = Quaternion.AngleAxis(Mathf.Abs(CtrlGamePlay.Ins.angle*0.65f), Vector3.forward) * (new Vector2(CtrlGamePlay.ForceFlipperThrow.x,CtrlGamePlay.ForceFlipperThrow.y))*6.5f;
+            body.AddForce(vec, ForceMode2D.Force);
 
-            body.velocity = CtrlGamePlay.ForceFlipperThrow;
+            // body.velocity = Quaternion.AngleAxis(CtrlGamePlay.Angle,Vector3.forward)*(new Vector2(CtrlGamePlay.ForceFlipperThrow.x,Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y)));
+            CtrlGamePlay.ForceThrow = 0;
+           
         }
 
            
@@ -92,9 +98,11 @@ public class Ball : MonoBehaviour
 
     public void ReflectDirect()
     {
-      //  body.velocity = Vector3.SqrMagnitude(body.velocity)*2*(Vector3.Reflect(body.velocity.normalized, Vector3.up)).normalized ;
+        //  body.velocity = Vector3.SqrMagnitude(body.velocity)*2*(Vector3.Reflect(body.velocity.normalized, Vector3.up)).normalized ;
 
-        body.AddForce(Vector3.Reflect(body.velocity.normalized,Vector3.forward)*Vector3.SqrMagnitude(body.velocity),ForceMode2D.Force);
+        Vector3 vec = body.velocity;
+        vec.x = -vec.x;
+        body.velocity = vec;
     }
    
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class Basket : PoolItem
@@ -13,10 +14,14 @@ public class Basket : PoolItem
     public Transform Power_X2_Score;
 
     public CheckInBall checkInBall;
+    public Text text;
+    public Cloth ClothBasket;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+       
+        OnSpawn();
     }
 
     // Update is called once per frame
@@ -32,23 +37,53 @@ public class Basket : PoolItem
     public void Die()
     {
        // Fuck();
-        float x = transform.position.x;   
-        transform.DOMoveX(x-0.3f, 0.3f).OnComplete(() =>
+        float x = transform.position.x;
+        if (isLeft)
         {
-            transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
-              {
+            transform.DOMoveX((x + 0.3f), 0.3f).OnComplete(() =>
+            {
+                transform.DOMoveX(x - 6, 0.6f).OnComplete(() =>
+                {
 
-                  OnDespawn();
-              });
+                    OnDespawn();
+                });
 
-        });
+            });
+
+        }
+        else
+        {
+            transform.DOMoveX((x - 0.3f), 0.3f).OnComplete(() =>
+            {
+                transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
+                {
+
+                    OnDespawn();
+                });
+
+            });
+
+        }
+
     }
     public override void OnSpawn()
     {
+        if (ClothBasket.sphereColliders == null)
+        {
 
+            ClothSphereColliderPair[] collier = new ClothSphereColliderPair[1];
+            collier[0].first = Ball.Ins.transform.Find("Box3D").GetComponent<SphereCollider>();
+            collier[0].second = Ball.Ins.transform.Find("Box3D").GetComponent<SphereCollider>();
+            ClothBasket.sphereColliders = collier;
+        }
+        if (checkInBall == null)
+        {
+            checkInBall = GetComponent<CheckInBall>();
+        }
+        
         AddBasket(this);
         gameObject.SetActive(true);
-        checkInBall.Restore();
+       
     }
     public override void OnDespawn()
     {
@@ -92,5 +127,14 @@ public class Basket : PoolItem
         transform.DOScaleX(1.5f, 0.5f);
         X2_Basket = false;
     }
+    public int Left()
+    {
+        return isLeft ? -1 : 1;
+    }
+    public void Start_Move_Spawn(float x)
+    {
+        transform.DOMoveX(x, 0.5f);
+    }
+   
 
 }

@@ -16,8 +16,8 @@ public class Check : MonoBehaviour
         if(collision.gameObject.layer == 8)
         {
             Check_In_Ball.SetKey(key);
-            Debug.Log(key);
         }
+        
         
     }
 
@@ -25,7 +25,10 @@ public class Check : MonoBehaviour
     {
         Debug.Log(key);
         if (collision.gameObject.layer == 8)
+        {
             Check_In_Ball.ResetKey(key);
+        }
+            
     }
 
 

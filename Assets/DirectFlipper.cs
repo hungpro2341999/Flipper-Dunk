@@ -19,8 +19,10 @@ public class DirectFlipper : MonoBehaviour
     void Update()
     {
         Vector3 Surface = (Pos1.position - Pos2.position).normalized;
-        Surface = new Vector3(Mathf.Abs(Surface.x), Surface.y);
-       // Direct = new Vector2(-Surface.y, Surface.x);
+        //    Surface = new Vector3(Mathf.Abs(Surface.x), Surface.y);
+        Direct = new Vector2(-Surface.y, Surface.x);
+        Direct = Surface.normalized;
+       
         //Direct = (Pos1.position - Pos2.position).normalized;
      //   Debug.Log(Direct.x + "  " + Direct.y);
     }

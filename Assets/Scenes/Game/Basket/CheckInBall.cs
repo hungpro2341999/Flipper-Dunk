@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CheckInBall : MonoBehaviour
 {
 
     public Dictionary<string, int> Score;
-   
+
+    public bool isLeft = false;
 
     public  static string Key_Board = "BOARD";
     public static  string Point_1 = "POINT_1";
@@ -22,6 +24,8 @@ public class CheckInBall : MonoBehaviour
     public bool isInBoard = false;
 
     public Basket basket;
+
+    public Text text;
     private void Start()
     {
         basket = GetComponent<Basket>();
@@ -45,7 +49,8 @@ public class CheckInBall : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(Score[Key_Board] + "  " + Score[Point_1] + "  " + Score[Point_2]);
+        if(text!=null)
+        text.text  =  Score[Key_Board] + ":" + Score[Point_1] + ":" + Score[Point_2];
     }
     public void SetKey(string key)
     {
@@ -53,28 +58,35 @@ public class CheckInBall : MonoBehaviour
 
         if (!isGolbal)
         {
-            Score[key] = 1;
-
-            if (Score[Key_Board] == 0)
-            {
-                Score[key] = 0;
-            }
-            else
+            if (isCanGolbal)
             {
                 Score[key] = 1;
-                CheckGolbal();
+
+                if (Score[Key_Board] == 0)
+                {
+                    Score[key] = 0;
+                }
+                else
+                {
+                    Score[key] = 1;
+                    CheckGolbal();
+                }
             }
+           
         }
        
 
     }
     public void Restore()
     {
+       
         if (!isGolbal)
         {
+            
             Score[Point_1] = 0;
             Score[Point_2] = 0;
             Score[Key_Board] = 0;
+            isCanGolbal = true;
         }
        
     }
@@ -95,26 +107,29 @@ public class CheckInBall : MonoBehaviour
     }
     public void CheckGolbal()
     {
-        if (!isGolbal)
-        {
-            if (isCanGolbal)
-            {
-                if (Score[Point_2] == 1 && Score[Point_1] == 0)
-                {
-                    isCanGolbal = false;
-                  
-                }
-                else if (Score[Point_2] == 1 && Score[Point_1] == 1)
-                {
-                    Debug.Log("Dieeeeeeeee");
-                    isGolbal = true;
-                    basket.Die();
 
-                }
+        if (isCanGolbal)
+        {
+            if (Score[Point_2] == 1 && Score[Point_1] == 0)
+            {
+                isCanGolbal = false;
 
             }
-
         }
+        if (isCanGolbal)
+        {
+            if (Score[Point_2] == 1 && Score[Point_1] == 1)
+            {
+                Debug.Log("Dieeeeeeeee");
+                isGolbal = true;
+                basket.Die();
+
+            }
+        }
+       
+
+
+    }
 
        
       
@@ -126,4 +141,4 @@ public class CheckInBall : MonoBehaviour
    
 
   
-}
+
