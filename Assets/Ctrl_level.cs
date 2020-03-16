@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ctrl_level : MonoBehaviour
 {
     public static Ctrl_level Ins;
-   
+    public int level=1;
     private void Awake()
     {
         if (Ins != null)

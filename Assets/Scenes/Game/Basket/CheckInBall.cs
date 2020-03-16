@@ -121,6 +121,7 @@ public class CheckInBall : MonoBehaviour
             if (Score[Point_2] == 1 && Score[Point_1] == 1)
             {
                 Debug.Log("Dieeeeeeeee");
+                CtrlGamePlay.Ins.CompleteProcessLevel();
                 isGolbal = true;
                 basket.Die();
 

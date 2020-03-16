@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class CtrlGamePlay : MonoBehaviour
 {
+    public int level = 1;
 
     public GameObject Test;
     public Transform MainCanvas;
     public Text Debug_1;
-
+    public int live;
 
     public static CtrlGamePlay Ins;
 
@@ -45,6 +46,11 @@ public class CtrlGamePlay : MonoBehaviour
     public float MaxAngleFlipper = 0;
     public float angleFlipper = 0;
 
+    //level Curr;
+    public int TargetLevel = 1;
+
+        //
+
     private float time =0;
     private float Max=0;
     public float angle =0;
@@ -56,6 +62,11 @@ public class CtrlGamePlay : MonoBehaviour
     public event EventStartGame eventForStartGame;
     public delegate void EventForRerestGame();
     public event EventStartGame eventForRerestGame;
+    public delegate void EventForCompleteLevel();
+    public event EventForCompleteLevel eventForCompleteLevel;
+    public delegate void CompleteOneProcess();
+    public event EventForCompleteLevel eventForCompleteProcess;
+
 
     public Image Shadow;
     public Transform ClickToStart;
@@ -74,6 +85,8 @@ public class CtrlGamePlay : MonoBehaviour
         eventForRerestGame += Reset;
       
     }
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -322,6 +335,61 @@ public class CtrlGamePlay : MonoBehaviour
 
     }
     #endregion
+
+    public void CompleteProcessLevel()
+    {
+        TargetLevel--;
+        if (!isCompleteLevel())
+        {
+            Ctrl_Spawn.Ins.SetUpSpawnBasket();
+        }
+        else
+        {
+            level++;
+            Ctrl_Spawn.Ins.SetUpLevel(level);
+        }
+    }
+
+    //level
+    public bool isCompleteLevel()
+    {
+        
+        if (TargetLevel > 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public IEnumerator NextLevel()
+    {
+        // Eff CompleteLevel
+
+
+        yield return new WaitForSeconds(0);
+
+        StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
+
+        yield return new WaitForSeconds(0.5f);
+
+        Ctrl_Spawn.Ins.SetUpSpawnBasket();
+
+    }
+
+    
+
+    public bool isOverGame()
+    {
+        if (live > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
 
