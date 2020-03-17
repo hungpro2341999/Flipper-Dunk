@@ -47,7 +47,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7036961150668881951
 Transform:
   m_ObjectHideFlags: 0
@@ -485,6 +485,7 @@ GameObject:
   - component: {fileID: 7036961152210956415}
   - component: {fileID: 7036961152210956412}
   - component: {fileID: 7036961152210956413}
+  - component: {fileID: 2592234641667494705}
   m_Layer: 11
   m_Name: Basket_Right
   m_TagString: Untagged
@@ -548,6 +549,24 @@ MonoBehaviour:
   checkInBall: {fileID: 0}
   text: {fileID: 0}
   ClothBasket: {fileID: 9087071654138649950}
+  isMove: 0
+  isChangeSize: 0
+  isMovevsChangeSize: 0
+  RangeX: 0
+  RangeY: 0
+--- !u!114 &2592234641667494705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7036961152210956385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dda16df28be9dd4186ee56b24a1382e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWait: 1
 --- !u!1 &7036961152260824094
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,8 +963,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.000005722046, y: -0.000059366226, z: -0.0019659996}
-    m_Extent: {x: 1.0191492, y: 1.0182555, z: 0.013648}
+    m_Center: {x: -0.005125642, y: -0.000059604645, z: -0.0019659614}
+    m_Extent: {x: 1.0242809, y: 1.0182595, z: 0.013648336}
   m_DirtyAABB: 0
 --- !u!183 &9087071654138649950
 Cloth:

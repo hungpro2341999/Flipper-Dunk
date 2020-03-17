@@ -25,10 +25,27 @@ public class Basket : PoolItem
     public float RangeX;
     public float RangeY;
 
+    
+    Tweener AnimMove;
+    Tweener AnimChangeSize;
+
     // Start is called before the first frame update
     void Start()
     {
-       
+        ClothSphereColliderPair[] collier = new ClothSphereColliderPair[1];
+        collier[0].first = Ball.Ins.Box3D;
+
+        collier[0].second = Ball.Ins.Box3D;
+        ClothBasket.sphereColliders = collier;
+        if (collier[0].first != null)
+        {
+            Debug.Log("Co");
+        }
+        else
+        {
+            Debug.Log("Ko Co");
+        }
+
         OnSpawn();
     }
 
@@ -63,7 +80,7 @@ public class Basket : PoolItem
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            StartCoroutine(Start_Power_Up_Basket(1));
+            StopAll();
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
@@ -84,7 +101,8 @@ public class Basket : PoolItem
 
     public void Die()
     {
-       // Fuck();
+        StopAll();
+        CtrlGamePlay.Ins.basket.Remove(this);
         float x = transform.position.x;
         if (isLeft)
         {
@@ -92,7 +110,7 @@ public class Basket : PoolItem
             {
                 transform.DOMoveX(x - 6, 0.6f).OnComplete(() =>
                 {
-                    Destroy(gameObject);
+                    Destroy();
 
                  //   OnDespawn();
                 });
@@ -106,7 +124,7 @@ public class Basket : PoolItem
             {
                 transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
                 {
-                    Destroy(gameObject);
+                    Destroy();
                     //   OnDespawn();
                 });
 
@@ -120,10 +138,7 @@ public class Basket : PoolItem
         if (ClothBasket.sphereColliders == null)
         {
 
-            ClothSphereColliderPair[] collier = new ClothSphereColliderPair[1];
-            collier[0].first = Ball.Ins.transform.Find("Ball/Box3D").GetComponent<SphereCollider>();
-            collier[0].second = Ball.Ins.transform.Find("Ball/Box3D").GetComponent<SphereCollider>();
-            ClothBasket.sphereColliders = collier;
+          
         }
         if (checkInBall == null)
         {
@@ -156,7 +171,7 @@ public class Basket : PoolItem
         CtrlGamePlay.Ins.basket.Add(this);
     }
 
-    IEnumerator Start_X2_Score(float time)
+   public IEnumerator Start_X2_Score(float time)
     {
         X2_Score = true;
         Power_X2_Score.gameObject.SetActive(true);
@@ -165,13 +180,12 @@ public class Basket : PoolItem
         X2_Score = false;
     }
 
-    IEnumerator Start_Power_Up_Basket(float time)
+   public IEnumerator Start_Power_Up_Basket(float time)
     {
-        if (!X2_Basket)
-        {
+      
             transform.DOScaleX(2.5f, 0.5f);
             X2_Basket = true;
-        }
+        
         yield return new WaitForSeconds(time);
         transform.DOScaleX(1.5f, 0.5f);
         X2_Basket = false;
@@ -189,7 +203,7 @@ public class Basket : PoolItem
     {
         RangeX = x0;
         RangeY = x1;
-        transform.DOMoveY(x0, 1).OnComplete(() =>
+       AnimMove = transform.DOMoveY(x0, 1).OnComplete(() =>
         {
             transform.DOScaleX(x1, 1);
 
@@ -201,14 +215,33 @@ public class Basket : PoolItem
 
     public void SetUpChangeSize()
     {
-        transform.DOScaleX(2, 1).OnComplete(()=>
+      AnimChangeSize =  transform.DOScaleX(2, 1).OnComplete(()=>
         {
             transform.DOScaleX(1.5f, 1);
 
 
         })  .SetLoops(-1,LoopType.Yoyo);
     }
-   
+
+    public void StopAll()
+    {
+        if (AnimChangeSize != null)
+        {
+            AnimChangeSize.timeScale = 0;
+        }
+        if (AnimMove != null)
+        {
+            AnimMove.timeScale = 0;
+        }
+       
+
+    }
+
+   public void Destroy()
+    {
+        CtrlGamePlay.Ins.basket.Remove(this);
+        Destroy(gameObject);
+    }
     
    
 

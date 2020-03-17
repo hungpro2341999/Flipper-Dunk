@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class DestroySelf : MonoBehaviour
 {
-
+    public bool isWait = false;
     // Start is called before the first frame update
     void Start()
     {
+        if(!isWait)
         StartCoroutine(WaitDestroy());
     }
 
@@ -19,12 +20,13 @@ public class DestroySelf : MonoBehaviour
 
     IEnumerator WaitDestroy()
     {
+      
         yield return new WaitForSeconds(0.5f);
         Destroy();
     }
     public void Destroy()
     {
-
+        Ctrl_Spawn.Ins.ListItem.Remove(this.gameObject);
         Destroy(gameObject);
     }
 }

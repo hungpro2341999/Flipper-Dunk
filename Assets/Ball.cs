@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public SphereCollider Box3D;
     public static Ball Ins;
     public static bool isCollWithFlipper = false;
     public Rigidbody2D body;
@@ -68,7 +69,7 @@ public class Ball : MonoBehaviour
 
             //body.AddForce( CtrlGamePlay.ForceFlipperThrow , ForceMode2D.Force);
             Vector3 vec = Quaternion.AngleAxis(Mathf.Abs(CtrlGamePlay.Ins.angle*0.65f), Vector3.forward) * (new Vector2(CtrlGamePlay.ForceFlipperThrow.x,CtrlGamePlay.ForceFlipperThrow.y))*6.5f;
-            body.AddForce(vec, ForceMode2D.Force);
+            body.AddForce(vec*CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
 
             // body.velocity = Quaternion.AngleAxis(CtrlGamePlay.Angle,Vector3.forward)*(new Vector2(CtrlGamePlay.ForceFlipperThrow.x,Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y)));
             CtrlGamePlay.ForceThrow = 0;
@@ -105,4 +106,6 @@ public class Ball : MonoBehaviour
         body.velocity = vec;
     }
    
+  
+
 }

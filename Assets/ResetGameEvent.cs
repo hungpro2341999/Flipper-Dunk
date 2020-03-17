@@ -18,18 +18,36 @@ public class ResetGameEvent : MonoBehaviour
     {
         
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 8)
+        if (collision.gameObject.layer == 8)
         {
-            StartCoroutine(ResetGame());
+            int live =  CtrlGamePlay.Ins.live--;
+            if (CtrlGamePlay.Ins.CompleteLevel)
+                return;
+            if (live > 0)
+            {
+                Debug.Log("1");
+                StartCoroutine(ResetGame());
+            }
+            else
+            {
+                Debug.Log("2");
+                GameMananger.Ins.OpenWindow(TypeWindow.GameOver);
+            }
+          
         }
     }
+  
     public IEnumerator ResetGame()
     {
-        yield return new  WaitForSeconds(0);
-       StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
+      
+            yield return new WaitForSeconds(0);
+            StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
+        
+
+        yield return new WaitForSeconds(0);
+
 
     }
 }

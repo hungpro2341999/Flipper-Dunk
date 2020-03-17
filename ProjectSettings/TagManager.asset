@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - +life
+  - x2Coin
+  - ChangeSize
+  - IncreReflect
   layers:
   - Default
   - TransparentFX
@@ -17,7 +21,7 @@ TagManager:
   - Flipper
   - Power
   - Basket
-  - 
+  - Spawn
   - 
   - 
   - 

@@ -4,15 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class CtrlGamePlay : MonoBehaviour
 {
+
+   
+    public float scaleScreen;
+
     public int level = 1;
 
     public GameObject Test;
     public Transform MainCanvas;
     public Text Debug_1;
     public int live;
-
+    public bool CompleteLevel = false;
     public static CtrlGamePlay Ins;
 
 
@@ -45,10 +50,16 @@ public class CtrlGamePlay : MonoBehaviour
     public float SpeedShadow;
     public float MaxAngleFlipper = 0;
     public float angleFlipper = 0;
+    public float offsetReflect = 1;
+    public float timex2;
+    public float timeChangeSize;
+    public float timeReflectBall;
+
+
 
     //level Curr;
-    public int TargetLevel = 1;
-
+    public int TargetLevel = 0;
+    
         //
 
     private float time =0;
@@ -56,7 +67,7 @@ public class CtrlGamePlay : MonoBehaviour
     public float angle =0;
     private int count = 0;
     private int farme = 0;
-   
+    
 
     public delegate void EventStartGame();
     public event EventStartGame eventForStartGame;
@@ -67,6 +78,8 @@ public class CtrlGamePlay : MonoBehaviour
     public delegate void CompleteOneProcess();
     public event EventForCompleteLevel eventForCompleteProcess;
 
+    public delegate void ClearnObj();
+    public event ClearnObj eventClearObj;
 
     public Image Shadow;
     public Transform ClickToStart;
@@ -83,7 +96,15 @@ public class CtrlGamePlay : MonoBehaviour
             Ins = this;
         }
         eventForRerestGame += Reset;
-      
+        float scale0 = Screen.width * Screen.height;
+        
+     //   scaleScreen = scaleScreen / Screen.dpi;
+
+        float scale = 1280 * 720;
+     //   scale = scale / Screen.dpi;
+        scaleScreen =  scale/ scale0 ;
+        scaleScreen = (1 - scaleScreen);
+   //     transform.localScale = new Vector3(scaleScreen,scaleScreen,1);
     }
 
     
@@ -91,12 +112,39 @@ public class CtrlGamePlay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        eventClearObj += DestroyAll;
+        StartGame();
+      
+        
     }
+
+    public void StartGame()
+    {
+        GameMananger.Ins.isGameOver = false;
+        GameMananger.Ins.isGamePause = false;
+        GameMananger.Ins.CloseAll();
+        eventClearObj();
+        live = 3;
+        Ctrl_Spawn.Ins.SetUpSpawnBasket();
+        eventForStartGame();
+        CompleteLevel = false;
+        eventForRerestGame();
+    }
+
+
 
     // Update is called once per frame
     void Update()
     {
+        if (GameMananger.Ins.isGameOver || GameMananger.Ins.isGamePause)
+            return;
+        if (ClickUI.isButtonDown)
+
+            return;
+
+        if (CompleteLevel)
+           
+            return;
         Debug_1.text = ForceThrow.ToString();
       
             if (Input.GetMouseButtonDown(0))
@@ -284,28 +332,19 @@ public class CtrlGamePlay : MonoBehaviour
     }
     public void Reset()
     {
+       
         ClickToStart.gameObject.SetActive(true);
         isStart = false;
+        Fliper.transform.eulerAngles = Vector2.zero;
+
+
+
     }
 
     //  Power Up
 
-    #region EFF_Basket
-
-    public void x2_Score(Basket basket)
-    {
-       
-    }
-    public void Power_Up_Hoot(Basket basket)
-    {
-
-    }
-
-    public void Power_Up_Ball()
-    {
-
-    }
-
+ 
+   
     public IEnumerator ShadowScreen()
     {
         Color color = Shadow.color;
@@ -313,7 +352,7 @@ public class CtrlGamePlay : MonoBehaviour
         while(color.a < 1)
         {
             color = Shadow.color;
-            Debug.Log(color.a);
+         //   Debug.Log(color.a);
             color.a = Mathf.MoveTowards(color.a, 1, Time.deltaTime * SpeedShadow);
             Shadow.color = color;
        
@@ -334,20 +373,29 @@ public class CtrlGamePlay : MonoBehaviour
 
 
     }
-    #endregion
+   
 
     public void CompleteProcessLevel()
     {
+        Ctrl_Spawn.Ins.CompleteProcess(TargetLevel);
         TargetLevel--;
         if (!isCompleteLevel())
         {
-            Ctrl_Spawn.Ins.SetUpSpawnBasket();
+            if (basket.Count <= 0)
+            {
+                Ctrl_Spawn.Ins.SetUpSpawnBasket();
+            }
+           
         }
         else
         {
-            level++;
-            Ctrl_Spawn.Ins.SetUpLevel(level);
+            CompleteLevel = true;
+            GameMananger.Ins.isGameOver = true;
+            Ctrl_Player.Ins.CompleteNextLevel();
+            GameMananger.Ins.OpenWindow(TypeWindow.NextLevel);
+        
         }
+       
     }
 
     //level
@@ -390,6 +438,53 @@ public class CtrlGamePlay : MonoBehaviour
             return false;
         }
     }
+    public void DestroyAll()
+    {
+
+        foreach (Basket b in basket)
+        {
+            b.GetComponent<DestroySelf>().Destroy();
+        }
+
+        basket.Clear();
+    }
+
+    public void ChangeSizeBasket()
+    {
+        for(int i = 0; i < basket.Count; i++)
+        {
+            StartCoroutine(basket[i].Start_Power_Up_Basket(timeChangeSize));
+        }
+    }
+
+    public void X2_Score()
+    {
+        for(int i = 0; i < basket.Count; i++)
+        {
+            StartCoroutine(basket[i].Start_X2_Score(timex2));
+        }
+    
+    }
+    public void StartIncreReflect()
+    {
+        StartCoroutine(StartMoveSupperReflect(timeReflectBall));
+    }
+    public IEnumerator StartMoveSupperReflect(float time)
+    {
+        offsetReflect *= 3;
+        yield return new WaitForSeconds(time);
+        offsetReflect = 1;
+
+    }
+    
+    
+
+
+    
+
+
+
+
 
 }
 
