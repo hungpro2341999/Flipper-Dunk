@@ -13,6 +13,7 @@ public class Ball : MonoBehaviour
    
     private void Awake()
     {
+        Physics2D.defaultContactOffset = 0.07f;
         if (Ins != null)
         {
             Destroy(gameObject);
@@ -43,7 +44,7 @@ public class Ball : MonoBehaviour
     {
         if(collision.gameObject.layer == 9)
         {
-
+          
             isCollWithFlipper = true;
         
         }
@@ -68,7 +69,7 @@ public class Ball : MonoBehaviour
 
 
             //body.AddForce( CtrlGamePlay.ForceFlipperThrow , ForceMode2D.Force);
-            Vector3 vec = Quaternion.AngleAxis(Mathf.Abs(CtrlGamePlay.Ins.angle*0.65f), Vector3.forward) * (new Vector2(CtrlGamePlay.ForceFlipperThrow.x,CtrlGamePlay.ForceFlipperThrow.y))*6.5f;
+            Vector3 vec = Quaternion.AngleAxis(Mathf.Abs(CtrlGamePlay.Ins.angle*0.65f), Vector3.forward) * (new Vector2(CtrlGamePlay.ForceFlipperThrow.x,CtrlGamePlay.ForceFlipperThrow.y))*7.5f;
             body.AddForce(vec*CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
 
             // body.velocity = Quaternion.AngleAxis(CtrlGamePlay.Angle,Vector3.forward)*(new Vector2(CtrlGamePlay.ForceFlipperThrow.x,Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y)));

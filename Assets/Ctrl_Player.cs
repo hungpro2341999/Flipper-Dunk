@@ -13,7 +13,12 @@ public class Ctrl_Player : MonoBehaviour
     public const string key_level = "Key_Level";
 
     public const string key_coin = "Key_Coin";
+
+    public const string key_key = "Key_Key";
     public int LevelPlayer = 0;
+
+    public int GetCurrKey1 = 0;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -25,26 +30,53 @@ public class Ctrl_Player : MonoBehaviour
         {
             Ins = this;
         }
-       
+        Init();
     }
     void Start()
     {
-        
+        LevelPlayer = GetCurrLevel();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        GetCurrKey1 = GetCurrKey();
+        Debug.Log(GetCurrKey1);
     }
     public void Init()
     {
 
-       
-         
 
+
+        if (!PlayerPrefs.HasKey(key_key))
+        {
+            PlayerPrefs.SetInt(key_key, 0);
+            PlayerPrefs.Save();
+        }
+      
         
        
+    }
+
+
+    public int GetCurrKey()
+    {
+        return PlayerPrefs.GetInt(key_key);
+    }
+    public void SaveNextKey()
+    {
+        int key = PlayerPrefs.GetInt(key_key);
+        key++;
+
+        PlayerPrefs.SetInt(key_key, key);
+
+        if (key >= Ctrl_Spawn.Ins.Count_Key)
+        {
+            key = 0;
+            PlayerPrefs.SetInt(key_key, key);
+        }
+        PlayerPrefs.Save();
+      
     }
     public int GetCurrLevel()
     {

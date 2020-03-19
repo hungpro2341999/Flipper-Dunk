@@ -13,9 +13,10 @@ public class CheckInBall : MonoBehaviour
     public  static string Key_Board = "BOARD";
     public static  string Point_1 = "POINT_1";
     public static string Point_2 = "POINT_2";
+    public static string Point_3 = "POINT_3";
+    public static string Point_4 = "POINT_4";
+    public static string Golbal = "Golbal";
 
- 
-  
 
     public bool isPerfect = false;
     public bool isCanGolbal = true;
@@ -41,9 +42,11 @@ public class CheckInBall : MonoBehaviour
         Score.Add(Key_Board, 0);
         Score.Add(Point_1, 0);
         Score.Add(Point_2, 0);
-      
-      
-     
+        Score.Add(Point_3, 0);
+        Score.Add(Point_4, 0);
+        Score.Add(Golbal, 0);
+
+
 
 
     }
@@ -90,11 +93,27 @@ public class CheckInBall : MonoBehaviour
         }
        
     }
+
+    public void Restore_1()
+    {
+
+      
+            Score[Point_3] = 0;
+            Score[Point_4] = 0;
+            Score[Golbal] = 0;
+          
+      
+
+    }
     public void ResetKey(string key)
     {
         if(key== Key_Board)
         {
             Restore();
+        }
+        if (key == Golbal)
+        {
+            Restore_1();
         }
       
     }
@@ -123,26 +142,53 @@ public class CheckInBall : MonoBehaviour
                 Debug.Log("Dieeeeeeeee");
                 basket.Die();
                 CtrlGamePlay.Ins.CompleteProcessLevel();
-                
+                Ctrl_Spawn.Ins.SpawnScore(EvaluateGolbal());
                 isGolbal = true;
                
                 
 
             }
+
+            
         }
-       
-
-
-    }
-
-       
-      
-
 
         
+       
+
 
     }
-   
 
-  
+
+    public string[] EvaluateGolbal()
+    {
+        List<string> typeGolbal = new List<string>();
+        int golbal = Score[Point_1] + Score[Point_2] + Score[Point_3] + Score[Point_4];
+        if (golbal == 2)
+        {
+            typeGolbal.Add("Well Done!");
+            typeGolbal.Add("Good Job!");
+            typeGolbal.Add("Wonderful!");
+        }
+        else if(golbal == 3)
+        {
+
+            typeGolbal.Add("Superb!");
+            typeGolbal.Add("Great!");
+            typeGolbal.Add("Wonderful!");
+        }
+        else
+        {
+            typeGolbal.Add("Marvelous");
+            typeGolbal.Add("Amazing");
+        }
+        return typeGolbal.ToArray();
+    }
+
+
+
+
+}
+
+public enum TypeGolbal_0 { Superb, Great, Well_Done, Amazing, Marvelous, Wonderful }
+
 

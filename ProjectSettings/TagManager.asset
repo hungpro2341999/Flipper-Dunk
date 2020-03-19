@@ -22,8 +22,8 @@ TagManager:
   - Power
   - Basket
   - Spawn
-  - 
-  - 
+  - BG
+  - BG_1
   - 
   - 
   - 
@@ -42,6 +42,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG
+    uniqueID: 3676534557
+    locked: 0
+  - name: BG_1
+    uniqueID: 4237855743
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

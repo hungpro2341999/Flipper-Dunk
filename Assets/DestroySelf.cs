@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DestroySelf : MonoBehaviour
 {
+    public float time;
     public bool isWait = false;
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class DestroySelf : MonoBehaviour
     IEnumerator WaitDestroy()
     {
       
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(time);
         Destroy();
     }
     public void Destroy()

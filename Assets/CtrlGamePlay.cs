@@ -39,6 +39,7 @@ public class CtrlGamePlay : MonoBehaviour
     public bool isPress = false;
     public bool isPress2 = false;
     public bool isMax = false;
+    public bool isResetLevel = false;
     public bool isStart = false;
     public float timePlushAngleTo;
     public float PLushPerSecond;
@@ -55,7 +56,7 @@ public class CtrlGamePlay : MonoBehaviour
     public float timeChangeSize;
     public float timeReflectBall;
 
-
+    public GameObject Key;
 
     //level Curr;
     public int TargetLevel = 0;
@@ -100,11 +101,11 @@ public class CtrlGamePlay : MonoBehaviour
         
      //   scaleScreen = scaleScreen / Screen.dpi;
 
-        float scale = 1280 * 720;
-     //   scale = scale / Screen.dpi;
-        scaleScreen =  scale/ scale0 ;
-        scaleScreen = (1 - scaleScreen);
-   //     transform.localScale = new Vector3(scaleScreen,scaleScreen,1);
+        float scale00 = 1280 * 720;
+
+        float scale1 = Screen.width * Screen.height;
+        scaleScreen = 1-(scale00 / scale1);   
+      // transform.localScale = new Vector3(scaleScreen,scaleScreen,1);
     }
 
     
@@ -144,6 +145,10 @@ public class CtrlGamePlay : MonoBehaviour
 
         if (CompleteLevel)
            
+            return;
+
+        if (isResetLevel)
+
             return;
         Debug_1.text = ForceThrow.ToString();
       
@@ -307,7 +312,7 @@ public class CtrlGamePlay : MonoBehaviour
              
         }
 
-
+   
     public void ThrowBall()
     {
        
@@ -336,6 +341,14 @@ public class CtrlGamePlay : MonoBehaviour
         ClickToStart.gameObject.SetActive(true);
         isStart = false;
         Fliper.transform.eulerAngles = Vector2.zero;
+      
+        angle = 0;
+        Angle = 0;
+        ForceThrow = 0;
+        isAddForce = false;
+        isMax = false;
+        isPress = false;
+        isPress2 = true;
 
 
 
@@ -343,14 +356,15 @@ public class CtrlGamePlay : MonoBehaviour
 
     //  Power Up
 
- 
-   
+
+
     public IEnumerator ShadowScreen()
     {
         Color color = Shadow.color;
 
         while(color.a < 1)
         {
+            isResetLevel = true;
             color = Shadow.color;
          //   Debug.Log(color.a);
             color.a = Mathf.MoveTowards(color.a, 1, Time.deltaTime * SpeedShadow);
@@ -369,7 +383,7 @@ public class CtrlGamePlay : MonoBehaviour
             yield return new WaitForSeconds(0);
         }
 
-
+        isResetLevel = false;
 
 
     }

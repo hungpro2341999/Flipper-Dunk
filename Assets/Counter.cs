@@ -13,7 +13,7 @@ public class Counter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        v =  time / (Time.deltaTime);
+        v =  (Time.deltaTime)/time;
         CounterTime.fillAmount = 0;
         
     }
@@ -29,7 +29,7 @@ public class Counter : MonoBehaviour
             if (t >= time)
             {
                 Ctrl_Spawn.Ins.ListCounterItem.Remove(this);
-            //    GetComponent<DestroySelf>().Destroy();
+                GetComponent<DestroySelf>().Destroy();
             }
         }
       

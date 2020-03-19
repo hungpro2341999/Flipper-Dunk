@@ -15,10 +15,12 @@ public class Ctrl_Spawn : MonoBehaviour
     ///  ListObj
     /// </summary>
 
+    public int Count_Key = 3;
     public List<GameObject> PrebObjGame;
     public List<Process> ListProcessGame;
     public List<GameObject> ListItem;
     public List<Counter> ListCounterItem;
+    public List<Key> ListKey;
     public List<GameObject> Item;
 
     public List<Transform> Right;
@@ -30,8 +32,10 @@ public class Ctrl_Spawn : MonoBehaviour
     public Transform EffItem;
     public Transform TransGamePlay;
     public Transform TransRenderProcess;
+    public Transform TransKey;
+    public Transform TransUIGamePlay;
     public Text TextLevelCurrr;
-
+    public Transform BG_Light;
 
     float distanceLeft;
     float distanceRight;
@@ -58,12 +62,13 @@ public class Ctrl_Spawn : MonoBehaviour
     public float timeSpawnItem;
     public bool isSpawnItem;
     public int PrecSpawnItem;
-
+    
 
     private float time;
 
     private void Awake()
     {
+
         if (Ins != null)
         {
             Destroy(gameObject);
@@ -81,12 +86,15 @@ public class Ctrl_Spawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Init_Start();
+        //
         PosRight = Right[0].transform.position;
         PosLeft = Left[0].transform.position;
         distanceLeft = Vector2.Distance(Left[0].transform.position, Left[1].transform.position);
         distanceRight = Vector2.Distance(Right[0].transform.position, Right[1].transform.position);
        
-      
+
+
     }
 
 
@@ -96,7 +104,8 @@ public class Ctrl_Spawn : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            SetUpMove(true,true,false,3);
+          
+         
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -108,6 +117,7 @@ public class Ctrl_Spawn : MonoBehaviour
             time -= Time.deltaTime;
             if (time < 0)
             {
+              
                 RandomEff();
                 isSpawnItem = false;
             }
@@ -115,8 +125,30 @@ public class Ctrl_Spawn : MonoBehaviour
         }
     }
 
-     
-
+     public void Init_Start()
+    {
+        for(int i = 0; i < Count_Key; i++)
+        {
+         var a =  Instantiate(PrebObjGame[4], TransKey);
+            ListKey.Add(a.GetComponent<Key>());
+        }
+        int ActiveKey = Ctrl_Player.Ins.GetCurrKey();
+      for(int i = 0; i < ActiveKey; i++)
+        {
+            ListKey[i].Active_key();
+        }
+        
+    }
+    public void SetUpRandomEff()
+    {
+        time = timeSpawnItem;
+        int x = Random.Range(0, 2);
+        if (x == 0)
+        {
+            Debug.Log("Có random eff");
+            isSpawnItem = true;
+        }
+    }
     public void SpawnBasket(bool isLeft,bool isChangeSize)
     {
         int i = isLeft ? -1 : 1;
@@ -221,17 +253,23 @@ public class Ctrl_Spawn : MonoBehaviour
                     {
 
                         pos = (Vector2)Left[0].transform.position - Vector2.up * Random.Range(0, distanceLeft) + Vector2.right * offsetX * i;
+                        pos.y = Random.Range(Left[0].position.y,Left[1].position.y);
                         if ((pos.y - (distanceMove * countBasket)) <= Left[1].transform.position.y)
                         {
+                            float x =  (pos.y - (distanceMove * countBasket));
+                            Debug.Log(x + " Spawn " + "  false");
                             isFind = false;
                         }
                         else
                         {
+                            float x = (pos.y - (distanceMove * countBasket));
+                            Debug.Log(x + " Spawn " + "  true");
                             isFind = true;
                         }
                     }
                     else
                     {
+                        pos.y = Random.Range(Right[0].position.y, Right[1].position.y);
                         pos = (Vector2)Right[0].transform.position - Vector2.up * Random.Range(0, distanceRight) + Vector2.right * offsetX * i;
                         if ((pos.y - (distanceMove * countBasket)) <= Right[1].transform.position.y)
                         {
@@ -273,7 +311,7 @@ public class Ctrl_Spawn : MonoBehaviour
 
                 if (isLeft)
                 {
-                    float x0 = (pos.y * z);
+                    float x0 = (pos.y - z*distanceMove);
                    
                     pos.y = x0;
                     var a = Instantiate(PrebObjGame[0], pos, Quaternion.identity, TransGamePlay);
@@ -295,8 +333,8 @@ public class Ctrl_Spawn : MonoBehaviour
                 }
                 else
                 {
-                    float x0 = (pos.y * z);
-                    
+                    float x0 = (pos.y - z * distanceMove);
+
                     pos.y = x0;
                     var a = Instantiate(PrebObjGame[1], pos, Quaternion.identity, TransGamePlay);
                     a.GetComponent<Basket>().Start_Move_Spawn(pos.x - (offsetX * i));
@@ -363,6 +401,7 @@ public class Ctrl_Spawn : MonoBehaviour
 
     public void SetUpSpawnBasket()
     {
+        Destroy_Complete_Basket();
         int r = Random.Range(0,6);
 
         if (r == 0)
@@ -664,5 +703,68 @@ public class Ctrl_Spawn : MonoBehaviour
         ListItem.Clear();
       
     }
+
+    public void Destroy_Complete_Basket()
+    {
+        foreach(Counter a in ListCounterItem)
+        {
+            
+            a.GetComponent<DestroySelf>().Destroy();
+
+        }
+        ListCounterItem.Clear();
+    }
+
+    public bool isActiveKey()
+    {
+        int r = Random.Range(0, 6);
+
+        if (r == 2)
+        {
+            return true;
+        }
+        return false;
+    }
    
+    public bool isUnclockReward()
+    {
+        bool unclock = true;
+        
+        for(int i = 0; i < ListKey.Count; i++)
+        {
+            if (!ListKey[i].isActive)
+            {
+                ListKey[i].Active_key();
+                return false;
+            }
+            
+        }
+        return unclock;
+
+    }
+    public Vector2 GetAppendKey()
+    {
+        Vector2 pos = Vector2.zero;
+        for (int i = 0; i < ListKey.Count; i++)
+        {
+            if (!ListKey[i].isActive)
+            {
+
+                return Camera.main.ScreenToWorldPoint(ListKey[i].transform.position);
+                
+            }
+
+        }
+        return Vector2.zero;
+    }
+
+    public void SpawnScore(string[] type_Score)
+    {
+        int i = Random.Range(0, type_Score.Length);
+        var a = Instantiate(PrebObjGame[5], TransUIGamePlay.transform.position, Quaternion.identity, TransUIGamePlay);
+        a.GetComponent<Score>().SetText(type_Score[i]);
+        a.GetComponent<DestroySelf>().time = 0.5f;
+        
+    }
+
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+
 public enum TypeBasket {None,Move,X2,x3,Change_Size,Change_Size_vs_Move};
+
 public class Basket : PoolItem
 {
     public bool isLeft = false;
@@ -24,7 +26,7 @@ public class Basket : PoolItem
     
     public float RangeX;
     public float RangeY;
-
+    public GameObject Key;
     
     Tweener AnimMove;
     Tweener AnimChangeSize;
@@ -47,6 +49,17 @@ public class Basket : PoolItem
         }
 
         OnSpawn();
+
+        Ctrl_Spawn.Ins.SetUpRandomEff();
+
+        if (Ctrl_Spawn.Ins.isActiveKey())
+        {
+            Key.gameObject.SetActive(true);
+        }
+        else
+        {
+            Key.gameObject.SetActive(false);
+        }
     }
 
     public void SetUpTypeBasket(TypeBasket type)
@@ -173,21 +186,56 @@ public class Basket : PoolItem
 
    public IEnumerator Start_X2_Score(float time)
     {
-        X2_Score = true;
-        Power_X2_Score.gameObject.SetActive(true);
-        yield return new WaitForSeconds(time);
-        Power_X2_Score.gameObject.SetActive(false);
+       
+            X2_Score = true;
+        try
+        {
+            Power_X2_Score.gameObject.SetActive(true);
+        }
+        catch(System.Exception e)
+        {
+            
+        }
+          
+            yield return new WaitForSeconds(time);
+        try
+        {
+            Power_X2_Score.gameObject.SetActive(false);
+        }
+        catch (System.Exception e)
+        {
+
+        }
         X2_Score = false;
+            
+            yield return new WaitForSeconds(0);
+       
     }
 
    public IEnumerator Start_Power_Up_Basket(float time)
     {
-      
+
+        try
+        {
             transform.DOScaleX(2.5f, 0.5f);
+        }
+        catch (System.Exception e)
+        {
+
+        }
+      
             X2_Basket = true;
         
         yield return new WaitForSeconds(time);
-        transform.DOScaleX(1.5f, 0.5f);
+        try
+        {
+            transform.DOScaleX(1.5f, 0.5f);
+        }
+        catch (System.Exception e)
+        {
+
+        }
+      
         X2_Basket = false;
     }
     public int Left()
@@ -225,6 +273,7 @@ public class Basket : PoolItem
 
     public void StopAll()
     {
+        StopAllCoroutines();
         if (AnimChangeSize != null)
         {
             AnimChangeSize.timeScale = 0;
@@ -243,6 +292,6 @@ public class Basket : PoolItem
         Destroy(gameObject);
     }
     
-   
+  
 
 }
