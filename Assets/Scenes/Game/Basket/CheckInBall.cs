@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CheckInBall : MonoBehaviour
 {
-
+    
     public Dictionary<string, int> Score;
 
     public bool isLeft = false;
@@ -141,10 +141,10 @@ public class CheckInBall : MonoBehaviour
             {
                 Debug.Log("Dieeeeeeeee");
                 basket.Die();
-                CtrlGamePlay.Ins.CompleteProcessLevel();
+               
                 Ctrl_Spawn.Ins.SpawnScore(EvaluateGolbal());
                 isGolbal = true;
-               
+                basket.EffGolbal.SetActive(true);
                 
 
             }
@@ -165,19 +165,21 @@ public class CheckInBall : MonoBehaviour
         int golbal = Score[Point_1] + Score[Point_2] + Score[Point_3] + Score[Point_4];
         if (golbal == 2)
         {
+            Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket * 2;
             typeGolbal.Add("Well Done!");
             typeGolbal.Add("Good Job!");
             typeGolbal.Add("Wonderful!");
         }
         else if(golbal == 3)
         {
-
+            Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket+1;
             typeGolbal.Add("Superb!");
             typeGolbal.Add("Great!");
             typeGolbal.Add("Wonderful!");
         }
         else
         {
+            Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket;
             typeGolbal.Add("Marvelous");
             typeGolbal.Add("Amazing");
         }

@@ -17,8 +17,12 @@ public class Ctrl_Spawn : MonoBehaviour
 
     public int Count_Key = 3;
     public List<GameObject> PrebObjGame;
+
+    public List<GameObject> PerbObjEFF;
+
     public List<Process> ListProcessGame;
     public List<GameObject> ListItem;
+    
     public List<Counter> ListCounterItem;
     public List<Key> ListKey;
     public List<GameObject> Item;
@@ -123,6 +127,11 @@ public class Ctrl_Spawn : MonoBehaviour
             }
            
         }
+    }
+
+    public void SpawnEff(int id,Vector2 pos,Transform trans)
+    {
+        Instantiate(PerbObjEFF[id], pos,Quaternion.identity,TransGamePlay);
     }
 
      public void Init_Start()

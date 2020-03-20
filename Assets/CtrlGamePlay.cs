@@ -121,6 +121,7 @@ public class CtrlGamePlay : MonoBehaviour
 
     public void StartGame()
     {
+        Ctrl_Player.DiamondInPlayer = 0;
         GameMananger.Ins.isGameOver = false;
         GameMananger.Ins.isGamePause = false;
         GameMananger.Ins.CloseAll();

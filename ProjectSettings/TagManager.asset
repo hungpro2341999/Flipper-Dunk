@@ -24,8 +24,8 @@ TagManager:
   - Spawn
   - BG
   - BG_1
-  - 
-  - 
+  - Net
+  - Eff
   - 
   - 
   - 
@@ -51,6 +51,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Net
+    uniqueID: 1649991925
+    locked: 0
   - name: Basket
     uniqueID: 3931406283
     locked: 0
@@ -62,4 +65,7 @@ TagManager:
     locked: 0
   - name: Flipper
     uniqueID: 1706312227
+    locked: 0
+  - name: Eff
+    uniqueID: 532504493
     locked: 0

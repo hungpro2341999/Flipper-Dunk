@@ -31,6 +31,7 @@ public class Basket : PoolItem
     Tweener AnimMove;
     Tweener AnimChangeSize;
 
+    public GameObject EffGolbal;
     // Start is called before the first frame update
     void Start()
     {
@@ -124,8 +125,8 @@ public class Basket : PoolItem
                 transform.DOMoveX(x - 6, 0.6f).OnComplete(() =>
                 {
                     Destroy();
-
-                 //   OnDespawn();
+                    CtrlGamePlay.Ins.CompleteProcessLevel();
+                    //   OnDespawn();
                 });
 
             });
@@ -138,13 +139,14 @@ public class Basket : PoolItem
                 transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
                 {
                     Destroy();
+                    CtrlGamePlay.Ins.CompleteProcessLevel();
                     //   OnDespawn();
                 });
 
             });
 
         }
-
+       
     }
     public override void OnSpawn()
     {

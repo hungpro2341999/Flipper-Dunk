@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76d176967dbb89498772dd6532dc565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BG_Light: {fileID: 8475682067265622836, guid: aa97d1a9cdaa70b498b45f448c47ed0e,
+  BG_Light: {fileID: 4797806788968067103, guid: aa97d1a9cdaa70b498b45f448c47ed0e,
     type: 3}
   text: {fileID: 5178057261718038365}
 --- !u!114 &8703663270313425681

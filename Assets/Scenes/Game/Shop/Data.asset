@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b572ee3db1ca0de4bbe9be78a42942fa, type: 3}
+  m_Name: Data
+  m_EditorClassIdentifier: 
+  ball:
+  - id: 0
+    Skin: {fileID: 21300000, guid: 945f17e1fe86dfe4bae839aa7c4fb353, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 1
+    Skin: {fileID: 21300000, guid: c0cbf008e90799f4bbd72c7cb06e11c1, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 2
+    Skin: {fileID: 21300000, guid: 01184e9bf766ed446917f0e4f37780cd, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 3
+    Skin: {fileID: 21300000, guid: 7fadfc5d292958543813bac74caeea10, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 4
+    Skin: {fileID: 21300000, guid: d6f5fc68e9b6a0d4aa048bed25f5fe8b, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 5
+    Skin: {fileID: 21300000, guid: 2feab93ae84d7d54fb2dc75c4c0d5094, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 6
+    Skin: {fileID: 21300000, guid: 615ac754f2c359345b96c7fe991a09e8, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 7
+    Skin: {fileID: 21300000, guid: 640e484653d8db6429dde0cc722b67e3, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 2
+    Skin: {fileID: 21300000, guid: 354a780d207b7244293f31246e7e32b4, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 9
+    Skin: {fileID: 21300000, guid: 4baeec459b5e79a42bc5c4ba18d08f0e, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 10
+    Skin: {fileID: 21300000, guid: b26d11eb37a6dc94fa813599d9232364, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 11
+    Skin: {fileID: 21300000, guid: 4baeec459b5e79a42bc5c4ba18d08f0e, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 12
+    Skin: {fileID: 21300000, guid: 70ec98e0e07d5c44cb95b39f2243e3bb, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 13
+    Skin: {fileID: 21300000, guid: 4baeec459b5e79a42bc5c4ba18d08f0e, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 14
+    Skin: {fileID: 21300000, guid: 281bba34cf8f81041883a97a876a0183, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 15
+    Skin: {fileID: 21300000, guid: c0abf43f9b6d76744a80608f0943f803, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 16
+    Skin: {fileID: 21300000, guid: 1e8dfb848f8f3a94199aa7a22a445e13, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  - id: 17
+    Skin: {fileID: 21300000, guid: 64483adecc5970b44a014b31ad5e481a, type: 3}
+    cost: 100
+    isBuy: 0
+    isUse: 0
+  BG: []

@@ -7,8 +7,9 @@ using UnityEngine;
 public class InforSkinBall : ScriptableObject
 {
     [SerializeField]
-    List<Ball_Infor> ball = new List<Ball_Infor>();
-
+   public  List<Ball_Infor> ball = new List<Ball_Infor>();
+    [SerializeField]
+   public List<Sprite> BG = new List<Sprite>();
 
    
 }
