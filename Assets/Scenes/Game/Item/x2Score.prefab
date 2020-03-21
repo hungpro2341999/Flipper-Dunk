@@ -111,7 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dda16df28be9dd4186ee56b24a1382e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isWait: 1
+  time: 7
+  isWait: 0
 --- !u!95 &1043217354
 Animator:
   serializedVersion: 3

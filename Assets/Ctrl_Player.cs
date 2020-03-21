@@ -52,13 +52,13 @@ public class Ctrl_Player : MonoBehaviour
     void Update()
     {
         GetCurrKey1 = GetCurrKey();
-        Debug.Log(GetCurrKey1);
+  //      Debug.Log(GetCurrKey1);
     }
     public void Init()
     {
 
 
-
+        PlayerPrefs.DeleteKey(key_key);
         if (!PlayerPrefs.HasKey(key_key))
         {
             PlayerPrefs.SetInt(key_key, 0);
@@ -108,13 +108,13 @@ public class Ctrl_Player : MonoBehaviour
 
         PlayerPrefs.SetInt(key_key, key);
 
-        if (key >= Ctrl_Spawn.Ins.Count_Key)
-        {
-            key = 0;
-            PlayerPrefs.SetInt(key_key, key);
-        }
-        PlayerPrefs.Save();
+     
       
+    }
+    public void ResetKey()
+    {
+        PlayerPrefs.SetInt(key_key, 0);
+        PlayerPrefs.Save();
     }
     public int GetCurrLevel()
     {

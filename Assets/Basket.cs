@@ -116,13 +116,14 @@ public class Basket : PoolItem
     public void Die()
     {
         StopAll();
-        CtrlGamePlay.Ins.basket.Remove(this);
+       
         float x = transform.position.x;
         if (isLeft)
         {
+            Debug.Log("Left");
             transform.DOMoveX((x + 0.3f), 0.3f).OnComplete(() =>
             {
-                transform.DOMoveX(x - 6, 0.6f).OnComplete(() =>
+                transform.DOMoveX(-(x - 6), 0.6f).OnComplete(() =>
                 {
                     Destroy();
                     CtrlGamePlay.Ins.CompleteProcessLevel();
@@ -134,19 +135,43 @@ public class Basket : PoolItem
         }
         else
         {
-            transform.DOMoveX((x - 0.3f), 0.3f).OnComplete(() =>
+            if (isLeft)
             {
-                transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
+                Debug.Log("Left");
+                transform.DOMoveX((x - 0.3f), 0.3f).OnComplete(() =>
                 {
-                    Destroy();
-                    CtrlGamePlay.Ins.CompleteProcessLevel();
-                    //   OnDespawn();
+                    transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
+                    {
+                        Destroy();
+                        CtrlGamePlay.Ins.CompleteProcessLevel();
+                        //   OnDespawn();
+                    });
+
                 });
 
-            });
+            }
+            else 
+            {
+                Debug.Log("Right");
+                transform.DOMoveX((x - 0.3f), 0.3f).OnComplete(() =>
+                {
+                    transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
+                    {
+                        Destroy();
+                        CtrlGamePlay.Ins.CompleteProcessLevel();
+                        //   OnDespawn();
+                    });
+
+                });
+
+
+            }
+          
 
         }
-       
+
+        CtrlGamePlay.Ins.basket.Remove(this);
+      
     }
     public override void OnSpawn()
     {

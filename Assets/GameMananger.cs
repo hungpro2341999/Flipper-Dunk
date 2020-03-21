@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TypeWindow {NextLevel,GameOver}
+public enum TypeWindow {NextLevel,GameOver,Reward}
 public class GameMananger : MonoBehaviour
 {
     public static GameMananger Ins;

@@ -84,6 +84,7 @@ public class Ctrl_Spawn : MonoBehaviour
         CtrlGamePlay.Ins.eventForStartGame += SetUpLevel;
         CtrlGamePlay.Ins.eventForStartGame += InitRenderLive;
         CtrlGamePlay.Ins.eventClearObj += DestroyAll;
+        CtrlGamePlay.Ins.eventForRerestGame+= SetUpLevel;
         Application.targetFrameRate = 60;
     }
 
@@ -448,7 +449,7 @@ public class Ctrl_Spawn : MonoBehaviour
                 SetUpMove(isLeft, true, false, 2);
                 break;
             case TypeBasket.x3:
-                SpawnBasket(isLeft, false);
+                SetUpMove(isLeft, true, false, 2);
                 break;
         }
 
@@ -726,7 +727,10 @@ public class Ctrl_Spawn : MonoBehaviour
 
     public bool isActiveKey()
     {
-        int r = Random.Range(0, 6);
+       
+
+
+        int r = Random.Range(0,4);
 
         if (r == 2)
         {
@@ -735,22 +739,34 @@ public class Ctrl_Spawn : MonoBehaviour
         return false;
     }
    
-    public bool isUnclockReward()
+    public void UnclockKey()
     {
-        bool unclock = true;
-        
+       
+
+
         for(int i = 0; i < ListKey.Count; i++)
         {
             if (!ListKey[i].isActive)
             {
                 ListKey[i].Active_key();
-                return false;
+                return;
             }
             
         }
-        return unclock;
+        
+
+      
 
     }
+
+    public void Reset_Key()
+    {
+        for (int i = 0; i < ListKey.Count; i++)
+        {
+            ListKey[i].UnActive();
+        }
+    }
+
     public Vector2 GetAppendKey()
     {
         Vector2 pos = Vector2.zero;

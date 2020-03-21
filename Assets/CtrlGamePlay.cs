@@ -20,6 +20,7 @@ public class CtrlGamePlay : MonoBehaviour
     public bool CompleteLevel = false;
     public static CtrlGamePlay Ins;
 
+    public Transform PosInit;
 
     public GameObject Fliper;
 
@@ -79,6 +80,7 @@ public class CtrlGamePlay : MonoBehaviour
     public delegate void CompleteOneProcess();
     public event EventForCompleteLevel eventForCompleteProcess;
 
+   
     public delegate void ClearnObj();
     public event ClearnObj eventClearObj;
 
@@ -97,6 +99,7 @@ public class CtrlGamePlay : MonoBehaviour
             Ins = this;
         }
         eventForRerestGame += Reset;
+      
         float scale0 = Screen.width * Screen.height;
         
      //   scaleScreen = scaleScreen / Screen.dpi;
@@ -121,6 +124,7 @@ public class CtrlGamePlay : MonoBehaviour
 
     public void StartGame()
     {
+        
         Ctrl_Player.DiamondInPlayer = 0;
         GameMananger.Ins.isGameOver = false;
         GameMananger.Ins.isGamePause = false;
@@ -318,12 +322,27 @@ public class CtrlGamePlay : MonoBehaviour
     {
        
         ForceThrow = Mathf.Clamp(ForceThrow,0, MaxForceThrow);
-        if (ForceThrow != 0)
-        {
-            ForceFlipperThrow = Vector3.Reflect(Vector3.up, DirectFlipper.Direct) * ForceThrow;
 
-          
+        if (!Ball.Ins.ForceInit)
+        {
+            if (ForceThrow != 0)
+            {
+                ForceFlipperThrow = Vector3.Reflect(Vector3.up, DirectFlipper.Direct) * ForceThrow;
+
+
+            }
         }
+        else
+        {
+            if (ForceThrow != 0)
+            {
+                ForceFlipperThrow = DirectFlipper.Direct * ForceThrow;
+
+
+            }
+
+        }
+       
       //  Debug.Log(ForceThrow);
       
       //  ForceFlipperThrow = new Vector3(-DirectFlipper.Direct.y,DirectFlipper.Direct.x) * ForceThrow;
@@ -392,8 +411,7 @@ public class CtrlGamePlay : MonoBehaviour
 
     public void CompleteProcessLevel()
     {
-        Ctrl_Spawn.Ins.CompleteProcess(TargetLevel);
-        TargetLevel--;
+       
         if (!isCompleteLevel())
         {
             if (basket.Count <= 0)
@@ -411,6 +429,12 @@ public class CtrlGamePlay : MonoBehaviour
         
         }
        
+    }
+
+    public void CompleteProcess()
+    {
+        Ctrl_Spawn.Ins.CompleteProcess(TargetLevel);
+        TargetLevel--;
     }
 
     //level

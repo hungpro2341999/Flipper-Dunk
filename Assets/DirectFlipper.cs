@@ -18,10 +18,20 @@ public class DirectFlipper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 Surface = (Pos1.position - Pos2.position).normalized;
-        //    Surface = new Vector3(Mathf.Abs(Surface.x), Surface.y);
-        Direct = new Vector2(-Surface.y, Surface.x);
-        Direct = Surface.normalized;
+        if (!Ball.Ins.ForceInit)
+        {
+            Vector3 Surface = (Pos1.position - Pos2.position).normalized;
+            //    Surface = new Vector3(Mathf.Abs(Surface.x), Surface.y);
+            Direct = new Vector2(-Surface.y, Surface.x);
+            Direct = Surface.normalized;
+        }
+        else
+        {
+            Vector3 Surface = (Pos2.position - Pos1.position).normalized;
+            Direct = Surface;
+
+        }
+      
        
         //Direct = (Pos1.position - Pos2.position).normalized;
      //   Debug.Log(Direct.x + "  " + Direct.y);

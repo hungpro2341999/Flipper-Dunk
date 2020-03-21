@@ -141,7 +141,7 @@ public class CheckInBall : MonoBehaviour
             {
                 Debug.Log("Dieeeeeeeee");
                 basket.Die();
-               
+                CtrlGamePlay.Ins.CompleteProcess();
                 Ctrl_Spawn.Ins.SpawnScore(EvaluateGolbal());
                 isGolbal = true;
                 basket.EffGolbal.SetActive(true);

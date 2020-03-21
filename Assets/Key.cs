@@ -9,7 +9,14 @@ public class Key : MonoBehaviour
     // Start is called before the first frame update
    public void Active_key()
     {
+        isActive = true;
         Active.gameObject.SetActive(true);
+    }
+
+    public void UnActive()
+    {
+        isActive = false ;
+        Active.gameObject.SetActive(false);
     }
 
 }
