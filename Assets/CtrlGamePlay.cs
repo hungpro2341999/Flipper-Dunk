@@ -4,17 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+public enum TypeGamePlay {Level,Chanelegend,Infinity};
 
 public class CtrlGamePlay : MonoBehaviour
 {
+    public SpriteRenderer BG;
+    public TypeGamePlay typeGame = TypeGamePlay.Infinity;
 
-   
-    public float scaleScreen;
+    public List<Transform> ModePlay;
+
+    public bool isReflect = false;
+
+    public static float scaleScreen;
 
     public int level = 1;
 
     public GameObject Test;
     public Transform MainCanvas;
+
+
     public Text Debug_1;
     public int live;
     public bool CompleteLevel = false;
@@ -22,18 +30,21 @@ public class CtrlGamePlay : MonoBehaviour
 
     public Transform PosInit;
 
+   
+
     public GameObject Fliper;
 
     public List<Basket> basket;
 
-
+    public SpriteRenderer Img_Flipper;
 
     public static float ForceThrow;
     
     public static Vector3 ForceFlipperThrow;
     public static bool isAddForce = false;
     public static float Angle = 0;
-    
+    public static int CountTotalPlayer=0;
+    public static int CountPlayer=0;
 
     public float AngleTo;
     public float speed;
@@ -45,10 +56,12 @@ public class CtrlGamePlay : MonoBehaviour
     public float timePlushAngleTo;
     public float PLushPerSecond;
     public float MaxAngle;
-    public float MinAngle;
-    public float MaxForceThrow;
-    public float speedFlipper;
-    public float speedPlushThrow;
+    public float SpeedRotation;
+
+
+    public float AnglePlush;
+    public float SpeedThrowBall;
+
     public float SpeedShadow;
     public float MaxAngleFlipper = 0;
     public float angleFlipper = 0;
@@ -69,7 +82,8 @@ public class CtrlGamePlay : MonoBehaviour
     public float angle =0;
     private int count = 0;
     private int farme = 0;
-    
+
+    public bool isX2Score = false;
 
     public delegate void EventStartGame();
     public event EventStartGame eventForStartGame;
@@ -79,17 +93,40 @@ public class CtrlGamePlay : MonoBehaviour
     public event EventForCompleteLevel eventForCompleteLevel;
     public delegate void CompleteOneProcess();
     public event EventForCompleteLevel eventForCompleteProcess;
+    public delegate void Event_Load_Game(int Score,int level);
+    public event Event_Load_Game eventForLoadGame;
 
-   
     public delegate void ClearnObj();
     public event ClearnObj eventClearObj;
 
     public Image Shadow;
     public Transform ClickToStart;
+
+    public int key_in_Game=0;
+
+
+    // Mode 2:
+
+    public Image Bar;
+    public float t;
+    public float limitTime;
+    public float timeBar;
+    public Transform TransProcess;
+    public bool isCompleteGame = false;
+    public Text LabelDailyQuest;
+    public Animator LabelQuest;
+    public bool open = false;
+
+    // Mode 3:
+
+    public Text Score;
+    public Text HighScore;
+    public int ScorePlayer;
+
     private void Awake()
     {
-        speedPlushThrow = (PLushPerSecond * MaxForceThrow) / Mathf.Abs(MinAngle);
-        angleFlipper = (PLushPerSecond * MaxAngleFlipper) / Mathf.Abs(MinAngle);
+       // speedPlushThrow = (PLushPerSecond * MaxForceThrow) / Mathf.Abs(MinAngle);
+     //   angleFlipper = (PLushPerSecond * MaxAngleFlipper) / Mathf.Abs(MinAngle);
         if (Ins != null)
         {
             Destroy(gameObject);
@@ -99,16 +136,26 @@ public class CtrlGamePlay : MonoBehaviour
             Ins = this;
         }
         eventForRerestGame += Reset;
-      
-        float scale0 = Screen.width * Screen.height;
-        
-     //   scaleScreen = scaleScreen / Screen.dpi;
 
-        float scale00 = 1280 * 720;
+        float scale0 = 720 * 1280;
+        
+    
+
+       
 
         float scale1 = Screen.width * Screen.height;
-        scaleScreen = 1-(scale00 / scale1);   
-      // transform.localScale = new Vector3(scaleScreen,scaleScreen,1);
+        scaleScreen = 1 - (scale0 / scale1);   
+        if(scaleScreen > 0.5f)
+        {
+            scaleScreen = 0.8f;
+            transform.localScale = new Vector3(scaleScreen, scaleScreen, 1);
+        }
+        else
+        {
+            scaleScreen = 1;
+        }
+        eventForStartGame += ResetKey;
+        eventForRerestGame += ResetKey;
     }
 
     
@@ -116,25 +163,92 @@ public class CtrlGamePlay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         eventClearObj += DestroyAll;
-        StartGame();
+        CloseAll();
       
         
     }
 
-    public void StartGame()
+    public void ResetKey()
     {
-        
-        Ctrl_Player.DiamondInPlayer = 0;
-        GameMananger.Ins.isGameOver = false;
-        GameMananger.Ins.isGamePause = false;
-        GameMananger.Ins.CloseAll();
-        eventClearObj();
-        live = 3;
-        Ctrl_Spawn.Ins.SetUpSpawnBasket();
-        eventForStartGame();
-        CompleteLevel = false;
-        eventForRerestGame();
+
+        key_in_Game = 0;
+        Img_Flipper.sprite = Ctrl_Player.Ins.GetSkinFlipper();
+        BG.sprite = Ctrl_Player.Ins.GetSkinBG();
+    }
+
+    
+
+    public void ResetScore()
+    {
+        ScorePlayer = 0;
+        Score.text = 0.ToString();
+        HighScore.text ="Best Score "+ Ctrl_Player.Ins.GetHighScore().ToString();
+    }
+
+    public void StartGame(TypeGamePlay type)
+    {
+
+        isStart = false;
+        CountPlayer = 1;
+        isX2Score = false;
+        Ball.Ins.ActiveBall(true);
+        isX2Score = false;
+        offsetReflect = 1;
+        this.typeGame= type;
+        switch (type)
+        {
+            case TypeGamePlay.Level:
+                
+                Ctrl_Player.DiamondInPlayer = 0;
+                GameMananger.Ins.isGameOver = false;
+                GameMananger.Ins.isGamePause = false;
+               
+                eventClearObj();
+                live = 3;
+               
+                eventForStartGame();
+                CompleteLevel = false;
+                eventForRerestGame();
+                Open(0);
+                break;
+            case TypeGamePlay.Chanelegend:
+
+                GameMananger.Ins.isGameOver = false;
+                GameMananger.Ins.isGamePause = true;
+               
+                eventClearObj();
+                LoadDailyQueset();
+                eventForStartGame();
+                live = 1;
+                Ctrl_Player.DiamondInPlayer = 0;
+                Open(1);
+                GameMananger.Ins.StartLabel();
+
+                eventForRerestGame();
+                break;
+            case TypeGamePlay.Infinity:
+                ResetScore();
+                eventForStartGame();
+                eventClearObj();
+                Ctrl_Player.DiamondInPlayer = 0;
+                GameMananger.Ins.isGameOver = false;
+                GameMananger.Ins.isGamePause = false;
+
+                eventForRerestGame();
+                Open(2);
+                break;
+        }
+
+
+        OpenMode(type);
+
+       
+
+        //
+
+       
     }
 
 
@@ -142,6 +256,7 @@ public class CtrlGamePlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (GameMananger.Ins.isGameOver || GameMananger.Ins.isGamePause)
             return;
         if (ClickUI.isButtonDown)
@@ -155,13 +270,13 @@ public class CtrlGamePlay : MonoBehaviour
         if (isResetLevel)
 
             return;
-        Debug_1.text = ForceThrow.ToString();
+       // Debug_1.text = ForceThrow.ToString();
       
             if (Input.GetMouseButtonDown(0))
             {
                 ClickToStart.gameObject.SetActive(false);
                 isStart = true;
-                Ball.Ins.ActiveBall();
+               
 
             }
           
@@ -177,7 +292,7 @@ public class CtrlGamePlay : MonoBehaviour
 
 
 
-
+      
 
 
         ThrowBall();
@@ -187,11 +302,13 @@ public class CtrlGamePlay : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
           
         }
-     
-       // Debug.Log(angle);
+       
+        
+        // Debug.Log(angle);
         if (Input.GetMouseButtonUp(0))
         {
-
+            Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = true;
+            Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
             if (!isAddForce)
             {
                 Ball.Ins.ThrowBall();
@@ -204,150 +321,146 @@ public class CtrlGamePlay : MonoBehaviour
             isMax = false;
             isPress = false;
             isPress2 = true;
+
+
+            SpeedThrowBall = 1;
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-
+            Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = true;
             isPress = true;
+         ;
+
 
         }
         if (isPress)
         {
+         
+           
 
-            farme++;
+            
 
-                if (!isMax)
+            if (!isMax)
+            {
+
+               
+                //Angle += angleFlipper;
+                //Angle = Mathf.Clamp(Angle, 0, MaxAngleFlipper);
+
+                //ForceThrow += speedPlushThrow;
+
+                ////  Fliper.transform.eulerAngles = Vector3.forward * angle;
+                //if (ForceThrow >= MaxForceThrow)
+                //{
+                //    if (!isAddForce)
+                //    {
+                //        Ball.Ins.ThrowBall();
+                //        isAddForce = true;
+                //    }
+                //}
+
+                if (DirectFlipper.Angle <= MaxAngle)
+                {
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().AddTorque(SpeedRotation, ForceMode2D.Force);
+                    SpeedThrowBall += 0.025f;
+                
+                  if(DirectFlipper.Angle <= MaxAngle/2)
+                    {
+                        isReflect = true;
+                    }
+                    else
+                    {
+                        isReflect = false;
+                    }
+
+
+                }
+                else 
                 {
 
-                    time = timePlushAngleTo;
-
-                    angle -= PLushPerSecond;
-
-
-                    angle = Mathf.Clamp(angle, MinAngle, 0);
-
-                    Fliper.transform.eulerAngles = Vector3.forward * angle;
-
-                Angle += angleFlipper;
-                Angle = Mathf.Clamp(Angle, 0, MaxAngleFlipper);
-             
-                    ForceThrow += speedPlushThrow;
-                    if (ForceThrow >= MaxForceThrow)
-                    {
-                        if (!isAddForce)
-                        {
-                            Ball.Ins.ThrowBall();
-                            isAddForce = true;
-                        }
-                    }
-                
-                   
-                     
-                    if(angle == MinAngle ||angle<=MinAngle )
-                    {
-                        isMax = true;
+                    isMax = true;
 
                     if (!isAddForce)
                     {
+                        SpeedThrowBall = 2.5f;
                         Ball.Ins.ThrowBall();
                         isAddForce = true;
                     }
-
-
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
                 }
 
-                //if (angle <= MinAngle * 0.9)
-                //    {
-
-                //        if (!isAddForce)
-                //        {
-                //            Ball.Ins.ThrowBall();
-                //            isAddForce = true;
-                //        }
-
-                       
-
-
-
-                //}
-                    else
-                    {
-
-                    }
-
-
-               
-                
 
 
             }
-            
+
         }
         else if (!isPress)
         {
-         //   ForceThrow = 0;
+            angle = 0;
+            SpeedThrowBall = 1;
+         
             if (isPress2)
             {
-
-                Angle -= angleFlipper;
-                Angle = Mathf.Clamp(Angle, 0, MaxAngleFlipper);
-                angle = Mathf.MoveTowards(angle, 0, Time.deltaTime * speedFlipper);
-
-            //    angle = Mathf.Clamp(angle, MinAngle, 0);
-
-                Fliper.transform.eulerAngles = new Vector3(0, 0, angle);
-
-              
-                if (angle == 0)
+                if (DirectFlipper.Angle > 0)
                 {
-                  //  ForceThrow = 0;
-                   isPress2 = false;
-                    Angle = 0;
-                    ForceThrow = 0;
-                }
-              
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().AddTorque(-SpeedRotation, ForceMode2D.Force);
+                  //  Debug.Log("Add");
 
+                }
+                else
+                {
+
+                    isPress2 = false;
+                    Fliper.gameObject.transform.localEulerAngles = Vector3.zero;
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+                }
             }
            
+
+
         }
 
-      
-           
-             
+        if (typeGame == TypeGamePlay.Chanelegend)
+        {
+            if (!isCompleteGame)
+            {
+                t += Time.deltaTime;
+                if (t >= limitTime)
+                {
+                    GameMananger.Ins.isGameOver = true;
+                    GameMananger.Ins.Open(TypeWindow.GameOver);
+                    isCompleteGame = true;
+                    Debug.Log("load");
+                }
+                else
+                {
+                //    Debug.Log("load");
+                    Bar.fillAmount += timeBar;
+
+                }
+            }
+
+
         }
+
+
+    }
 
    
     public void ThrowBall()
     {
-       
-        ForceThrow = Mathf.Clamp(ForceThrow,0, MaxForceThrow);
-
-        if (!Ball.Ins.ForceInit)
-        {
-            if (ForceThrow != 0)
-            {
-                ForceFlipperThrow = Vector3.Reflect(Vector3.up, DirectFlipper.Direct) * ForceThrow;
+        
+            ForceFlipperThrow = DirectFlipper.Direct * Mathf.Abs(Fliper.transform.GetComponent<Rigidbody2D>().angularVelocity)*0.8f;
 
 
-            }
-        }
-        else
-        {
-            if (ForceThrow != 0)
-            {
-                ForceFlipperThrow = DirectFlipper.Direct * ForceThrow;
-
-
-            }
-
-        }
-       
       //  Debug.Log(ForceThrow);
-      
-      //  ForceFlipperThrow = new Vector3(-DirectFlipper.Direct.y,DirectFlipper.Direct.x) * ForceThrow;
 
-    //    Debug.Log(new Vector3(-DirectFlipper.Direct.y, DirectFlipper.Direct.x) + "  " + ForceThrow + "  " + ForceFlipperThrow);
+        //  ForceFlipperThrow = new Vector3(-DirectFlipper.Direct.y,DirectFlipper.Direct.x) * ForceThrow;
+
+        //    Debug.Log(new Vector3(-DirectFlipper.Direct.y, DirectFlipper.Direct.x) + "  " + ForceThrow + "  " + ForceFlipperThrow);
     }
 
     
@@ -357,7 +470,10 @@ public class CtrlGamePlay : MonoBehaviour
     }
     public void Reset()
     {
-       
+        Fliper.gameObject.transform.localEulerAngles = Vector3.zero;
+        Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
+        Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+
         ClickToStart.gameObject.SetActive(true);
         isStart = false;
         Fliper.transform.eulerAngles = Vector2.zero;
@@ -411,30 +527,120 @@ public class CtrlGamePlay : MonoBehaviour
 
     public void CompleteProcessLevel()
     {
-       
-        if (!isCompleteLevel())
+        switch (typeGame)
         {
-            if (basket.Count <= 0)
-            {
-                Ctrl_Spawn.Ins.SetUpSpawnBasket();
-            }
+             
+
+            case TypeGamePlay.Level:
+
+
+                if (!isCompleteLevel())
+                {
+                    if (basket.Count <= 0)
+                    {
+                        Ctrl_Spawn.Ins.SetUpSpawnBasket();
+                    }
+                   
+                   // CtrlAudio.Ins.Play("Cheer");
+                    
+                }
+                else
+                {
+                   
+                    Debug.Log("Compte Key");
+                    CompleteLevel = true;
+                    GameMananger.Ins.isGameOver = true;
+                    Ctrl_Player.Ins.CompleteNextLevel();
+                    if (Ctrl_Player.Ins.isFullKey())
+                    {
+                        GameMananger.Ins.Open(TypeWindow.Reward);
+                        Ball.Ins.ActiveBall(false);
+                        CtrlReward.Ins.StartOpenStore();
+                    }
+                    else
+                    {
+                       var a=   Ctrl_Spawn.Ins.SpawnUIEff(3, Vector2.zero, MainCanvas);
+                        a.localPosition = Vector3.zero;
+                        Ball.Ins.ActiveBall(false);
+
+                        GameMananger.Ins.Open(TypeWindow.NextLevel);
+                    }
+                    CtrlAudio.Ins.Play("LevelComplete");
+                    Ball.Ins.ActiveBall(false);
+                    eventForLoadGame(Ctrl_Player.Ins.GetHighScore(), Ctrl_Player.Ins.GetCurrLevel());
+                 
+                    CountTotalPlayer++;
+                    if (CountTotalPlayer == 5)
+                    {
+                        GameMananger.Ins.Open(TypeWindow.Unlock);
+                        Debug.Log("Unclock");
+                    }
+                   
+                }
+
+                break;
+            case TypeGamePlay.Chanelegend:
+
+                if (!isCompleteLevel())
+                {
+                    if (basket.Count <= 0)
+                    {
+                        Ctrl_Spawn.Ins.SetUpSpawnBasket();
+                    }
+
+                    CtrlAudio.Ins.Play("Cheer");
+                    
+                }
+                else
+                {
+                  
+                    Ball.Ins.ActiveBall(false);
+                    CompleteLevel = true;
+                    GameMananger.Ins.isGameOver = true;
+                    GameMananger.Ins.Open(TypeWindow.CompleteDailyQuest);
+                    CtrlAudio.Ins.Play("Cheer");
+                    CountTotalPlayer++;
+                    if (CountTotalPlayer == 5)
+                    {
+                        GameMananger.Ins.Open(TypeWindow.Unlock);
+                        Debug.Log("Unclock");
+                    }
+                }
+               
+                break;
+            case TypeGamePlay.Infinity:
+                if (basket.Count <= 0)
+                {
+                    Ctrl_Spawn.Ins.SetUpSpawnBasket();
+                }
+
+                break;
+        }
+      
+       
+    }
+    
+
+
+    public void CompleteProcess()
+    {
+        if (CtrlGamePlay.Ins.isX2Score)
+        {
+          
+            Ctrl_Spawn.Ins.CompleteProcess(TargetLevel);
+            TargetLevel--;
+            Ctrl_Spawn.Ins.CompleteProcess(TargetLevel);
+            TargetLevel--;
+            CtrlGamePlay.Ins.isX2Score = false;
            
         }
         else
         {
-            CompleteLevel = true;
-            GameMananger.Ins.isGameOver = true;
-            Ctrl_Player.Ins.CompleteNextLevel();
-            GameMananger.Ins.OpenWindow(TypeWindow.NextLevel);
-        
+            Ctrl_Spawn.Ins.CompleteProcess(TargetLevel);
+            TargetLevel--;
         }
-       
-    }
-
-    public void CompleteProcess()
-    {
-        Ctrl_Spawn.Ins.CompleteProcess(TargetLevel);
-        TargetLevel--;
+        
+      
     }
 
     //level
@@ -468,7 +674,7 @@ public class CtrlGamePlay : MonoBehaviour
 
     public bool isOverGame()
     {
-        if (live > 0)
+        if (live >= 0)
         {
             return true;
         }
@@ -510,7 +716,7 @@ public class CtrlGamePlay : MonoBehaviour
     }
     public IEnumerator StartMoveSupperReflect(float time)
     {
-        offsetReflect *= 3;
+        offsetReflect = 3;
         yield return new WaitForSeconds(time);
         offsetReflect = 1;
 
@@ -518,12 +724,190 @@ public class CtrlGamePlay : MonoBehaviour
     
     
 
+    ////// Mode 2///////
+    
+    public void LoadDailyQueset()
+    {
+        GameMananger.Ins.isGamePause = true;
+        Bar.fillAmount = 0;
+        t = 0;
+        isCompleteGame = false;
+        open = !open;
+        LabelQuest.SetBool("Open", open);
+        int i =  Random.Range(0, 4);
+        
+        switch (i)
+        {
+            case 0:
+                LabelDailyQuest.text = "5 Basket In 40 second";
+                timeBar = Time.deltaTime / limitTime;
+                break;
+            case 1:
+                LabelDailyQuest.text = "5 Basket In 40 second";
+                timeBar = Time.deltaTime / limitTime;
+                break;
+            case 2:
+                LabelDailyQuest.text = "5 Basket In 40 second";
+                timeBar = Time.deltaTime / limitTime;
+                break;
+            case 3:
+                LabelDailyQuest.text = "5 Bask7et In 40 second";
+                timeBar = Time.deltaTime / limitTime;
+                break;
+        }
+    }
+    public void LoadInfilyMode()
+    {
 
+    }
+
+    public void StartLoadingTime()
+    {
+
+    }
+
+  
     
 
+   // CtrlMode
+
+    public void OpenMode(TypeGamePlay type)
+    {
+        switch (type)
+        {
+            case TypeGamePlay.Level:
+                Open(0);
+                break;
+            case TypeGamePlay.Chanelegend:
+                Open(1);
+                break;
+            case TypeGamePlay.Infinity:
+                Open(2);
+                break;
+        }
+    }
+
+    public void Open(int mode)
+    {
+
+        for (int i = 0; i < ModePlay.Count; i++)
+        {
+            if (i == mode || i==3)
+            {
+                ModePlay[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                ModePlay[i].gameObject.SetActive(false);
+            }
+        }
+    }
+    public void CloseAll()
+    {
+        for(int i = 0; i < ModePlay.Count; i++)
+        {
+            
+            ModePlay[i].gameObject.SetActive(false);
+            
+        }
+    }
+    public void ResetMode()
+    {
+      
+        switch (typeGame)
+        {
+            case TypeGamePlay.Level:
+                StartGame(TypeGamePlay.Level);
+                GameMananger.Ins.Close(TypeWindow.GameOver);
+                break;
+            case TypeGamePlay.Chanelegend:
+               
+                
+                GameMananger.Ins.Close(TypeWindow.GameOver);
+                GameMananger.Ins.Close(TypeWindow.CompleteDailyQuest);
+                StartGame(TypeGamePlay.Chanelegend);
+                break;
+            case TypeGamePlay.Infinity:
+                ResetScore();
+                GameMananger.Ins.Close(TypeWindow.Over_Game_3);
+                StartGame(TypeGamePlay.Infinity);
+                
+
+                break;
+        }
+       
+    }
+
+    public void StartNextLevel()
+    {
+        StartGame(TypeGamePlay.Level);
+        GameMananger.Ins.Close(TypeWindow.NextLevel);
+    }
 
 
+    public void AddScore(int score)
+    {
+        this.ScorePlayer += score;
 
+        Score.text = ScorePlayer.ToString();
+
+    }
+    public void OverGame()
+    {
+        Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+       
+        Ball.Ins.ActiveBall(false);
+        switch (typeGame)
+        {
+            case TypeGamePlay.Level:
+                Ctrl_Player.Ins.RestoreKey(key_in_Game);
+                CtrlAudio.Ins.Play("OverGame");
+                GameMananger.Ins.Open(TypeWindow.GameOver);
+                break;
+            case TypeGamePlay.Chanelegend:
+                CtrlAudio.Ins.Play("OverGame");
+                GameMananger.Ins.Open(TypeWindow.GameOver);
+
+                break;
+            case TypeGamePlay.Infinity:
+                CtrlAudio.Ins.Play("OverGame");
+                GameMananger.Ins.Open(TypeWindow.Over_Game_3);
+                break;
+        }
+        
+    }
+
+    public void Continue()
+    {
+        CountPlayer++;
+        switch (typeGame)
+        {
+           
+            case TypeGamePlay.Chanelegend:
+                 GameMananger.Ins.isGameOver = false;
+                GameMananger.Ins.Close(TypeWindow.GameOver);
+                live += 2;
+                break;
+            case TypeGamePlay.Infinity:
+                GameMananger.Ins.Close(TypeWindow.Over_Game_3);
+                GameMananger.Ins.isGameOver = false;
+                live += 2;
+                break;
+            case TypeGamePlay.Level:
+                GameMananger.Ins.Close(TypeWindow.GameOver);
+                live += 2;
+                GameMananger.Ins.isGameOver = false;
+                break;
+        }
+        Ball.Ins.ActiveBall(true);
+        StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
+    }
+
+    public void OverMode_3()
+    {
+        eventForLoadGame(Ctrl_Player.Ins.GetHighScore(), Ctrl_Player.Ins.GetCurrLevel());
+    }
+   
 
 }
 

@@ -23,7 +23,7 @@ public class Check : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log(key);
+      //  Debug.Log(key);
         if (collision.gameObject.layer == 8)
         {
             Check_In_Ball.ResetKey(key);

@@ -26,10 +26,10 @@ TagManager:
   - BG_1
   - Net
   - Eff
-  - 
-  - 
-  - 
-  - 
+  - Trailer
+  - 1
+  - 2
+  - Ground
   - 
   - 
   - 
@@ -60,6 +60,12 @@ TagManager:
   - name: Power
     uniqueID: 78758331
     locked: 0
+  - name: Trailer
+    uniqueID: 2001690993
+    locked: 0
+  - name: 1
+    uniqueID: 2031622469
+    locked: 0
   - name: Ball
     uniqueID: 2946399749
     locked: 0
@@ -68,4 +74,10 @@ TagManager:
     locked: 0
   - name: Eff
     uniqueID: 532504493
+    locked: 0
+  - name: 2
+    uniqueID: 768031215
+    locked: 0
+  - name: Ground
+    uniqueID: 824641809
     locked: 0

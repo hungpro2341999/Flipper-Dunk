@@ -8,7 +8,7 @@ public class IncreLive : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        CtrlAudio.Ins.Play("SpawnPower");
     }
 
     // Update is called once per frame
@@ -22,7 +22,10 @@ public class IncreLive : MonoBehaviour
         {
             CtrlGamePlay.Ins.live++;
             Ctrl_Spawn.Ins.ListItem.Remove(this.gameObject);
-            GetComponent<DestroySelf>().Destroy();
+         
+            Ctrl_Spawn.Ins.SpawnEff(1, transform.position, Ctrl_Spawn.Ins.TransGamePlay);
+            CtrlAudio.Ins.Play("Pum");
+            Destroy(gameObject);
         }
     }
 }

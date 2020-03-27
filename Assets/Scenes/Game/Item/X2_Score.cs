@@ -8,7 +8,7 @@ public class X2_Score : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        CtrlAudio.Ins.Play("SpawnPower");
     }
 
     // Update is called once per frame
@@ -25,6 +25,7 @@ public class X2_Score : MonoBehaviour
             Ctrl_Spawn.Ins.Add_Counter_PowerUp(item);
             CtrlGamePlay.Ins.X2_Score();
             GetComponent<DestroySelf>().Destroy();
+            Ctrl_Spawn.Ins.SpawnEff(1, transform.position, Ctrl_Spawn.Ins.TransGamePlay);
         }
     }
 }

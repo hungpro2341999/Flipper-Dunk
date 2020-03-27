@@ -9,6 +9,8 @@ public class Active_key : MonoBehaviour
     {
         if(collision.gameObject.layer == 8)
         {
+            CtrlAudio.Ins.Play("KeyCollect");
+            CtrlGamePlay.Ins.key_in_Game++;
             transform.parent = Ctrl_Spawn.Ins.TransGamePlay;
 
             GetComponent<BoxCollider2D>().enabled = false;

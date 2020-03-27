@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 
-public enum TypeBasket {None,Move,X2,x3,Change_Size,Change_Size_vs_Move};
+public enum TypeBasket { None, Move, X2, x3, Change_Size, Change_Size_vs_Move };
 
 public class Basket : PoolItem
 {
@@ -23,15 +23,16 @@ public class Basket : PoolItem
     public bool isMove;
     public bool isChangeSize;
     public bool isMovevsChangeSize;
-    
+
     public float RangeX;
     public float RangeY;
     public GameObject Key;
-    
+
     Tweener AnimMove;
     Tweener AnimChangeSize;
 
     public GameObject EffGolbal;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,17 +52,39 @@ public class Basket : PoolItem
 
         OnSpawn();
 
-        Ctrl_Spawn.Ins.SetUpRandomEff();
 
-        if (Ctrl_Spawn.Ins.isActiveKey())
+        if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Level)
         {
-            Key.gameObject.SetActive(true);
+            Ctrl_Spawn.Ins.SetUpRandomEff();
+
+            if (!Ctrl_Player.Ins.isFullKey())
+            {
+              
+
+                if (Ctrl_Spawn.Ins.isActiveKey())
+                {
+                    Key.gameObject.SetActive(true);
+                   
+                }
+                else
+                {
+                    Key.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                Key.gameObject.SetActive(false);
+            }
+
         }
         else
         {
             Key.gameObject.SetActive(false);
         }
+
+
     }
+
 
     public void SetUpTypeBasket(TypeBasket type)
     {
@@ -102,28 +125,28 @@ public class Basket : PoolItem
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            float x0 =  transform.position.y;
-            float x1 = transform.position.y-4;
-            SetUpMove(x0,x1);
+            float x0 = transform.position.y;
+            float x1 = transform.position.y - 4;
+            SetUpMove(x0, x1);
         }
 
 
     }
 
-   
+
 
 
     public void Die()
     {
         StopAll();
-       
+
         float x = transform.position.x;
         if (isLeft)
         {
-            Debug.Log("Left");
+            Debug.Log("Destroy Left");
             transform.DOMoveX((x + 0.3f), 0.3f).OnComplete(() =>
             {
-                transform.DOMoveX(-(x - 6), 0.6f).OnComplete(() =>
+                transform.DOMoveX((x - 6), 0.6f).OnComplete(() =>
                 {
                     Destroy();
                     CtrlGamePlay.Ins.CompleteProcessLevel();
@@ -137,10 +160,10 @@ public class Basket : PoolItem
         {
             if (isLeft)
             {
-                Debug.Log("Left");
-                transform.DOMoveX((x - 0.3f), 0.3f).OnComplete(() =>
+                Debug.Log("Destroy Right");
+                transform.DOMoveX((x - 0.5f * CtrlGamePlay.scaleScreen), 0.5f).OnComplete(() =>
                 {
-                    transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
+                    transform.DOMoveX((x + 6) * CtrlGamePlay.scaleScreen, 0.6f).OnComplete(() =>
                     {
                         Destroy();
                         CtrlGamePlay.Ins.CompleteProcessLevel();
@@ -150,12 +173,12 @@ public class Basket : PoolItem
                 });
 
             }
-            else 
+            else
             {
-                Debug.Log("Right");
-                transform.DOMoveX((x - 0.3f), 0.3f).OnComplete(() =>
+//Debug.Log("Right");
+                transform.DOMoveX((x - 0.5f) * CtrlGamePlay.scaleScreen, 0.5f).OnComplete(() =>
                 {
-                    transform.DOMoveX(x + 6, 0.6f).OnComplete(() =>
+                    transform.DOMoveX((x + 6) * CtrlGamePlay.scaleScreen, 0.6f).OnComplete(() =>
                     {
                         Destroy();
                         CtrlGamePlay.Ins.CompleteProcessLevel();
@@ -166,33 +189,33 @@ public class Basket : PoolItem
 
 
             }
-          
+
 
         }
 
         CtrlGamePlay.Ins.basket.Remove(this);
-      
+
     }
     public override void OnSpawn()
     {
         if (ClothBasket.sphereColliders == null)
         {
 
-          
+
         }
         if (checkInBall == null)
         {
             checkInBall = GetComponent<CheckInBall>();
         }
-        
+
         AddBasket(this);
         gameObject.SetActive(true);
-       
+
     }
     public override void OnDespawn()
     {
 
-        RemoveBasket();  
+        RemoveBasket();
         gameObject.SetActive(false);
         checkInBall.Restore();
     }
@@ -211,35 +234,37 @@ public class Basket : PoolItem
         CtrlGamePlay.Ins.basket.Add(this);
     }
 
-   public IEnumerator Start_X2_Score(float time)
+    public IEnumerator Start_X2_Score(float time)
     {
-       
-            X2_Score = true;
+        CtrlAudio.Ins.Play("DoubleScore");
+        X2_Score = true;
         try
         {
+            CtrlGamePlay.Ins.isX2Score = true;
             Power_X2_Score.gameObject.SetActive(true);
         }
-        catch(System.Exception e)
+        catch (System.Exception e)
         {
-            
+            CtrlGamePlay.Ins.isX2Score = false;
         }
-          
-            yield return new WaitForSeconds(time);
+
+        yield return new WaitForSeconds(time);
         try
         {
+            CtrlGamePlay.Ins.isX2Score = false;
             Power_X2_Score.gameObject.SetActive(false);
         }
         catch (System.Exception e)
         {
-
+            CtrlGamePlay.Ins.isX2Score = false;
         }
         X2_Score = false;
-            
-            yield return new WaitForSeconds(0);
-       
+
+        yield return new WaitForSeconds(0);
+
     }
 
-   public IEnumerator Start_Power_Up_Basket(float time)
+    public IEnumerator Start_Power_Up_Basket(float time)
     {
 
         try
@@ -250,9 +275,9 @@ public class Basket : PoolItem
         {
 
         }
-      
-            X2_Basket = true;
-        
+
+        X2_Basket = true;
+
         yield return new WaitForSeconds(time);
         try
         {
@@ -262,7 +287,7 @@ public class Basket : PoolItem
         {
 
         }
-      
+
         X2_Basket = false;
     }
     public int Left()
@@ -271,14 +296,14 @@ public class Basket : PoolItem
     }
     public void Start_Move_Spawn(float x)
     {
-        transform.DOMoveX(x, 0.5f);
+        transform.DOMoveX(x, 0.5f * CtrlGamePlay.scaleScreen);
     }
 
-    public void SetUpMove(float x0,float x1)
+    public void SetUpMove(float x0, float x1)
     {
         RangeX = x0;
         RangeY = x1;
-       AnimMove = transform.DOMoveY(x0, 1).OnComplete(() =>
+        AnimMove = transform.DOMoveY(x0, 1).OnComplete(() =>
         {
             transform.DOScaleX(x1, 1);
 
@@ -290,12 +315,12 @@ public class Basket : PoolItem
 
     public void SetUpChangeSize()
     {
-      AnimChangeSize =  transform.DOScaleX(2, 1).OnComplete(()=>
+        AnimChangeSize = transform.DOScaleX(2, 1).OnComplete(() =>
         {
             transform.DOScaleX(1.5f, 1);
 
 
-        })  .SetLoops(-1,LoopType.Yoyo);
+        }).SetLoops(-1, LoopType.Yoyo);
     }
 
     public void StopAll()
@@ -309,16 +334,16 @@ public class Basket : PoolItem
         {
             AnimMove.timeScale = 0;
         }
-       
+
 
     }
 
-   public void Destroy()
+    public void Destroy()
     {
         CtrlGamePlay.Ins.basket.Remove(this);
         Destroy(gameObject);
     }
-    
-  
+
+
 
 }

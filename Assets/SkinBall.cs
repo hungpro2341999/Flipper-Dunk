@@ -6,16 +6,19 @@ using UnityEngine.EventSystems;
 
 public class SkinBall : MonoBehaviour,IPointerDownHandler
 {
+    public TypeShop typeShop;
     public int id;
     public bool isBuy;
     public bool isUse;
     public Image ImgUse;
     public Image Skin;
     public int cost;
+    public GameObject Eff;
+   
     // Start is called before the first frame update
     void Start()
     {
-        
+        transform.localScale = Vector3.one;
     }
 
     // Update is called once per frame
@@ -33,6 +36,7 @@ public class SkinBall : MonoBehaviour,IPointerDownHandler
         CheckInfor();
 
     }
+    
 
     public void Select()
     {
@@ -57,6 +61,13 @@ public class SkinBall : MonoBehaviour,IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        
+        Debug.Log("BallSelect : " + id);
+        CtrlShop.Ins.ShowInfor(id);
+    }
+    public void StartEFF()
+    {
+
+        Ctrl_Spawn.Ins.SpawnUIEff(4, Skin.transform.position, transform);
+       
     }
 }

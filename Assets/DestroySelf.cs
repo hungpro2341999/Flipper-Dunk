@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class DestroySelf : MonoBehaviour
 {
+    public string audioName="";
     public float time;
     public bool isWait = false;
+    public GameObject EFF;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +29,22 @@ public class DestroySelf : MonoBehaviour
     }
     public void Destroy()
     {
+        if (audioName != "")
+        {
+            CtrlAudio.Ins.Play(audioName);
+        }
+
+        if (EFF != null)
+        {
+            EFF.gameObject.SetActive(true);
+            EFF.gameObject.transform.parent = null;
+        }
         Ctrl_Spawn.Ins.ListItem.Remove(this.gameObject);
+        Destroy(gameObject);
+       
+    }
+    public void DestroyNormal()
+    {
         Destroy(gameObject);
     }
 }

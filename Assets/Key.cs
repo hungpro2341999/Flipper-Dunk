@@ -18,5 +18,6 @@ public class Key : MonoBehaviour
         isActive = false ;
         Active.gameObject.SetActive(false);
     }
+   
 
 }

@@ -16,7 +16,7 @@ public class CheckInBall : MonoBehaviour
     public static string Point_3 = "POINT_3";
     public static string Point_4 = "POINT_4";
     public static string Golbal = "Golbal";
-
+    public static string Reset_Golbal = "Reset";
 
     public bool isPerfect = false;
     public bool isCanGolbal = true;
@@ -45,7 +45,7 @@ public class CheckInBall : MonoBehaviour
         Score.Add(Point_3, 0);
         Score.Add(Point_4, 0);
         Score.Add(Golbal, 0);
-
+        Score.Add(Reset_Golbal, 0);
 
 
 
@@ -111,6 +111,13 @@ public class CheckInBall : MonoBehaviour
         {
             Restore();
         }
+        if(key == Reset_Golbal)
+        {
+            Score[Point_1] = 0;
+            Score[Point_2] = 0;
+            isCanGolbal = true;
+        }
+
         if (key == Golbal)
         {
             Restore_1();
@@ -126,7 +133,7 @@ public class CheckInBall : MonoBehaviour
     }
     public void CheckGolbal()
     {
-
+       
         if (isCanGolbal)
         {
             if (Score[Point_2] == 1 && Score[Point_1] == 0)
@@ -139,12 +146,15 @@ public class CheckInBall : MonoBehaviour
         {
             if (Score[Point_2] == 1 && Score[Point_1] == 1)
             {
-                Debug.Log("Dieeeeeeeee");
+              //  Debug.Log("Dieeeeeeeee");
                 basket.Die();
+                
                 CtrlGamePlay.Ins.CompleteProcess();
                 Ctrl_Spawn.Ins.SpawnScore(EvaluateGolbal());
                 isGolbal = true;
                 basket.EffGolbal.SetActive(true);
+              
+                CtrlGamePlay.Ins.AddScore(3);
                 
 
             }
@@ -169,19 +179,44 @@ public class CheckInBall : MonoBehaviour
             typeGolbal.Add("Well Done!");
             typeGolbal.Add("Good Job!");
             typeGolbal.Add("Wonderful!");
+          
+            if (CtrlGamePlay.Ins.typeGame != TypeGamePlay.Level)
+            {
+                CtrlAudio.Ins.Play("Golbal");
+            }
+            else
+            {
+                
+                CtrlAudio.Ins.Play("Cheer");
+                CtrlAudio.Ins.Play("Ding");
+            }
         }
         else if(golbal == 3)
         {
+            if (CtrlGamePlay.Ins.typeGame != TypeGamePlay.Level)
+            {
+                CtrlAudio.Ins.Play("Golbal");
+            }
+            else
+            {
+                CtrlAudio.Ins.Play("Golbal");
+            }
             Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket+1;
             typeGolbal.Add("Superb!");
             typeGolbal.Add("Great!");
             typeGolbal.Add("Wonderful!");
+          
         }
         else
         {
             Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket;
+           
+                CtrlAudio.Ins.Play("Golbal");
+            
             typeGolbal.Add("Marvelous");
             typeGolbal.Add("Amazing");
+            
+         
         }
         return typeGolbal.ToArray();
     }

@@ -27,7 +27,6 @@ namespace UnityEngine.UI.Extensions.Examples
         /// <param name="itemData">Item data.</param>
         public override void UpdateContent(Example02CellDto itemData)
         {
-
             message.text = itemData.Message;
 
             if (Context != null)

@@ -10,10 +10,12 @@ public class Ball : MonoBehaviour
     public Rigidbody2D body;
     public Vector3 PosInit;
     public float Angle = 0;
+    public SpriteRenderer SkinBall;
+    
     public bool ForceInit = false;
     private void Awake()
     {
-        Physics2D.defaultContactOffset = 0.07f;
+       
         if (Ins != null)
         {
             Destroy(gameObject);
@@ -25,6 +27,7 @@ public class Ball : MonoBehaviour
 
         }
         PosInit = transform.position;
+       
 
     }
     // Start is called before the first frame update
@@ -33,6 +36,7 @@ public class Ball : MonoBehaviour
         CtrlGamePlay.Ins.eventForRerestGame += Reset;
         body = GetComponent<Rigidbody2D>();
         Reset();
+
     }
 
     // Update is called once per frame
@@ -42,6 +46,7 @@ public class Ball : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        CtrlAudio.Ins.Play("Coll");
         if(collision.gameObject.layer == 9)
         {
           
@@ -59,34 +64,34 @@ public class Ball : MonoBehaviour
             
         }
     }
+    
     public void ThrowBall()
     {
 
         if (isCollWithFlipper) 
         {
+            Debug.Log("Fire");
+             Instantiate(CtrlGamePlay.Ins.Test, CtrlGamePlay.Ins.MainCanvas);
+            Vector3 vec = Vector3.zero;
 
-            // Instantiate(CtrlGamePlay.Ins.Test, CtrlGamePlay.Ins.MainCanvas);
-            if (!ForceInit)
+            if (CtrlGamePlay.Ins.isReflect)
             {
+               vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * CtrlGamePlay.Ins.SpeedThrowBall;
 
-               
-                //body.AddForce( CtrlGamePlay.ForceFlipperThrow , ForceMode2D.Force);
-                Vector3 vec = Quaternion.AngleAxis(Mathf.Abs(CtrlGamePlay.Ins.angle * 0.65f), Vector3.forward) * (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, CtrlGamePlay.ForceFlipperThrow.y)) * 7.5f;
-                body.AddForce(vec * CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
-               
-                // body.velocity = Quaternion.AngleAxis(CtrlGamePlay.Angle,Vector3.forward)*(new Vector2(CtrlGamePlay.ForceFlipperThrow.x,Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y)));
-                CtrlGamePlay.ForceThrow = 0;
             }
             else
             {
-                Vector3 vec = (new Vector2(-CtrlGamePlay.ForceFlipperThrow.y, CtrlGamePlay.ForceFlipperThrow.x)) * 7.5f;
-                Ball.Ins.transform.parent = Ctrl_Spawn.Ins.TransGamePlay;
-                GetComponent<TrailRenderer>().enabled = true;
-                ForceInit = false;
-                body.AddForce(vec , ForceMode2D.Force);
-                CtrlGamePlay.ForceThrow = 0;
-
+               vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * CtrlGamePlay.Ins.SpeedThrowBall;
             }
+
+            body.AddForce(vec*CtrlGamePlay.scaleScreen * CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
+
+               
+                CtrlGamePlay.ForceThrow = 0;
+          
+            //body.AddForce( CtrlGamePlay.ForceFlipperThrow , ForceMode2D.Force);
+          
+           
             
            
         }
@@ -97,24 +102,25 @@ public class Ball : MonoBehaviour
     }
     public void Reset()
     {
-        ForceInit = false ;
+       
         transform.position = PosInit;
       //  transform.parent = CtrlGamePlay.Ins.Fliper.transform;
         body.velocity = Vector3.zero;
+        body.angularVelocity = 0;
+
       //  GetComponent<TrailRenderer>().enabled = false;
-        body.isKinematic = true;
-        body.simulated = false;
+     //   body.isKinematic = true;
+      //  body.simulated = false;
 
         transform.eulerAngles = Vector3.zero;
-
+        SkinBall.sprite = Ctrl_Player.Ins.GetSkinBall();
 
 
     }
-    public void ActiveBall()
+    public void ActiveBall(bool active)
     {
+        gameObject.SetActive(active); 
       
-        body.simulated = true;
-        body.isKinematic = false;
     }
 
     public void ReflectDirect()
@@ -126,6 +132,9 @@ public class Ball : MonoBehaviour
         body.velocity = vec;
     }
    
-  
+  public void LoadDataPlayer()
+    {
+        
+    }
 
 }

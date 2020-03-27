@@ -27,14 +27,13 @@ namespace UnityEngine.UI.Extensions.Examples
         /// <param name="itemData">Item data.</param>
         public override void UpdateContent(Example04CellDto itemData)
         {
-           
             message.text = itemData.Message;
-      
+
             if (Context != null)
             {
                 var isSelected = Context.SelectedIndex == DataIndex;
                 image.color = isSelected
-                    ? new Color32(255, 255, 255, 255)
+                    ? new Color32(0, 255, 255, 100)
                     : new Color32(255, 255, 255, 77);
             }
         }

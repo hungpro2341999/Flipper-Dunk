@@ -10,12 +10,12 @@ public class Actice_Change_Page : MonoBehaviour,IPointerDownHandler,IPointerUpHa
     public void OnPointerDown(PointerEventData eventData)
     {
        
-        CtrlShop.Ins.InitPoint(eventData.position);
+     //   CtrlShop.Ins.InitPoint(eventData.position);
          
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        CtrlShop.Ins.isChangePage = false;
+      //  CtrlShop.Ins.isChangePage = false;
     }
 }

@@ -30,6 +30,8 @@ public class Ctrl_Spawn : MonoBehaviour
     public List<Transform> Right;
     public List<Transform> Left;
 
+    public List<GameObject> Key = new List<GameObject>();
+
     public float offsetX;
 
     public List<Sprite> Img_Counter;
@@ -38,6 +40,7 @@ public class Ctrl_Spawn : MonoBehaviour
     public Transform TransRenderProcess;
     public Transform TransKey;
     public Transform TransUIGamePlay;
+    public Transform TransEff;
     public Text TextLevelCurrr;
     public Transform BG_Light;
 
@@ -58,7 +61,7 @@ public class Ctrl_Spawn : MonoBehaviour
 
     public float distanceMove;
     public float offset;
-
+    public float timespawn=0;
     /// <summary>
     ///  Spawn Item
     /// </summary>
@@ -82,16 +85,19 @@ public class Ctrl_Spawn : MonoBehaviour
             Ins = this;
         }
         CtrlGamePlay.Ins.eventForStartGame += SetUpLevel;
+        CtrlGamePlay.Ins.eventForStartGame += SetUpSpawnBasket;
         CtrlGamePlay.Ins.eventForStartGame += InitRenderLive;
+    
         CtrlGamePlay.Ins.eventClearObj += DestroyAll;
         CtrlGamePlay.Ins.eventForRerestGame+= SetUpLevel;
         Application.targetFrameRate = 60;
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Init_Start();
+        distanceMove = distanceMove * CtrlGamePlay.scaleScreen;
         //
         PosRight = Right[0].transform.position;
         PosLeft = Left[0].transform.position;
@@ -114,17 +120,30 @@ public class Ctrl_Spawn : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            RandomEff();
+            SetUpMove(true, false, true, 1);
         }
+        if (GameMananger.Ins.isGameOver || GameMananger.Ins.isGamePause)
+            return;
+       
 
-        if (isSpawnItem)
+        if (ListItem.Count <= 0)
         {
-            time -= Time.deltaTime;
-            if (time < 0)
+            timespawn -= Time.deltaTime;
+            if (timespawn < 0)
             {
-              
-                RandomEff();
-                isSpawnItem = false;
+                timespawn = Random.Range(5,10);
+                int r =  Random.Range(0,6);
+                if (r == 0)
+                {
+                    RandomEff();
+                    Debug.Log("Not");
+                }
+                else
+                {
+                    Debug.Log("Spawn");
+                }
+                
+                
             }
            
         }
@@ -134,15 +153,20 @@ public class Ctrl_Spawn : MonoBehaviour
     {
         Instantiate(PerbObjEFF[id], pos,Quaternion.identity,TransGamePlay);
     }
-
-     public void Init_Start()
+    public Transform SpawnUIEff(int id, Vector2 pos, Transform trans)
+    {
+         return  Instantiate(PerbObjEFF[id], pos, Quaternion.identity, CtrlGamePlay.Ins.MainCanvas).transform;
+    }
+    public void Init_Start()
     {
         for(int i = 0; i < Count_Key; i++)
         {
          var a =  Instantiate(PrebObjGame[4], TransKey);
+            Debug.Log("add key");
             ListKey.Add(a.GetComponent<Key>());
         }
         int ActiveKey = Ctrl_Player.Ins.GetCurrKey();
+        Debug.Log("Active Key : " + ActiveKey);
       for(int i = 0; i < ActiveKey; i++)
         {
             ListKey[i].Active_key();
@@ -372,8 +396,17 @@ public class Ctrl_Spawn : MonoBehaviour
 
 
                 var a = Instantiate(PrebObjGame[0], pos, Quaternion.identity, TransGamePlay);
-
+                float x0 = a.transform.position.y;
                 a.GetComponent<Basket>().Start_Move_Spawn(pos.x - (offsetX * i));
+
+                if (isMove)
+                {
+                    float x1 = x0 - distanceMove;
+                    a.GetComponent<Basket>().SetUpMove(x1, x0);
+                   
+                }
+
+
                 if (isChangeSize)
                 {
                     a.GetComponent<Basket>().SetUpChangeSize();
@@ -386,10 +419,17 @@ public class Ctrl_Spawn : MonoBehaviour
              
 
                 var a = Instantiate(PrebObjGame[1], pos, Quaternion.identity, TransGamePlay);
+                float x0 = a.transform.position.y;
                 a.GetComponent<Basket>().Start_Move_Spawn(pos.x - (offsetX * i));
                 if (isChangeSize)
                 {
                     a.GetComponent<Basket>().SetUpChangeSize();
+                }
+                if (isMove)
+                {
+                    float x1 = x0 - distanceMove;
+                    a.GetComponent<Basket>().SetUpMove(x1, x0);
+                  
                 }
 
 
@@ -408,17 +448,17 @@ public class Ctrl_Spawn : MonoBehaviour
 
     
 
-
+     
     public void SetUpSpawnBasket()
     {
         Destroy_Complete_Basket();
-        int r = Random.Range(0,6);
+        int r = Random.Range(0,1);
 
         if (r == 0)
         {
             isSpawnItem = true;
             time = timeSpawnItem;
-
+          
 
         }
         else
@@ -439,7 +479,7 @@ public class Ctrl_Spawn : MonoBehaviour
                 SpawnBasket(isLeft, true);
                 break;
             case TypeBasket.Move:
-                SetUpMove(isLeft, false,false,1);
+                SetUpMove(isLeft, false,true,1);
                 break;
             case TypeBasket.Change_Size_vs_Move:
                 SetUpMove(isLeft, true, true, 1);
@@ -483,7 +523,7 @@ public class Ctrl_Spawn : MonoBehaviour
         }
         else
         {
-            return TypeBasket.x3;
+            return TypeBasket.Move;
 
         }
 
@@ -493,117 +533,164 @@ public class Ctrl_Spawn : MonoBehaviour
 
     public void SetUpLevel()
     {
-        int level = Ctrl_Player.Ins.GetCurrLevel();
-
-        Debug.Log("Level Curr : " + level);
+        switch (CtrlGamePlay.Ins.typeGame)
+        {
         
-        if (level > 19 && level<=40)
-        {
-            level = 40;
-        }
-        else if(level>40 && level<=60)
-        {
-            level = 60;
-        }
-        else if(level>=60)
-        {
-            level = 61;
+
+            #region Mode 1
+            case TypeGamePlay.Chanelegend:
+                SetUpPerBasket(50, 15, 15, 10, 5, 5, 6);
+                break;
+            case TypeGamePlay.Infinity:
+
+                SetUpPerBasket(50, 15, 15, 10, 5, 5, 9999999);
+                break;
+            case TypeGamePlay.Level:
+                int level = Ctrl_Player.Ins.GetCurrLevel();
+
+                Debug.Log("Level Curr : " + level);
+
+                if (level > 19 && level <= 40)
+                {
+                    level = 40;
+                }
+                else if (level > 40 && level <= 60)
+                {
+                    level = 60;
+                }
+                else if (level >= 60)
+                {
+                    level = 61;
+                }
+
+
+                switch (level)
+                {
+                    case 1:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 3);
+                        break;
+                    case 2:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 3);
+                        break;
+                    case 3:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 3);
+                        break;
+                    case 4:
+                        SetUpPerBasket(0, 100, 0, 0, 0, 0, 3);
+                        break;
+                    case 5:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 3);
+                        break;
+                    case 6:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 3);
+                        break;
+                    case 7:
+                        SetUpPerBasket(0, 0, 100, 0, 0, 0, 3);
+                        break;
+                    case 8:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 3);
+                        break;
+                    case 9:
+                        SetUpPerBasket(0, 0, 0, 0, 100, 0, 3);
+                        break;
+                    case 10:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 3);
+                        break;
+                    case 11:
+                        SetUpPerBasket(0, 100, 0, 0, 0, 0, 3);
+                        break;
+                    case 12:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 6);
+                        break;
+                    case 13:
+                        SetUpPerBasket(0, 0, 100, 0, 0, 0, 6);
+                        break;
+                    case 14:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 6);
+                        break;
+                    case 15:
+                        SetUpPerBasket(0, 0, 0, 0, 0, 100, 6);
+                        break;
+                    case 16:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 6);
+                        break;
+                    case 17:
+                        SetUpPerBasket(0, 100, 0, 0, 0, 0, 6);
+                        break;
+                    case 18:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 6);
+                        break;
+                    case 19:
+                        SetUpPerBasket(0, 0, 0, 100, 0, 0, 6);
+                        break;
+                    case 40:
+                        SetUpPerBasket(25, 22, 16, 5, 18, 14, 6);
+                        break;
+                    case 60:
+                        SetUpPerBasket(20, 22, 16, 8, 16, 18, 6);
+                        break;
+                    case 61:
+                        SetUpPerBasket(15, 18, 17, 14, 18, 18, 6);
+                        break;
+                    default:
+                        SetUpPerBasket(100, 0, 0, 0, 0, 0, 6);
+                        break;
+
+                }
+                TextLevelCurrr.text = "LEVEL " + Ctrl_Player.Ins.GetCurrLevel().ToString();
+
+                break;
+            #endregion
+           
         }
 
-       
-        switch (level)
-        {
-            case 1:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,3);
-                break;
-            case 2:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,3);
-                break;
-            case 3:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,3);
-                break;
-            case 4:
-                SetUpPerBasket(0,100, 0, 0, 0, 0,3);
-                break;
-            case 5:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,3);
-                break;
-            case 6:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,3);
-                break;
-            case 7:
-                SetUpPerBasket(0, 0, 100, 0, 0, 0,3);
-                break;
-            case 8:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,3);
-                break;
-            case 9:
-                SetUpPerBasket(0, 0, 0, 0, 100, 0,3);
-                break;
-            case 10:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,3);
-                break;
-            case 11:
-                SetUpPerBasket(0, 100, 0, 0, 0, 0,3);
-                break;
-            case 12:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,6);
-                break;
-            case 13:
-                SetUpPerBasket(0, 0, 100, 0, 0, 0,6);
-                break;
-            case 14:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,6);
-                break;
-            case 15:
-                SetUpPerBasket(0, 0, 0, 0, 0, 100,6);
-                break;
-            case 16:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,6);
-                break;
-            case 17:
-                SetUpPerBasket(0, 100, 0, 0, 0, 0,6);
-                break;
-            case 18:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,6);
-                break;
-            case 19:
-                SetUpPerBasket(0, 0, 0, 100, 0, 0,6);
-                break;
-            case 40:
-                SetUpPerBasket(25,22,16,5,18,14,6);
-                break;
-            case 60:
-                SetUpPerBasket(20, 22, 16, 8, 16, 18,6);
-                break;
-            case 61:
-                SetUpPerBasket(15, 18, 17, 14, 18, 18,6);
-                break;
-            default:
-                SetUpPerBasket(100, 0, 0, 0, 0, 0,6);
-                break;
 
-        }
-
-        TextLevelCurrr.text = "LEVEL " + level;
-       
     }
 
     public void InitRenderLive()
     {
-        int live = CtrlGamePlay.Ins.TargetLevel;
-        for(int i = live; i >0; i--)
+      
+        switch (CtrlGamePlay.Ins.typeGame)
         {
-            var a = Instantiate(PrebObjGame[2], TransRenderProcess);
-            Process p = a.GetComponent<Process>();
-            p.idProcess = i;
-            ListProcessGame.Add(p);
+            case TypeGamePlay.Level:
+                int live = CtrlGamePlay.Ins.TargetLevel;
+                for (int i = live; i > 0; i--)
+                {
+                    var a = Instantiate(PrebObjGame[2], TransRenderProcess);
+                    Process p = a.GetComponent<Process>();
+                    p.idProcess = i;
+                    ListProcessGame.Add(p);
 
 
+                }
+
+                
+                Init_Start();
+                break;
+            case TypeGamePlay.Chanelegend:
+               
+                int live1 = CtrlGamePlay.Ins.TargetLevel;
+
+                Debug.Log("Load Process : " + live1);
+                for (int i = live1; i > 0; i--)
+                {
+                    var a = Instantiate(PrebObjGame[2],CtrlGamePlay.Ins.TransProcess);
+                    Process p = a.GetComponent<Process>();
+                    p.idProcess = i;
+                    ListProcessGame.Add(p);
+
+
+                }
+                break;
+            case TypeGamePlay.Infinity:
+              
+                break;
         }
+       
     }
     public void CompleteProcess(int live)
     {
+        
         for(int i = 0; i < ListProcessGame.Count; i++)
         {
             if (ListProcessGame[i].idProcess == live)
@@ -653,7 +740,7 @@ public class Ctrl_Spawn : MonoBehaviour
             }
 
 
-            Debug.Log(a.x + "  " + a.y);
+           // Debug.Log(a.x + "  " + a.y);
         }
 
 
@@ -708,6 +795,18 @@ public class Ctrl_Spawn : MonoBehaviour
         {
             ListItem[i].GetComponent<DestroySelf>().Destroy();
         }
+
+        for(int i = 0; i < Key.Count; i++)
+        {
+            Key[i].GetComponent<DestroySelf>().Destroy();
+        }
+
+        for(int i = 0; i < ListKey.Count; i++)
+        {
+            ListKey[i].GetComponent<DestroySelf>().Destroy();
+        }
+        Key.Clear();
+        ListKey.Clear();
         ListProcessGame.Clear();
         ListCounterItem.Clear();
         ListItem.Clear();
@@ -786,7 +885,7 @@ public class Ctrl_Spawn : MonoBehaviour
     public void SpawnScore(string[] type_Score)
     {
         int i = Random.Range(0, type_Score.Length);
-        var a = Instantiate(PrebObjGame[5], TransUIGamePlay.transform.position, Quaternion.identity, TransUIGamePlay);
+        var a = Instantiate(PrebObjGame[5], TransUIGamePlay.transform.position, Quaternion.identity, TransEff);
         a.GetComponent<Score>().SetText(type_Score[i]);
         a.GetComponent<DestroySelf>().time = 0.5f;
         

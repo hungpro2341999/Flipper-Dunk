@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2458831051039353667}
   - component: {fileID: 6108583751432546497}
   - component: {fileID: 8517161282405992505}
+  - component: {fileID: 3921901968891149216}
   m_Layer: 14
   m_Name: BG Light
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4797806788968067103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.181, y: 1.009, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7225199, y: 0.924798, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -57111553
   m_SortingLayer: -1
-  m_SortingOrder: -61
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9176a244c3235f94b942e963f50c6914, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -99,3 +100,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3921901968891149216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4797806788968067103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dda16df28be9dd4186ee56b24a1382e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioName: 
+  time: 1
+  isWait: 0
+  EFF: {fileID: 0}

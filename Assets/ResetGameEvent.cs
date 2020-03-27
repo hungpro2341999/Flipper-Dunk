@@ -25,15 +25,16 @@ public class ResetGameEvent : MonoBehaviour
             int live =  CtrlGamePlay.Ins.live--;
             if (CtrlGamePlay.Ins.CompleteLevel)
                 return;
-            if (live > 0)
+            if (live > 1)
             {
                 Debug.Log("1");
                 StartCoroutine(ResetGame());
             }
             else
             {
+               
                 Debug.Log("2");
-                GameMananger.Ins.OpenWindow(TypeWindow.GameOver);
+                CtrlGamePlay.Ins.OverGame();
             }
           
         }
@@ -43,7 +44,7 @@ public class ResetGameEvent : MonoBehaviour
     {
       
             yield return new WaitForSeconds(0);
-            StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
+          StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
         
 
         yield return new WaitForSeconds(0);

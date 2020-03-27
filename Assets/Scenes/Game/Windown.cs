@@ -12,10 +12,7 @@ public class Windown : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
     public void Open()
     {
         gameObject.SetActive(true);

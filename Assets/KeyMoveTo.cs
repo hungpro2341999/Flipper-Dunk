@@ -31,16 +31,10 @@ public class KeyMoveTo : MonoBehaviour
     {
         Ctrl_Player.Ins.SaveNextKey();
         Ctrl_Spawn.Ins.UnclockKey();
-        if (Ctrl_Player.Ins.GetCurrKey()!=0 && Ctrl_Player.Ins.GetCurrKey() % 3 == 0)
-        {
-            Ctrl_Player.Ins.ResetKey();
-            GameMananger.Ins.OpenWindow(TypeWindow.Reward);
-        }
-        else
-        {
-
-           
-        }
+       
+          
+          
+       
         Destroy(gameObject);
     }
 }

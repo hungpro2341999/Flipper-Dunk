@@ -7,6 +7,8 @@ public class NextLevel : MonoBehaviour
 {
     public Text T_Diamond;
     public Text T_Level_Completel;
+    public Transform Diamond;
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +22,9 @@ public class NextLevel : MonoBehaviour
     }
     private void OnEnable()
     {
+        Ctrl_Player.Ins.AddDiamond(Ctrl_Player.DiamondInPlayer);
         T_Diamond.text = Ctrl_Player.DiamondInPlayer.ToString();
-        T_Level_Completel.text = "LEVEL" + " " + (Ctrl_Player.Ins.GetCurrKey() - 1).ToString();
+        T_Level_Completel.text = "LEVEL" + " " + (Ctrl_Player.Ins.GetCurrLevel() - 1).ToString();
+        Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform);
     }
 }
