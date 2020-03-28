@@ -949,6 +949,8 @@ public class CtrlShop : MonoBehaviour
     }
     public void BuyRandom100Diamond(int diamond)
     {
+
+
         switch (type)
         {
             case TypeShop.Skin:
@@ -1082,6 +1084,36 @@ public class CtrlShop : MonoBehaviour
 
     }
 
+    public void BuyRandomSkinAds(int diamond)
+    {
+
+        ManagerAds.Ins.ShowRewardedVideo((open) =>
+        {
+            if (open)
+            {
+                BuyRandom100Diamond(diamond);
+            }
+         
+
+        });
+
+    }
+
+    public void AddDiamond(int diamond)
+    {
+        ManagerAds.Ins.ShowRewardedVideo((active) =>
+        {
+            if (active)
+            {
+                Ctrl_Player.Ins.AddDiamond(diamond);
+                GameMananger.Ins.ShowDiamond();
+            }
+           
+
+        });
+      
+    }
+
     public void UnclockBall(int id)
     {
         CtrlAudio.Ins.Play("UnClock");
@@ -1208,6 +1240,8 @@ public class CtrlShop : MonoBehaviour
 
 
 }
+
+
 
 
 

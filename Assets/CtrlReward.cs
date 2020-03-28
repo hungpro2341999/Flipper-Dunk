@@ -169,31 +169,40 @@ public class CtrlReward : MonoBehaviour
     }
     public void AddKey(int key)
     {
-        isClickAds = true;
-        btn_Add_key.interactable = false;
-        this.key+=key;
-        int key_rest = 0;
-        for(int i = 0; i < Keys.Count; i++)
+        ManagerAds.Ins.ShowRewardedVideo((show) =>
         {
-            if (!Keys[i].GetComponent<Key>().isActive)
+            if (show)
             {
-                key_rest++;
-            }
-        }
-        for(int i = 0; i < Keys.Count; i++)
-        {
-            Keys[i].GetComponent<DestroySelf>().DestroyNormal();
-        }
-        for(int i = 0; i < 6; i++)
-        {
-            var a = Instantiate(KeyObj, transKey);
-            Keys.Add(a);
-            a.GetComponent<Key>().Active_key();
-        }
-        for(int i = 0; i < key_rest; i++)
-        {
-            Keys[Keys.Count - 1 - i].GetComponent<Key>().UnActive();
-        }
+                isClickAds = true;
+                btn_Add_key.interactable = false;
+                this.key += key;
+                int key_rest = 0;
+                for (int i = 0; i < Keys.Count; i++)
+                {
+                    if (!Keys[i].GetComponent<Key>().isActive)
+                    {
+                        key_rest++;
+                    }
+                }
+                for (int i = 0; i < Keys.Count; i++)
+                {
+                    Keys[i].GetComponent<DestroySelf>().DestroyNormal();
+                }
+                for (int i = 0; i < 6; i++)
+                {
+                    var a = Instantiate(KeyObj, transKey);
+                    Keys.Add(a);
+                    a.GetComponent<Key>().Active_key();
+                }
+                for (int i = 0; i < key_rest; i++)
+                {
+                    Keys[Keys.Count - 1 - i].GetComponent<Key>().UnActive();
+                }
+            } 
+        
+
+        });
+       
     }
     public void RandomReward()
     {

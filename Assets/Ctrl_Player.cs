@@ -66,9 +66,10 @@ public class Ctrl_Player : MonoBehaviour
     {
         LevelPlayer = GetCurrLevel();
         ShowDiamond();
+        
     }
 
-
+    
     
 
     public void ShowDiamond()
@@ -134,7 +135,7 @@ public class Ctrl_Player : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-          CtrlShop.Ins.Init();
+       //   CtrlShop.Ins.Init();
     }
 
     public bool isSound()
@@ -411,5 +412,6 @@ public class Ctrl_Player : MonoBehaviour
         Setting.Ins.SetUpVariable();
     }
 
+   
 }
 

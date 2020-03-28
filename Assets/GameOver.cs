@@ -29,6 +29,7 @@ public class GameOver : MonoBehaviour
             {
 
                 isComplete = true;
+                ManagerAds.Ins.ShowInterstitial();
             }
             else
             {

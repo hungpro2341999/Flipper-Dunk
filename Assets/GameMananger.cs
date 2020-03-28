@@ -34,10 +34,13 @@ public class GameMananger : MonoBehaviour
     void Start()
     {
         PosDiamond = ShowDiamondGame.transform.position;
-        isGameOver = true;
-        isGamePause = true;
-        OpenWindow(TypeWindow.Home);
+     
+  
         ShowDiamond();
+
+        //isGameOver = true;
+        //isGamePause = true;
+        //     OpenWindow(TypeWindow.Home);
     }
 
     // Update is called once per frame

@@ -45,7 +45,7 @@ public class CtrlGamePlay : MonoBehaviour
     public static float Angle = 0;
     public static int CountTotalPlayer=0;
     public static int CountPlayer=0;
-
+    public static int CountGlobal=0;
     public float AngleTo;
     public float speed;
     public bool isPress = false;
@@ -365,12 +365,15 @@ public class CtrlGamePlay : MonoBehaviour
                     Fliper.gameObject.GetComponent<Rigidbody2D>().AddTorque(SpeedRotation, ForceMode2D.Force);
                     SpeedThrowBall += 0.025f;
                 
-                  if(DirectFlipper.Angle <= MaxAngle/2)
+                  if(DirectFlipper.Angle >= MaxAngle*0.75f)
                     {
                         isReflect = true;
+                      
                     }
                     else
                     {
+                       ;
+                      
                         isReflect = false;
                     }
 
@@ -854,11 +857,13 @@ public class CtrlGamePlay : MonoBehaviour
     }
     public void OverGame()
     {
+        CountGlobal++;
         Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
        
         Ball.Ins.ActiveBall(false);
         switch (typeGame)
         {
+           
             case TypeGamePlay.Level:
                 Ctrl_Player.Ins.RestoreKey(key_in_Game);
                 CtrlAudio.Ins.Play("OverGame");
@@ -874,33 +879,45 @@ public class CtrlGamePlay : MonoBehaviour
                 GameMananger.Ins.Open(TypeWindow.Over_Game_3);
                 break;
         }
-        
+        if (CountGlobal % 3 == 0)
+        {
+            ManagerAds.Ins.ShowInterstitial();
+        }
+        CountGlobal++;
+
     }
 
     public void Continue()
     {
-        CountPlayer++;
-        switch (typeGame)
-        {
-           
-            case TypeGamePlay.Chanelegend:
-                 GameMananger.Ins.isGameOver = false;
-                GameMananger.Ins.Close(TypeWindow.GameOver);
-                live += 2;
-                break;
-            case TypeGamePlay.Infinity:
-                GameMananger.Ins.Close(TypeWindow.Over_Game_3);
-                GameMananger.Ins.isGameOver = false;
-                live += 2;
-                break;
-            case TypeGamePlay.Level:
-                GameMananger.Ins.Close(TypeWindow.GameOver);
-                live += 2;
-                GameMananger.Ins.isGameOver = false;
-                break;
-        }
-        Ball.Ins.ActiveBall(true);
-        StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
+        ManagerAds.Ins.ShowRewardedVideo((active) =>{
+
+            if (active)
+            {
+                CountPlayer++;
+                switch (typeGame)
+                {
+
+                    case TypeGamePlay.Chanelegend:
+                        GameMananger.Ins.isGameOver = false;
+                        GameMananger.Ins.Close(TypeWindow.GameOver);
+                        live += 2;
+                        break;
+                    case TypeGamePlay.Infinity:
+                        GameMananger.Ins.Close(TypeWindow.Over_Game_3);
+                        GameMananger.Ins.isGameOver = false;
+                        live += 2;
+                        break;
+                    case TypeGamePlay.Level:
+                        GameMananger.Ins.Close(TypeWindow.GameOver);
+                        live += 2;
+                        GameMananger.Ins.isGameOver = false;
+                        break;
+                }
+                Ball.Ins.ActiveBall(true);
+                StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
+            }
+        });
+      
     }
 
     public void OverMode_3()

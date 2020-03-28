@@ -77,7 +77,7 @@ public class Ball : MonoBehaviour
             if (CtrlGamePlay.Ins.isReflect)
             {
                vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * CtrlGamePlay.Ins.SpeedThrowBall;
-
+                Debug.Log("DD");
             }
             else
             {

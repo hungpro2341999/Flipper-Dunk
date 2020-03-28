@@ -39,4 +39,23 @@ public class OverGame_mode_3 : MonoBehaviour
             Continue.interactable = true;
         }
     }
+
+    public void X3Diamond()
+    {
+        ManagerAds.Ins.ShowRewardedVideo((show) =>
+        {
+            if (show)
+            {
+                int diamond = Ctrl_Player.DiamondInPlayer;
+                diamond = diamond * 3;
+
+                Ctrl_Player.Ins.AddDiamond(diamond);
+                Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform);
+
+            }
+
+
+        });
+
+    }
 }

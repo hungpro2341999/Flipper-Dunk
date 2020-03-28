@@ -9,6 +9,7 @@ public class Active_key : MonoBehaviour
     {
         if(collision.gameObject.layer == 8)
         {
+            CtrlGamePlay.Ins.key_in_Game++;
             CtrlAudio.Ins.Play("KeyCollect");
             CtrlGamePlay.Ins.key_in_Game++;
             transform.parent = Ctrl_Spawn.Ins.TransGamePlay;

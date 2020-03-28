@@ -43,16 +43,26 @@ public class UnlockItem : MonoBehaviour
 
     public void Unlock_Item()
     {
-        if(r == 0)
+        ManagerAds.Ins.ShowRewardedVideo((show) =>
         {
-            CtrlShop.Ins.UnclockBall(idUnlock);
-        }
-        else
-        {
-            CtrlShop.Ins.UnlockFlipper(idUnlock);
-        }
-        GameMananger.Ins.Close(TypeWindow.Unlock);
+            if (show)
+            {
+                if (r == 0)
+                {
+                    CtrlShop.Ins.UnclockBall(idUnlock);
+                }
+                else
+                {
+                    CtrlShop.Ins.UnlockFlipper(idUnlock);
+                }
+            }
+          
+         
+
+        });
+      
     }
+   
     private void OnEnable()
     {
         Random_Open_Item();
