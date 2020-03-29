@@ -55,10 +55,11 @@ public class UnlockItem : MonoBehaviour
                 {
                     CtrlShop.Ins.UnlockFlipper(idUnlock);
                 }
+                GameMananger.Ins.Close(TypeWindow.Unlock);
             }
-          
-         
 
+
+       
         });
       
     }

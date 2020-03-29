@@ -89,7 +89,7 @@ public class Ctrl_Spawn : MonoBehaviour
         CtrlGamePlay.Ins.eventForStartGame += InitRenderLive;
     
         CtrlGamePlay.Ins.eventClearObj += DestroyAll;
-        CtrlGamePlay.Ins.eventForRerestGame+= SetUpLevel;
+       
         Application.targetFrameRate = 60;
         
     }
@@ -539,7 +539,7 @@ public class Ctrl_Spawn : MonoBehaviour
 
             #region Mode 1
             case TypeGamePlay.Chanelegend:
-                SetUpPerBasket(50, 15, 15, 10, 5, 5, 6);
+                CtrlGamePlay.Ins.LoadDailyQueset();
                 break;
             case TypeGamePlay.Infinity:
 

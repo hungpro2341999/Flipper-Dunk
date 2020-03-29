@@ -17,7 +17,7 @@ public class CompelteDailyQuest : MonoBehaviour
 
 
             Ads.interactable = true;
-            Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform);
+            Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform,1);
         }
         else
         {
@@ -37,7 +37,7 @@ public class CompelteDailyQuest : MonoBehaviour
                 diamond = diamond * 3;
 
                 Ctrl_Player.Ins.AddDiamond(diamond);
-                Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform);
+                Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform,0);
 
             }
            

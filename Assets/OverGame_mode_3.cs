@@ -29,7 +29,7 @@ public class OverGame_mode_3 : MonoBehaviour
         Dimond.text = Ctrl_Player.DiamondInPlayer.ToString();
         Ctrl_Player.Ins.AddDiamond(Ctrl_Player.DiamondInPlayer);
         CtrlGamePlay.Ins.OverMode_3();
-        Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform);
+        Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform,1);
         if (CtrlGamePlay.CountPlayer % 2 == 0)
         {
             Continue.interactable = false;
@@ -50,7 +50,7 @@ public class OverGame_mode_3 : MonoBehaviour
                 diamond = diamond * 3;
 
                 Ctrl_Player.Ins.AddDiamond(diamond);
-                Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform);
+                Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform,0);
 
             }
 

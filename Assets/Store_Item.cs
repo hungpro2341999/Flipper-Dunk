@@ -29,7 +29,7 @@ public class Store_Item : MonoBehaviour,IPointerClickHandler
               
                 Item[2].transform.Find("Text").GetComponent<Text>().text = r.ToString();
                 Item[2].gameObject.SetActive(true);
-                Ctrl_Player.Ins.ProcessAddConin(transform.position, CtrlReward.Ins.transform);
+                Ctrl_Player.Ins.ProcessAddConin(transform.position, CtrlReward.Ins.transform,0);
                 Ctrl_Player.Ins.AddDiamond(diamond);
                 StartEff();
             }

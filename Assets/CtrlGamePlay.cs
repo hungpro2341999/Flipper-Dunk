@@ -219,12 +219,12 @@ public class CtrlGamePlay : MonoBehaviour
                 GameMananger.Ins.isGamePause = true;
                
                 eventClearObj();
-                LoadDailyQueset();
+              
                 eventForStartGame();
                 live = 1;
                 Ctrl_Player.DiamondInPlayer = 0;
                 Open(1);
-                GameMananger.Ins.StartLabel();
+                
 
                 eventForRerestGame();
                 break;
@@ -434,7 +434,8 @@ public class CtrlGamePlay : MonoBehaviour
                 if (t >= limitTime)
                 {
                     GameMananger.Ins.isGameOver = true;
-                    GameMananger.Ins.Open(TypeWindow.GameOver);
+                    CtrlAudio.Ins.Play("TimeOut");
+                    GameMananger.Ins.Open(TypeWindow.NotCompleteDailyQuest);
                     isCompleteGame = true;
                     Debug.Log("load");
                 }
@@ -736,25 +737,37 @@ public class CtrlGamePlay : MonoBehaviour
         t = 0;
         isCompleteGame = false;
         open = !open;
-        LabelQuest.SetBool("Open", open);
+        GameMananger.Ins.StartLabel();
         int i =  Random.Range(0, 4);
         
         switch (i)
         {
             case 0:
-                LabelDailyQuest.text = "5 Basket In 40 second";
+                Ctrl_Spawn.Ins.SetUpPerBasket(50, 15, 15, 10, 5, 5, 3);
+                limitTime = 35;
+                GameMananger.Ins.SetLable("3 Basket In 35 second");
                 timeBar = Time.deltaTime / limitTime;
+             
                 break;
             case 1:
-                LabelDailyQuest.text = "5 Basket In 40 second";
+                Ctrl_Spawn.Ins.SetUpPerBasket(50, 15, 15, 10, 5, 5, 3);
+                GameMananger.Ins.SetLable("3 Basket In 60 second");
+               
+                limitTime = 60;
                 timeBar = Time.deltaTime / limitTime;
                 break;
             case 2:
-                LabelDailyQuest.text = "5 Basket In 40 second";
+                Ctrl_Spawn.Ins.SetUpPerBasket(50, 15, 15, 10, 5, 5, 4);
+                GameMananger.Ins.SetLable("4 Basket In 80 second");
+                
+                limitTime = 80;
                 timeBar = Time.deltaTime / limitTime;
                 break;
             case 3:
-                LabelDailyQuest.text = "5 Bask7et In 40 second";
+                Ctrl_Spawn.Ins.SetUpPerBasket(50, 15, 15, 10, 5, 5, 6);
+              
+                GameMananger.Ins.SetLable("6 Basket In 120 second");
+                limitTime = 120;
                 timeBar = Time.deltaTime / limitTime;
                 break;
         }
@@ -816,7 +829,8 @@ public class CtrlGamePlay : MonoBehaviour
     }
     public void ResetMode()
     {
-      
+       
+        GameMananger.Ins.isGameOver = false;
         switch (typeGame)
         {
             case TypeGamePlay.Level:
@@ -824,9 +838,9 @@ public class CtrlGamePlay : MonoBehaviour
                 GameMananger.Ins.Close(TypeWindow.GameOver);
                 break;
             case TypeGamePlay.Chanelegend:
-               
-                
-                GameMananger.Ins.Close(TypeWindow.GameOver);
+                ManagerAds.Ins.ShowInterstitial();
+                isCompleteGame = false;
+                GameMananger.Ins.Close(TypeWindow.NotCompleteDailyQuest);
                 GameMananger.Ins.Close(TypeWindow.CompleteDailyQuest);
                 StartGame(TypeGamePlay.Chanelegend);
                 break;
@@ -859,7 +873,7 @@ public class CtrlGamePlay : MonoBehaviour
     {
         CountGlobal++;
         Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
-       
+        GameMananger.Ins.isGameOver = true;
         Ball.Ins.ActiveBall(false);
         switch (typeGame)
         {
@@ -871,7 +885,7 @@ public class CtrlGamePlay : MonoBehaviour
                 break;
             case TypeGamePlay.Chanelegend:
                 CtrlAudio.Ins.Play("OverGame");
-                GameMananger.Ins.Open(TypeWindow.GameOver);
+                GameMananger.Ins.Open(TypeWindow.NotCompleteDailyQuest);
 
                 break;
             case TypeGamePlay.Infinity:

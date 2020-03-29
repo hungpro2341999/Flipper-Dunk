@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum TypeWindow {NextLevel,GameOver,Reward,Shop_Skin,Shop_Flipper,Home,Play,Mode_1,Mode_2,Mode_3,Over_Game_3,CompleteDailyQuest,Shop_BG,Unlock}
+public enum TypeWindow {NextLevel,GameOver,Reward,Shop_Skin,Shop_Flipper,Home,Play,Mode_1,Mode_2,Mode_3,Over_Game_3,CompleteDailyQuest,Shop_BG,Unlock,NotCompleteDailyQuest}
 public class GameMananger : MonoBehaviour
 {
     public static GameMananger Ins;
@@ -18,6 +18,7 @@ public class GameMananger : MonoBehaviour
 
     public bool open = false;
     public Animator AnimLabe;
+    public Text textLabel;
 
     private void Awake()
     {
@@ -40,7 +41,7 @@ public class GameMananger : MonoBehaviour
 
         //isGameOver = true;
         //isGamePause = true;
-        //     OpenWindow(TypeWindow.Home);
+             OpenWindow(TypeWindow.Home);
     }
 
     // Update is called once per frame
@@ -150,7 +151,10 @@ public class GameMananger : MonoBehaviour
 
     public void ShowDiamond(TypeWindow type)
     {
-        if (type != TypeWindow.Play)
+        if (type == TypeWindow.NextLevel || type == TypeWindow.Over_Game_3 || type == TypeWindow.GameOver || type == TypeWindow.NextLevel
+            || type == TypeWindow.CompleteDailyQuest
+            
+            )
         {
             ShowDiamondGame.gameObject.SetActive(true);
         }
@@ -161,7 +165,7 @@ public class GameMananger : MonoBehaviour
     }
     public void ShowSetting(TypeWindow type)
     {
-        if (type == TypeWindow.Home || type == TypeWindow.Over_Game_3 || type == TypeWindow.NextLevel || type == TypeWindow.GameOver )
+        if (type == TypeWindow.Home || type == TypeWindow.Over_Game_3 || type == TypeWindow.NextLevel || type == TypeWindow.GameOver  || type == TypeWindow.NextLevel)
         {
             SettingGame.gameObject.SetActive(true);
         }
@@ -281,12 +285,17 @@ public class GameMananger : MonoBehaviour
         }
         UnShowDiamond(type);
     }
+    public void SetLable(string s)
+    {
+        textLabel.text = s;
+    }
     public void StartLabel()
     {
         isGamePause = true;
-        open = !open;
 
+        open = !open;
         AnimLabe.SetBool("Open", open);
+        
     }
     
 }

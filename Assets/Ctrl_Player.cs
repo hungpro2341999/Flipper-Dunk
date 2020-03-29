@@ -135,7 +135,7 @@ public class Ctrl_Player : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-       //   CtrlShop.Ins.Init();
+          CtrlShop.Ins.Init();
     }
 
     public bool isSound()
@@ -373,15 +373,15 @@ public class Ctrl_Player : MonoBehaviour
         PlayerPrefs.SetInt(key_level, level);
         PlayerPrefs.Save();
     }
-    public void ProcessAddConin(Vector3 pos,Transform trans) 
+    public void ProcessAddConin(Vector3 pos,Transform trans,float time) 
     {
-        StartCoroutine(AddCoin(pos, trans));
+        StartCoroutine(AddCoin(pos, trans,time));
      
         // None
     }
-    public IEnumerator AddCoin(Vector3 pos,Transform trans)
+    public IEnumerator AddCoin(Vector3 pos,Transform trans,float time)
     {
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(time);
         Instantiate(ObjDimaond, pos, Quaternion.identity, trans);
       
         yield return new WaitForSeconds(0.2f);

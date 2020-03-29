@@ -8,6 +8,9 @@ TagManager:
   - x2Coin
   - ChangeSize
   - IncreReflect
+  - 1
+  - 2
+  - 3
   layers:
   - Default
   - TransparentFX
@@ -30,7 +33,7 @@ TagManager:
   - 1
   - 2
   - Ground
-  - 
+  - imgFlipper
   - 
   - 
   - 
@@ -80,4 +83,7 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 824641809
+    locked: 0
+  - name: imgFlipper
+    uniqueID: 2005591909
     locked: 0

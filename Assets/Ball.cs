@@ -13,6 +13,14 @@ public class Ball : MonoBehaviour
     public SpriteRenderer SkinBall;
     
     public bool ForceInit = false;
+
+
+
+    bool collwith_1 = false;
+    bool collwith_2 = false;
+//    bool collwith_3 = false;
+
+    public float xForce = 1;
     private void Awake()
     {
        
@@ -33,6 +41,7 @@ public class Ball : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        body.gravityScale = body.gravityScale * CtrlGamePlay.scaleScreen;
         CtrlGamePlay.Ins.eventForRerestGame += Reset;
         body = GetComponent<Rigidbody2D>();
         Reset();
@@ -49,8 +58,14 @@ public class Ball : MonoBehaviour
         CtrlAudio.Ins.Play("Coll");
         if(collision.gameObject.layer == 9)
         {
-          
-            isCollWithFlipper = true;
+            if (collision.gameObject.tag == "1")
+            {
+                xForce = 1.5f;
+            }
+
+
+            
+                isCollWithFlipper = true;
         
         }
     }
@@ -59,6 +74,13 @@ public class Ball : MonoBehaviour
 
         if (collision.gameObject.layer == 9)
         {
+            if (collision.gameObject.tag == "1")
+            {
+                xForce = 1;
+            }
+
+           
+               
 
             isCollWithFlipper = false;
             
@@ -76,14 +98,14 @@ public class Ball : MonoBehaviour
 
             if (CtrlGamePlay.Ins.isReflect)
             {
-               vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * CtrlGamePlay.Ins.SpeedThrowBall;
+               vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * CtrlGamePlay.Ins.SpeedThrowBall*xForce;
                 Debug.Log("DD");
             }
             else
             {
-               vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * CtrlGamePlay.Ins.SpeedThrowBall;
+               vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * CtrlGamePlay.Ins.SpeedThrowBall*xForce;
             }
-
+            vec.y = Mathf.Abs(vec.y);
             body.AddForce(vec*CtrlGamePlay.scaleScreen * CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
 
                

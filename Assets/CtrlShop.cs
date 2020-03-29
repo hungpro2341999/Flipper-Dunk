@@ -255,9 +255,9 @@ public class CtrlShop : MonoBehaviour
 
     public void Init()
     {
-        //  PlayerPrefs.DeleteKey(key_Shop_Skin);
-        // PlayerPrefs.DeleteKey(key_Shop_Flipper);
-        // PlayerPrefs.DeleteKey(Key_Shop_BG);
+         PlayerPrefs.DeleteKey(key_Shop_Skin);
+         PlayerPrefs.DeleteKey(key_Shop_Flipper);
+         PlayerPrefs.DeleteKey(Key_Shop_BG);
         if (!PlayerPrefs.HasKey(key_Shop_Skin))
         {
             // Load_Skin

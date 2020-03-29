@@ -25,7 +25,7 @@ public class NextLevel : MonoBehaviour
         Ctrl_Player.Ins.AddDiamond(Ctrl_Player.DiamondInPlayer);
         T_Diamond.text = Ctrl_Player.DiamondInPlayer.ToString();
         T_Level_Completel.text = "LEVEL" + " " + (Ctrl_Player.Ins.GetCurrLevel() - 1).ToString();
-        Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform);
+        Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform,1);
     }
     public void X3Diamond()
     {
@@ -37,7 +37,7 @@ public class NextLevel : MonoBehaviour
                 diamond = diamond * 3;
 
                 Ctrl_Player.Ins.AddDiamond(diamond);
-                Ctrl_Player.Ins.ProcessAddConin(Diamond.transform.position, transform);
+                Ctrl_Player.Ins.ProcessAddConin(Diamond.transform.position, transform,1);
 
             }
 
