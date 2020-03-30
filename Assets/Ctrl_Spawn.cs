@@ -847,26 +847,26 @@ public class Ctrl_Spawn : MonoBehaviour
     {
         for(int i = 0; i < ListProcessGame.Count; i++)
         {
-            ListProcessGame[i].GetComponent<DestroySelf>().Destroy();
+            ListProcessGame[i].GetComponent<DestroySelf>().DestroyNormal();
 
         }
         for(int i = 0; i < ListCounterItem.Count; i++)
         {
-            ListCounterItem[i].GetComponent<DestroySelf>().Destroy();
+            ListCounterItem[i].GetComponent<DestroySelf>().DestroyNormal();
         }
         for(int i = 0; i < ListItem.Count; i++)
         {
-            ListItem[i].GetComponent<DestroySelf>().Destroy();
+            ListItem[i].GetComponent<DestroySelf>().DestroyNormal();
         }
 
         for(int i = 0; i < Key.Count; i++)
         {
-            Key[i].GetComponent<DestroySelf>().Destroy();
+            Key[i].GetComponent<DestroySelf>().DestroyNormal();
         }
 
         for(int i = 0; i < ListKey.Count; i++)
         {
-            ListKey[i].GetComponent<DestroySelf>().Destroy();
+            ListKey[i].GetComponent<DestroySelf>().DestroyNormal();
         }
         Key.Clear();
         ListKey.Clear();

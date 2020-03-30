@@ -100,6 +100,7 @@ public class GameMananger : MonoBehaviour
                     case TypeWindow.Play:
                         s.Open();
                         CtrlGamePlay.Ins.StartGame(CtrlGamePlay.Ins.typeGame);
+                        UnSetting();
                         break;
                     case TypeWindow.Home:
                         s.Open();
@@ -170,7 +171,7 @@ public class GameMananger : MonoBehaviour
     }
     public void ShowSetting(TypeWindow type)
     {
-        if(type != TypeWindow.Play)
+        if(type == TypeWindow.Play)
         {
             SettingGame.gameObject.SetActive(false);
         }

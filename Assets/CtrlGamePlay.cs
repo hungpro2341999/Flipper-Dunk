@@ -197,6 +197,8 @@ public class CtrlGamePlay : MonoBehaviour
         isX2Score = false;
         offsetReflect = 1;
         this.typeGame= type;
+        isCompleteGame = false;
+        CompleteLevel = false;
         switch (type)
         {
             case TypeGamePlay.Level:
@@ -212,6 +214,7 @@ public class CtrlGamePlay : MonoBehaviour
                 CompleteLevel = false;
                 eventForRerestGame();
                 Open(0);
+            
                 break;
             case TypeGamePlay.Chanelegend:
 
@@ -224,7 +227,7 @@ public class CtrlGamePlay : MonoBehaviour
                 live = 1;
                 Ctrl_Player.DiamondInPlayer = 0;
                 Open(1);
-                
+              
 
                 eventForRerestGame();
                 break;
@@ -239,6 +242,7 @@ public class CtrlGamePlay : MonoBehaviour
 
                 eventForRerestGame();
                 Open(2);
+              
                 break;
         }
 
@@ -373,7 +377,7 @@ public class CtrlGamePlay : MonoBehaviour
                     }
                     else
                     {
-                       ;
+                      
                       
                         isReflect = false;
                     }
@@ -383,7 +387,7 @@ public class CtrlGamePlay : MonoBehaviour
                 else 
                 {
 
-                    isMax = true;
+                   
 
                     if (!isAddForce)
                     {
@@ -393,6 +397,7 @@ public class CtrlGamePlay : MonoBehaviour
                     }
                     Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
                     Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+                    isMax = true;
                 }
 
 
@@ -820,6 +825,7 @@ public class CtrlGamePlay : MonoBehaviour
                 ModePlay[i].gameObject.SetActive(false);
             }
         }
+      
     }
     public void CloseAll()
     {
@@ -863,6 +869,8 @@ public class CtrlGamePlay : MonoBehaviour
     {
         StartGame(TypeGamePlay.Level);
         GameMananger.Ins.Close(TypeWindow.NextLevel);
+        GameMananger.Ins.UnSetting();
+
     }
 
 
