@@ -87,7 +87,7 @@ public class CtrlShop : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        Open(2, TypeChose_BG);
+                        Open(0, TypeChose_BG);
                         break;
                         
                     case 1:
@@ -132,7 +132,7 @@ public class CtrlShop : MonoBehaviour
                         Open(1, TypeChose_Skin);
                         break;
 
-                             case 3:
+                     case 3:
                         Open(2, TypeChose_Skin);
                         break;
                 }
@@ -228,36 +228,106 @@ public class CtrlShop : MonoBehaviour
 
     public void LoadingShop()
     {
-        for(int i = 0; i < ListSkins.Count; i++)
+        int idSkin = 0;
+        int idFlipper = 0;
+        int idBG = 0;
+        idSkin = Ctrl_Player.Ins.GetSkinBallUse();
+        idFlipper = Ctrl_Player.Ins.GetSkinFlipperUse();
+        idBG = Ctrl_Player.Ins.GetSkinBGUse();
+       
+        Debug.Log(idSkin + "  " + idFlipper + "  " + idBG);
+        for (int i = 0; i < ListSkins.Count; i++)
         {
             if (ListSkins[i].isBuy)
             {
                 ListSkins[i].Select();
+
             }
+            Debug.Log("id : " + ListSkins[i].id);
+           
+            
+          
         }
 
-        for(int j = 0; j < ListFlipper.Count; j++)
+        for (int i = 0; i < ListSkins.Count; i++)
+        {
+           // Debug.Log("id : " + ListSkins[i].id);
+            if (ListSkins[i].id == idSkin)
+            {
+                ShowSKin.sprite = ListSkins[i].Skin.sprite;
+                ListSkins[i].Use(true);
+            }
+            else
+            {
+                ListSkins[i].Use(false);
+            }
+
+           
+          
+
+
+
+        }
+
+
+        for (int j = 0; j < ListFlipper.Count; j++)
         {
             if (ListFlipper[j].isBuy)
             {
                 ListFlipper[j].Select();
             }
+          
         }
+
+        for (int i = 0; i < ListFlipper.Count; i++)
+        {
+         //   Debug.Log("id : " + ListFlipper[i].id);
+            if (ListFlipper[i].id == idFlipper)
+            {
+                ShowSKinFlipper.sprite = ListFlipper[i].Skin.sprite;
+                ListFlipper[i].Use(true);
+            }
+            else
+            {
+                ListFlipper[i].Use(false);
+            }
+
+
+        }
+
         for (int j = 0; j < ListBG.Count; j++)
         {
             if (ListBG[j].isBuy)
             {
                 ListBG[j].Select();
             }
+          
         }
-      
+
+        for (int i = 0; i < ListBG.Count; i++)
+        {
+            //   Debug.Log("id : " + ListFlipper[i].id);
+            if (ListBG[i].id == idBG)
+            {
+                ShowSkinBG.sprite = ListBG[i].Skin.sprite;
+                ListBG[i].Use(true);
+            }
+            else
+            {
+                ListBG[i].Use(false);
+            }
+
+
+        }
+
+
     }
 
     public void Init()
     {
-         PlayerPrefs.DeleteKey(key_Shop_Skin);
-         PlayerPrefs.DeleteKey(key_Shop_Flipper);
-         PlayerPrefs.DeleteKey(Key_Shop_BG);
+     //    PlayerPrefs.DeleteKey(key_Shop_Skin);
+    //     PlayerPrefs.DeleteKey(key_Shop_Flipper);
+      //   PlayerPrefs.DeleteKey(Key_Shop_BG);
         if (!PlayerPrefs.HasKey(key_Shop_Skin))
         {
             // Load_Skin
@@ -486,6 +556,9 @@ public class CtrlShop : MonoBehaviour
             var a1 = Instantiate(Dot, transDot);
             Dots.Add(a1.GetComponent<Dot>());
         }
+
+       
+
         ActiveDot(PageCUrr);
         //Flipper
 
@@ -782,6 +855,13 @@ public class CtrlShop : MonoBehaviour
                         {
                             ShowSKinFlipper.sprite = ListFlipper[i].Skin.sprite;
                             Ctrl_Player.Ins.SetSkinFlipper(select);
+                            ListFlipper[i].Use(true);
+
+
+                        }
+                        else
+                        {
+                            ListFlipper[i].Use(false);
                         }
                     }
                 }
@@ -794,9 +874,15 @@ public class CtrlShop : MonoBehaviour
                     {
                         if (ListSkins[i].id == select)
                         {
+                           
+                            ListSkins[i].Use(true);
                             Ctrl_Player.Ins.SetSkinBall(select);
                             ShowSKin.sprite = ListSkins[i].Skin.sprite;
 
+                        }
+                        else
+                        {
+                            ListSkins[i].Use(false);
                         }
                     }
                 }
@@ -809,9 +895,14 @@ public class CtrlShop : MonoBehaviour
                     {
                         if(ListBG[i].id == select)
                         {
+                            ListBG[i].Use(true);
                             Ctrl_Player.Ins.SetSkinBG(select);
                             ShowSkinBG.sprite = ListBG[i].Skin.sprite;
 
+                        }
+                        else
+                        {
+                            ListBG[i].Use(false);
                         }
                         
                        
@@ -824,6 +915,8 @@ public class CtrlShop : MonoBehaviour
         }
        
     }
+
+    
 
     public void SaveShop() 
     {

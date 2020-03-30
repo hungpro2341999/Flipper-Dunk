@@ -14,6 +14,7 @@ public class SkinBall : MonoBehaviour,IPointerDownHandler
     public Image Skin;
     public int cost;
     public GameObject Eff;
+    public Image ImgSelect;
    
     // Start is called before the first frame update
     void Start()
@@ -69,5 +70,10 @@ public class SkinBall : MonoBehaviour,IPointerDownHandler
 
         Ctrl_Spawn.Ins.SpawnUIEff(4, Skin.transform.position, transform);
        
+    }
+    public void Use(bool active)
+    {
+        isUse = active;
+        ImgSelect.enabled = active;
     }
 }

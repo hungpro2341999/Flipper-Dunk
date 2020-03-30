@@ -8,12 +8,13 @@ public class Anim_Pop_pup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-     
-    }
+       var a =   transform.DOScale(Vector3.one * 1.2f, 0.25f).OnComplete(() =>
+        {
 
-    // Update is called once per frame
-    void Update()
-    {
+            transform.DOScale(Vector3.one, 0.25f).SetLoops(-1);
+        });
         
     }
+
+   
 }

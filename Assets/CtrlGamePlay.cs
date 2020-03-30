@@ -229,9 +229,10 @@ public class CtrlGamePlay : MonoBehaviour
                 eventForRerestGame();
                 break;
             case TypeGamePlay.Infinity:
+                eventClearObj();
                 ResetScore();
                 eventForStartGame();
-                eventClearObj();
+             
                 Ctrl_Player.DiamondInPlayer = 0;
                 GameMananger.Ins.isGameOver = false;
                 GameMananger.Ins.isGamePause = false;
@@ -555,7 +556,7 @@ public class CtrlGamePlay : MonoBehaviour
                     CompleteLevel = true;
                     GameMananger.Ins.isGameOver = true;
                     Ctrl_Player.Ins.CompleteNextLevel();
-                    if (Ctrl_Player.Ins.isFullKey())
+                    if (Ctrl_Player.Ins.isInGameisFullKey())
                     {
                         GameMananger.Ins.Open(TypeWindow.Reward);
                         Ball.Ins.ActiveBall(false);
@@ -563,6 +564,7 @@ public class CtrlGamePlay : MonoBehaviour
                     }
                     else
                     {
+                        Ctrl_Player.Ins.AddKey(key_in_Game);
                        var a=   Ctrl_Spawn.Ins.SpawnUIEff(3, Vector2.zero, MainCanvas);
                         a.localPosition = Vector3.zero;
                         Ball.Ins.ActiveBall(false);
@@ -574,7 +576,8 @@ public class CtrlGamePlay : MonoBehaviour
                     eventForLoadGame(Ctrl_Player.Ins.GetHighScore(), Ctrl_Player.Ins.GetCurrLevel());
                  
                     CountTotalPlayer++;
-                    if (CountTotalPlayer == 5)
+                   List<int> level = new List<int>{ 3, 7, 12, 16, 20, 26, 36, 50, 60, 70 };
+                    if (level.Contains(Ctrl_Player.Ins.GetCurrLevel()))
                     {
                         GameMananger.Ins.Open(TypeWindow.Unlock);
                         Debug.Log("Unclock");
@@ -852,6 +855,7 @@ public class CtrlGamePlay : MonoBehaviour
 
                 break;
         }
+        GameMananger.Ins.UnSetting();
        
     }
 
@@ -898,11 +902,12 @@ public class CtrlGamePlay : MonoBehaviour
             ManagerAds.Ins.ShowInterstitial();
         }
         CountGlobal++;
-
+        GameMananger.Ins.ShowSetting();
     }
 
     public void Continue()
     {
+        
         ManagerAds.Ins.ShowRewardedVideo((active) =>{
 
             if (active)
@@ -914,6 +919,7 @@ public class CtrlGamePlay : MonoBehaviour
                     case TypeGamePlay.Chanelegend:
                         GameMananger.Ins.isGameOver = false;
                         GameMananger.Ins.Close(TypeWindow.GameOver);
+                        GameMananger.Ins.Close(TypeWindow.NotCompleteDailyQuest);
                         live += 2;
                         break;
                     case TypeGamePlay.Infinity:
@@ -931,7 +937,8 @@ public class CtrlGamePlay : MonoBehaviour
                 StartCoroutine(CtrlGamePlay.Ins.ShadowScreen());
             }
         });
-      
+        GameMananger.Ins.UnSetting();
+
     }
 
     public void OverMode_3()

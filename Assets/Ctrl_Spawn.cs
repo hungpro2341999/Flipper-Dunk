@@ -115,12 +115,12 @@ public class Ctrl_Spawn : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-          
-         
+           
+
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            SetUpMove(true, false, true, 1);
+            SetUpSpawnBasket();
         }
         if (GameMananger.Ins.isGameOver || GameMananger.Ins.isGamePause)
             return;
@@ -199,7 +199,7 @@ public class Ctrl_Spawn : MonoBehaviour
             {
                 a.GetComponent<Basket>().SetUpChangeSize();
             }
-          
+            CtrlGamePlay.Ins.basket.Add(a.GetComponent<Basket>());
 
         }
         else
@@ -212,9 +212,10 @@ public class Ctrl_Spawn : MonoBehaviour
             {
                 a.GetComponent<Basket>().SetUpChangeSize();
             }
-
+            CtrlGamePlay.Ins.basket.Add(a.GetComponent<Basket>());
 
         }
+     
     }
 
    
@@ -225,11 +226,11 @@ public class Ctrl_Spawn : MonoBehaviour
     {
 
         this.PerBasketNone = PerBasketNone;
-        this.PerBasketMove = PerBasketMove;
-        this.PerBasketChangeZize = PerBasketChangeZie;
-        this.PerBasketChangeZizevsMove = PerBasketChangeZizevsMove;
-        this.PerBasketX2 = PerBasketX2;
-        this.PerBasketX3 = PerBasketX3;
+        this.PerBasketMove = PerBasketMove+PerBasketNone;
+        this.PerBasketChangeZize = PerBasketChangeZie+ PerBasketMove + PerBasketNone;
+        this.PerBasketChangeZizevsMove = PerBasketChangeZizevsMove+ PerBasketChangeZie + PerBasketMove + PerBasketNone;
+        this.PerBasketX2 = PerBasketX2+ PerBasketChangeZizevsMove + PerBasketChangeZie + PerBasketMove + PerBasketNone;
+        this.PerBasketX3 = PerBasketX3+ PerBasketX2 + PerBasketChangeZizevsMove + PerBasketChangeZie + PerBasketMove + PerBasketNone;
         CtrlGamePlay.Ins.TargetLevel = target;
     }
 
@@ -349,6 +350,7 @@ public class Ctrl_Spawn : MonoBehaviour
                    
                     pos.y = x0;
                     var a = Instantiate(PrebObjGame[0], pos, Quaternion.identity, TransGamePlay);
+                    CtrlGamePlay.Ins.basket.Add(a.GetComponent<Basket>());
                     a.GetComponent<Basket>().Start_Move_Spawn(pos.x - (offsetX * i));
                   
                     if (isMove)
@@ -371,6 +373,7 @@ public class Ctrl_Spawn : MonoBehaviour
 
                     pos.y = x0;
                     var a = Instantiate(PrebObjGame[1], pos, Quaternion.identity, TransGamePlay);
+                    CtrlGamePlay.Ins.basket.Add(a.GetComponent<Basket>());
                     a.GetComponent<Basket>().Start_Move_Spawn(pos.x - (offsetX * i));
                     if (isMove)
                     {
@@ -396,6 +399,7 @@ public class Ctrl_Spawn : MonoBehaviour
 
 
                 var a = Instantiate(PrebObjGame[0], pos, Quaternion.identity, TransGamePlay);
+                CtrlGamePlay.Ins.basket.Add(a.GetComponent<Basket>());
                 float x0 = a.transform.position.y;
                 a.GetComponent<Basket>().Start_Move_Spawn(pos.x - (offsetX * i));
 
@@ -419,6 +423,7 @@ public class Ctrl_Spawn : MonoBehaviour
              
 
                 var a = Instantiate(PrebObjGame[1], pos, Quaternion.identity, TransGamePlay);
+                CtrlGamePlay.Ins.basket.Add(a.GetComponent<Basket>());
                 float x0 = a.transform.position.y;
                 a.GetComponent<Basket>().Start_Move_Spawn(pos.x - (offsetX * i));
                 if (isChangeSize)
@@ -470,13 +475,26 @@ public class Ctrl_Spawn : MonoBehaviour
         bool isLeft = (0 == Random.Range(0, 2)) ? true : false;
        
         TypeBasket typeBasket = RandomBasket();
+
+        Debug.Log(typeBasket.ToString());
         switch (typeBasket)
         {
             case TypeBasket.None:
-                SpawnBasket(isLeft, false);
+                int rr = Random.Range(0, 4);
+                if (rr == 1)
+                {
+                    SetUpMove(isLeft,false, false, 2);
+                }
+                else
+                {
+                    SpawnBasket(isLeft, false);
+                }
+              
+                
+               
                 break;
             case TypeBasket.Change_Size:
-                SpawnBasket(isLeft, true);
+                SetUpMove(isLeft, true, false, 1);
                 break;
             case TypeBasket.Move:
                 SetUpMove(isLeft, false,true,1);
@@ -489,10 +507,35 @@ public class Ctrl_Spawn : MonoBehaviour
                 SetUpMove(isLeft, true, false, 2);
                 break;
             case TypeBasket.x3:
-                SetUpMove(isLeft, true, false, 2);
+                int rrr = Random.Range(0, 5);
+                if (rrr == 1)
+                {
+                    SetUpMove(isLeft, false, false, 2);
+                }
+                else
+                {
+                    SpawnBasket(isLeft, false);
+                }
+                break;
+            default:
+
+                int rrrr = Random.Range(0, 4);
+                if (rrrr == 1)
+                {
+                    SetUpMove(isLeft, false, false, 2);
+                }
+                else
+                {
+                    SpawnBasket(isLeft, false);
+                }
+
                 break;
         }
-
+        for(int i = 0; i < CtrlGamePlay.Ins.basket.Count; i++)
+        {
+            CtrlGamePlay.Ins.basket[i].type = typeBasket;
+        }
+        Debug.Log("Spawn");
 
     }
 
@@ -501,7 +544,10 @@ public class Ctrl_Spawn : MonoBehaviour
     public TypeBasket RandomBasket()
     {
         int r = Random.Range(0, 101);
+
       
+        
+       
        if(r>=0 && r <= PerBasketNone && PerBasketNone !=0)
         {
              return TypeBasket.None;
@@ -743,9 +789,26 @@ public class Ctrl_Spawn : MonoBehaviour
            // Debug.Log(a.x + "  " + a.y);
         }
 
+        var aa = CtrlGamePlay.Ins.basket;
+        if (aa.Count != 0)
+        {
+            GameObject b = null;
+            if (aa[0].type == TypeBasket.Change_Size || aa[0].type == TypeBasket.Change_Size_vs_Move)
+            {
+                int[] rrr = new int[3] { 0, 2, 3 };
+                int x = Random.Range(0, rrr.Length);
+                b = Instantiate(Item[x], a, Quaternion.identity, null);
+            }
+            else
+            {
+                b = Instantiate(Item[index], a, Quaternion.identity, null);
 
-        var b = Instantiate(Item[index], a,Quaternion.identity,null);
-        ListItem.Add(b);
+            }
+
+
+            ListItem.Add(b);
+        }
+      
 
     }
    
