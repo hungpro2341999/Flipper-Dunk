@@ -170,7 +170,7 @@ public class GameMananger : MonoBehaviour
     }
     public void ShowSetting(TypeWindow type)
     {
-        if(type != TypeWindow.Play || type!=TypeWindow.Shop_BG || type != TypeWindow.Shop_Flipper || type!=TypeWindow.Shop_Skin)
+        if(type != TypeWindow.Play)
         {
             SettingGame.gameObject.SetActive(false);
         }
@@ -264,6 +264,7 @@ public class GameMananger : MonoBehaviour
     public void Close(Windown windown)
     {
         Close(windown.type);
+        
     }
 
     public void Close_SigleWindow(TypeWindow w)
@@ -296,8 +297,12 @@ public class GameMananger : MonoBehaviour
         {
            SettingGame.gameObject.SetActive(true);
         }
+        if (type == TypeWindow.Shop_BG)
+        {
+            SettingGame.gameObject.SetActive(true);
+        }
 
-        if(type == TypeWindow.Shop_Skin)
+        if (type == TypeWindow.Shop_Skin)
         {
            SettingGame.gameObject.SetActive(true);
         }
