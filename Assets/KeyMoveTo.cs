@@ -29,7 +29,7 @@ public class KeyMoveTo : MonoBehaviour
     }
     public void Active()
     {
-        Ctrl_Player.Ins.SaveNextKey();
+       // Ctrl_Player.Ins.SaveNextKey();
         Ctrl_Spawn.Ins.UnclockKey();
        
           

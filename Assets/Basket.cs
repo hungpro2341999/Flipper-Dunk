@@ -9,6 +9,7 @@ public enum TypeBasket { None, Move, X2, x3, Change_Size, Change_Size_vs_Move };
 
 public class Basket : PoolItem
 {
+    public TypeBasket type;
     public bool isLeft = false;
 
     public int Score;
@@ -56,14 +57,23 @@ public class Basket : PoolItem
         if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Level)
         {
             Ctrl_Spawn.Ins.SetUpRandomEff();
-
-            if (!Ctrl_Player.Ins.isFullKey())
+            
+            if (!Ctrl_Player.Ins.isInGameisFullKey())
             {
               
 
                 if (Ctrl_Spawn.Ins.isActiveKey())
                 {
-                    Key.gameObject.SetActive(true);
+                    if(type == TypeBasket.Change_Size || type == TypeBasket.Change_Size_vs_Move)
+                    {
+                        Key.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        Key.gameObject.SetActive(true);
+                    }
+
+                    
                    
                 }
                 else
@@ -86,29 +96,7 @@ public class Basket : PoolItem
     }
 
 
-    public void SetUpTypeBasket(TypeBasket type)
-    {
-        switch (type)
-        {
-            case TypeBasket.None:
-
-                break;
-
-            case TypeBasket.Move:
-                break;
-
-            case TypeBasket.X2:
-                break;
-            case TypeBasket.x3:
-                break;
-            case TypeBasket.Change_Size:
-                break;
-            case TypeBasket.Change_Size_vs_Move:
-                break;
-
-
-        }
-    }
+   
 
 
     // Update is called once per frame
@@ -208,7 +196,7 @@ public class Basket : PoolItem
             checkInBall = GetComponent<CheckInBall>();
         }
 
-        AddBasket(this);
+       
         gameObject.SetActive(true);
 
     }

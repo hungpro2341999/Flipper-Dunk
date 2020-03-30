@@ -306,16 +306,7 @@ public class Ctrl_Player : MonoBehaviour
     {
         return PlayerPrefs.GetInt(key_key);
     }
-    public void SaveNextKey()
-    {
-        int key = PlayerPrefs.GetInt(key_key);
-        key++;
-        key = Mathf.Clamp(key, 0, 3);
-        PlayerPrefs.SetInt(key_key, key);
-        PlayerPrefs.Save();
-
-
-    }
+   
     public void ResetKey()
     {
         PlayerPrefs.SetInt(key_key,0);
@@ -331,21 +322,24 @@ public class Ctrl_Player : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public bool isOpenReward()
+    public bool isInGameisFullKey()
     {
-        return isFullKey();
-    }
-    public bool isFullKey()
-    {
-        if (GetCurrKey() >= 3)
+        if (CtrlGamePlay.Ins.key_in_Game +GetCurrKey() >= 3)
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
+
+    public void AddKey(int key)
+    {
+        int k = CtrlGamePlay.Ins.key_in_Game + GetCurrKey();
+        PlayerPrefs.SetInt(key_key, k);
+        PlayerPrefs.Save();
+    }
+
+   
+   
     
 
     public int GetCurrLevel()

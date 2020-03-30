@@ -15,6 +15,7 @@ public class GameMananger : MonoBehaviour
     public Text Diamond;
     public static Vector3 PosDiamond;
 
+    public TypeWindow CurrWindown;
 
     public bool open = false;
     public Animator AnimLabe;
@@ -79,6 +80,7 @@ public class GameMananger : MonoBehaviour
             }
             if (s.type == w)
             {
+                CurrWindown = s.type;
                 switch (w)
                 {
 
@@ -138,8 +140,14 @@ public class GameMananger : MonoBehaviour
                 }
             }
         }
-        ShowDiamond(w);
-        ShowSetting(w);
+        ShowDiamond(CurrWindown);
+        ShowSetting(CurrWindown);
+        
+
+        if(w == TypeWindow.Home)
+        {
+            GameMananger.Ins.ShowSetting();
+        }
     }
     public void CloseAll()
     {
@@ -151,10 +159,7 @@ public class GameMananger : MonoBehaviour
 
     public void ShowDiamond(TypeWindow type)
     {
-        if (type == TypeWindow.NextLevel || type == TypeWindow.Over_Game_3 || type == TypeWindow.GameOver || type == TypeWindow.NextLevel
-            || type == TypeWindow.CompleteDailyQuest
-            
-            )
+        if (type != TypeWindow.Play)
         {
             ShowDiamondGame.gameObject.SetActive(true);
         }
@@ -165,15 +170,27 @@ public class GameMananger : MonoBehaviour
     }
     public void ShowSetting(TypeWindow type)
     {
-        if (type == TypeWindow.Home || type == TypeWindow.Over_Game_3 || type == TypeWindow.NextLevel || type == TypeWindow.GameOver  || type == TypeWindow.NextLevel)
-        {
-            SettingGame.gameObject.SetActive(true);
-        }
-        else
+        if(type != TypeWindow.Play || type!=TypeWindow.Shop_BG || type != TypeWindow.Shop_Flipper || type!=TypeWindow.Shop_Skin)
         {
             SettingGame.gameObject.SetActive(false);
         }
+        else
+        {
+            SettingGame.gameObject.SetActive(true);
+            
+        }
     }
+    public void UnSetting()
+    {
+        SettingGame.gameObject.SetActive(false);
+        ShowDiamondGame.gameObject.SetActive(false);
+    }
+    public void ShowSetting()
+    {
+        SettingGame.gameObject.SetActive(true);
+        ShowDiamondGame.gameObject.SetActive(true);
+    }
+
 
     public void UnShowDiamond(TypeWindow type)
     {
@@ -230,8 +247,9 @@ public class GameMananger : MonoBehaviour
 
             }
         }
-        ShowDiamond(type);
-        ShowSetting(type);
+        CurrWindown = type;
+        ShowDiamond(CurrWindown);
+        ShowSetting(CurrWindown);
     }
     public void ShowDiamond()
     {
