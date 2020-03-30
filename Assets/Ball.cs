@@ -108,8 +108,8 @@ public class Ball : MonoBehaviour
             vec.y = Mathf.Abs(vec.y);
             body.AddForce(vec*CtrlGamePlay.scaleScreen * CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
 
-               
-                CtrlGamePlay.ForceThrow = 0;
+            CtrlGamePlay.Ins.SpeedThrowBall = 1;
+            CtrlGamePlay.ForceThrow = 1;
           
             //body.AddForce( CtrlGamePlay.ForceFlipperThrow , ForceMode2D.Force);
           
