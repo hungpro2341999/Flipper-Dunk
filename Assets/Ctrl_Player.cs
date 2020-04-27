@@ -324,8 +324,10 @@ public class Ctrl_Player : MonoBehaviour
 
     public bool isInGameisFullKey()
     {
-        if (CtrlGamePlay.Ins.key_in_Game +GetCurrKey() >= 3)
+        Debug.Log(CtrlGamePlay.Ins.key_in_Game + GetCurrKey() + " Key");
+        if (CtrlGamePlay.Ins.key_in_Game + GetCurrKey() >= 3)
         {
+            
             return true;
         }
         return false;
@@ -367,27 +369,27 @@ public class Ctrl_Player : MonoBehaviour
         PlayerPrefs.SetInt(key_level, level);
         PlayerPrefs.Save();
     }
-    public void ProcessAddConin(Vector3 pos,Transform trans,float time) 
+    public void ProcessAddConin(Vector3 pos,Transform trans,float time,int coin) 
     {
-        StartCoroutine(AddCoin(pos, trans,time));
+        StartCoroutine(AddCoin(pos, trans,time,coin));
      
         // None
     }
-    public IEnumerator AddCoin(Vector3 pos,Transform trans,float time)
+    public IEnumerator AddCoin(Vector3 pos,Transform trans,float time,int coin)
     {
         yield return new WaitForSeconds(time);
         Instantiate(ObjDimaond, pos, Quaternion.identity, trans);
       
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
 
         Instantiate(ObjDimaond, pos, Quaternion.identity, trans);
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
 
 
         Instantiate(ObjDimaond, pos, Quaternion.identity, trans);
-        yield return new WaitForSeconds(0.8f);
-
+        yield return new WaitForSeconds(0.5f);
+        Ctrl_Player.Ins.AddDiamond(coin);
         ShowDiamond();
 
     }

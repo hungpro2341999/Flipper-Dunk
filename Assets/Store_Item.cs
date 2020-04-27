@@ -16,7 +16,7 @@ public class Store_Item : MonoBehaviour,IPointerClickHandler
    
 
 
-    public void Open_Item()
+    public void Open_Item()     
     {
         if (!open)
         {
@@ -25,20 +25,20 @@ public class Store_Item : MonoBehaviour,IPointerClickHandler
             {
                 CtrlReward.Ins.Open_Store_Item();
                 Image_Store.enabled = false;
-                int r = Random.Range(0, 10);
-                if (r >= 0 && r <= 7)
+                int r = Random.Range(0, 20);
+                if (r >= 0 && r <= 17)
                 {
                     CtrlAudio.Ins.Play("CoinCollect");
-                    int diamond = Random.Range(0, 12);
+                    int diamond = Random.Range(1, 20);
 
-                    Item[2].transform.Find("Text").GetComponent<Text>().text = r.ToString();
+                    Item[2].transform.Find("Text").GetComponent<Text>().text = diamond.ToString();
                     Item[2].gameObject.SetActive(true);
-                    Ctrl_Player.Ins.ProcessAddConin(transform.position, CtrlReward.Ins.transform, 0);
-                    Ctrl_Player.Ins.AddDiamond(diamond);
+                    Ctrl_Player.Ins.ProcessAddConin(transform.position, CtrlReward.Ins.transform, 0,diamond);
+                  
                     StartEff();
                 }
 
-                else if (r > 7 && r <= 9)
+                else if (r > 15 && r <= 17)
                 {
                     CtrlAudio.Ins.Play("UnClock");
                     Item[1].gameObject.SetActive(true);

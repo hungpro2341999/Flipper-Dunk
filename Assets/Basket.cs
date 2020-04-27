@@ -70,6 +70,7 @@ public class Basket : PoolItem
                     }
                     else
                     {
+                  //      Key.transform.parent = null;
                         Key.gameObject.SetActive(true);
                     }
 
@@ -264,7 +265,7 @@ public class Basket : PoolItem
 
         }
 
-        X2_Basket = true;
+       
 
         yield return new WaitForSeconds(time);
         try
@@ -276,7 +277,7 @@ public class Basket : PoolItem
 
         }
 
-        X2_Basket = false;
+       
     }
     public int Left()
     {
@@ -332,6 +333,6 @@ public class Basket : PoolItem
         Destroy(gameObject);
     }
 
-
+    
 
 }

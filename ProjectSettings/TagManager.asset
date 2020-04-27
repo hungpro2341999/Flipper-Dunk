@@ -11,6 +11,7 @@ TagManager:
   - 1
   - 2
   - 3
+  - Max
   layers:
   - Default
   - TransparentFX
@@ -34,8 +35,8 @@ TagManager:
   - 2
   - Ground
   - imgFlipper
-  - 
-  - 
+  - Flipper_2
+  - Wall
   - 
   - 
   - 

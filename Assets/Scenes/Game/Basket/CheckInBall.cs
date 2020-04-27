@@ -17,14 +17,23 @@ public class CheckInBall : MonoBehaviour
     public static string Point_4 = "POINT_4";
     public static string Golbal = "Golbal";
     public static string Reset_Golbal = "Reset";
+    public static string Above_Board = "AboveBoard";
+    public static string Above_Board_1 = "AboveBoard_1";
+    public static string Box_Above_Board = "BoxAboveBoard";
+    public static string Clamp = "Clamp";
 
     public bool isPerfect = false;
     public bool isCanGolbal = true;
     public bool isGolbal = false;
 
     public bool isInBoard = false;
-
+    public bool isAbove = true;
     public Basket basket;
+    public int clamp;
+
+    public delegate bool Chanlegend();
+
+    public Chanlegend eventchanlegend;
 
     public Text text;
     private void Start()
@@ -46,6 +55,10 @@ public class CheckInBall : MonoBehaviour
         Score.Add(Point_4, 0);
         Score.Add(Golbal, 0);
         Score.Add(Reset_Golbal, 0);
+        Score.Add(Above_Board, 0);
+        Score.Add(Above_Board_1, 0);
+        Score.Add(Box_Above_Board, 0);
+        Score.Add(Clamp, 0);
 
 
 
@@ -57,27 +70,74 @@ public class CheckInBall : MonoBehaviour
     }
     public void SetKey(string key)
     {
-
-
-        if (!isGolbal)
+        if (key == Above_Board_1 || key == Above_Board)
         {
-            if (isCanGolbal)
+            if (isAbove)
             {
-                Score[key] = 1;
 
-                if (Score[Key_Board] == 0)
+                if (key == Above_Board_1)
                 {
-                    Score[key] = 0;
+                    Score[Above_Board_1] = 1;
+                    if (Score[Above_Board] == 1)
+                    {
+                        Score[Above_Board_1] = 0;
+                    }
+                    else
+                    {
+                        Score[Above_Board_1] = 1;
+                        isAbove = false;
+                        return;
+                    }
+
                 }
-                else
+
+
+
+                if (key == Above_Board)
                 {
-                    Score[key] = 1;
-                    CheckGolbal();
+                    if (Score[Above_Board_1] == 0)
+                    {
+                        Score[Above_Board] = 1;
+                    }
+                    else
+                    {
+                        Score[Above_Board] = 0;
+                    }
                 }
             }
-           
         }
-       
+        else
+        {
+            if (!isGolbal)
+            {
+                if (isCanGolbal)
+                {
+                    Score[key] = 1;
+
+                    if (Score[Key_Board] == 0)
+                    {
+                        Score[key] = 0;
+                    }
+                    else
+                    {
+                        Score[key] = 1;
+                        CheckGolbal();
+                    }
+
+
+                }
+
+            }
+        }
+
+
+
+        if (key == Clamp)
+        {
+            clamp++;
+        }
+           
+
 
     }
     public void Restore()
@@ -85,7 +145,7 @@ public class CheckInBall : MonoBehaviour
        
         if (!isGolbal)
         {
-            
+            clamp = 0;
             Score[Point_1] = 0;
             Score[Point_2] = 0;
             Score[Key_Board] = 0;
@@ -122,6 +182,12 @@ public class CheckInBall : MonoBehaviour
         {
             Restore_1();
         }
+        if (key == Box_Above_Board)
+        {
+            isAbove = true;
+            Score[Above_Board] = 0;
+            Score[Above_Board_1] = 0;
+        }
       
     }
     public void Reset()
@@ -148,9 +214,32 @@ public class CheckInBall : MonoBehaviour
             {
               //  Debug.Log("Dieeeeeeeee");
                 basket.Die();
-                
-                CtrlGamePlay.Ins.CompleteProcess();
-                Ctrl_Spawn.Ins.SpawnScore(EvaluateGolbal());
+                if(CtrlGamePlay.Ins.typeGame == TypeGamePlay.Chanelegend)
+                {
+                   
+                        if (eventchanlegend())
+                        {
+
+                           Ctrl_Spawn.Ins.SpawnScore(EvaluateGolbal());
+
+                           CtrlGamePlay.Ins.CompleteProcess();
+
+                            Debug.Log("Null");
+                        }
+                        else
+                        {
+                        Ctrl_Spawn.Ins.SpawnScoreFailed();
+
+                        }
+                   
+                }
+                else
+                {
+                    Ctrl_Spawn.Ins.SpawnScore(EvaluateGolbal());
+                    CtrlGamePlay.Ins.CompleteProcess();
+                }
+              
+               
                 isGolbal = true;
                 basket.EffGolbal.SetActive(true);
               
@@ -221,8 +310,58 @@ public class CheckInBall : MonoBehaviour
         return typeGolbal.ToArray();
     }
 
+    
+    public void SetUpChanllegend(int i)
+    {
+        eventchanlegend = null;
+        switch (i)
+        {
+            case 0:
+                eventchanlegend += Challegen_1;
+                Debug.Log("C:1");
+                break;
+            case 1:
+                eventchanlegend += Challegen_2;
+                Debug.Log("C:2");
+                break;
+            case 2:
+                eventchanlegend += Challegen_3;
+                Debug.Log("C:3");
+                break;
+            case 3:
+                eventchanlegend += Challegen_4;
+                Debug.Log("C:4");
+                break;
+        }
+    }
 
-
+    public bool Challegen_1()
+    {
+        return true;
+    }
+    public bool Challegen_2()
+    {
+        if (Score[Above_Board]==1)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool Challegen_3()
+    {
+        return (Ball.Ins.isWall);
+    }
+    public bool Challegen_4()
+    {
+        if (clamp>=2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
 

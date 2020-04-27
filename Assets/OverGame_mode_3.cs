@@ -10,6 +10,8 @@ public class OverGame_mode_3 : MonoBehaviour
     public Text Dimond;
     public Image ImgDiamond;
     public Button Continue;
+    public Button X3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,9 +29,15 @@ public class OverGame_mode_3 : MonoBehaviour
         Score.text = CtrlGamePlay.Ins.ScorePlayer.ToString();
         BestScore.text = "BEST :" + Ctrl_Player.Ins.GetHighScore().ToString();
         Dimond.text = Ctrl_Player.DiamondInPlayer.ToString();
-        Ctrl_Player.Ins.AddDiamond(Ctrl_Player.DiamondInPlayer);
+        
         CtrlGamePlay.Ins.OverMode_3();
-        Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform,1);
+        if (Ctrl_Player.DiamondInPlayer != 0)
+        {
+            // Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform, 1, Ctrl_Player.DiamondInPlayer);
+            Ctrl_Player.DiamondInPlayer = 0;
+        }
+
+     
         if (CtrlGamePlay.CountPlayer % 2 == 0)
         {
             Continue.interactable = false;
@@ -38,6 +46,7 @@ public class OverGame_mode_3 : MonoBehaviour
         {
             Continue.interactable = true;
         }
+        X3.interactable = true;
     }
 
     public void X3Diamond()
@@ -49,9 +58,9 @@ public class OverGame_mode_3 : MonoBehaviour
                 int diamond = Ctrl_Player.DiamondInPlayer;
                 diamond = diamond * 3;
 
-                Ctrl_Player.Ins.AddDiamond(diamond);
-                Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform,0);
-
+               
+                Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform,0,diamond);
+                X3.interactable = false;
             }
 
 

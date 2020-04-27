@@ -9,7 +9,7 @@ public enum TypeItem { ChangeZie, x2_Score, Incre_Reflect,life};
 public class Ctrl_Spawn : MonoBehaviour
 {
     public static Ctrl_Spawn Ins;
-
+    public string[] Type_Score;
 
     /// <summary>
     ///  ListObj
@@ -135,6 +135,7 @@ public class Ctrl_Spawn : MonoBehaviour
                 int r =  Random.Range(0,6);
                 if (r == 0)
                 {
+                    if(CtrlGamePlay.Ins.typeGame!=TypeGamePlay.Infinity)
                     RandomEff();
                     Debug.Log("Not");
                 }
@@ -200,7 +201,11 @@ public class Ctrl_Spawn : MonoBehaviour
                 a.GetComponent<Basket>().SetUpChangeSize();
             }
             CtrlGamePlay.Ins.basket.Add(a.GetComponent<Basket>());
-
+            if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Chanelegend)
+            {
+                var b = a.GetComponent<CheckInBall>();
+                b.SetUpChanllegend(CtrlGamePlay.Ins.idexChanlegend);
+            }
         }
         else
         {
@@ -213,7 +218,11 @@ public class Ctrl_Spawn : MonoBehaviour
                 a.GetComponent<Basket>().SetUpChangeSize();
             }
             CtrlGamePlay.Ins.basket.Add(a.GetComponent<Basket>());
-
+            if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Chanelegend)
+            {
+                var b = a.GetComponent<CheckInBall>();
+                b.SetUpChanllegend(CtrlGamePlay.Ins.idexChanlegend);
+            }
         }
      
     }
@@ -236,6 +245,7 @@ public class Ctrl_Spawn : MonoBehaviour
 
     public void SetUpMove(bool isLeft,bool isChangeSize,bool isMove,int countBasket)
     {
+        isChangeSize = false;
         int i = isLeft ? -1 : 1;
         Vector2 pos = Vector2.zero;
         bool isFind = false;
@@ -366,6 +376,11 @@ public class Ctrl_Spawn : MonoBehaviour
                     {
                         a.GetComponent<Basket>().SetUpChangeSize();
                     }
+                    if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Chanelegend)
+                    {
+                        var b = a.GetComponent<CheckInBall>();
+                        b.SetUpChanllegend(CtrlGamePlay.Ins.idexChanlegend);
+                    }
                 }
                 else
                 {
@@ -384,7 +399,12 @@ public class Ctrl_Spawn : MonoBehaviour
                             a.GetComponent<Basket>().SetUpChangeSize();
                         }
                     }
-                  
+                    if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Chanelegend)
+                    {
+                        var b = a.GetComponent<CheckInBall>();
+                        b.SetUpChanllegend(CtrlGamePlay.Ins.idexChanlegend);
+                    }
+
                 }
             }
 
@@ -415,7 +435,11 @@ public class Ctrl_Spawn : MonoBehaviour
                 {
                     a.GetComponent<Basket>().SetUpChangeSize();
                 }
-
+                if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Chanelegend)
+                {
+                    var b = a.GetComponent<CheckInBall>();
+                    b.SetUpChanllegend(CtrlGamePlay.Ins.idexChanlegend);
+                }
 
             }
             else
@@ -436,13 +460,18 @@ public class Ctrl_Spawn : MonoBehaviour
                     a.GetComponent<Basket>().SetUpMove(x1, x0);
                   
                 }
+                if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Chanelegend)
+                {
+                   var b =   a.GetComponent<CheckInBall>();
+                    b.SetUpChanllegend(CtrlGamePlay.Ins.idexChanlegend);
+                }
 
 
             }
 
         }
-      
 
+      
 
 
 
@@ -480,7 +509,7 @@ public class Ctrl_Spawn : MonoBehaviour
         switch (typeBasket)
         {
             case TypeBasket.None:
-                int rr = Random.Range(0, 4);
+                int rr = Random.Range(0, 10);
                 if (rr == 1)
                 {
                     SetUpMove(isLeft,false, false, 2);
@@ -517,17 +546,7 @@ public class Ctrl_Spawn : MonoBehaviour
                     SpawnBasket(isLeft, false);
                 }
                 break;
-            default:
-
-                int rrrr = Random.Range(0, 4);
-                if (rrrr == 1)
-                {
-                    SetUpMove(isLeft, false, false, 2);
-                }
-                else
-                {
-                    SpawnBasket(isLeft, false);
-                }
+       
 
                 break;
         }
@@ -535,6 +554,7 @@ public class Ctrl_Spawn : MonoBehaviour
         {
             CtrlGamePlay.Ins.basket[i].type = typeBasket;
         }
+      
         Debug.Log("Spawn");
 
     }
@@ -822,20 +842,23 @@ public class Ctrl_Spawn : MonoBehaviour
             case TypeItem.ChangeZie:
                 var a = Instantiate(PrebObjGame[3], EffItem);
                 a.GetComponent<Image>().sprite = Img_Counter[1];
+                a.GetComponent<Image>().SetNativeSize();
                 a.GetComponent<Counter>().time = 10;
                 ListCounterItem.Add(a.GetComponent<Counter>());
+
                 break;
             case TypeItem.Incre_Reflect:
                 var a2 = Instantiate(PrebObjGame[3], EffItem);
                 a2.GetComponent<Image>().sprite = Img_Counter[2];
                 a2.GetComponent<Counter>().time = 10;
+                a2.GetComponent<Image>().SetNativeSize();
                 ListCounterItem.Add(a2.GetComponent<Counter>());
                 break;
             case TypeItem.x2_Score:
                 var a1 = Instantiate(PrebObjGame[3], EffItem);
                
                 a1.GetComponent<Image>().sprite = Img_Counter[0];
-
+                a1.GetComponent<Image>().SetNativeSize();
                 a1.GetComponent<Counter>().time = 10;
                 ListCounterItem.Add(a1.GetComponent<Counter>());
                 break;
@@ -880,11 +903,13 @@ public class Ctrl_Spawn : MonoBehaviour
     {
         foreach(Counter a in ListCounterItem)
         {
-            
-            a.GetComponent<DestroySelf>().Destroy();
+            a.GetComponent<DestroySelf>().DestroyNormal();
 
+           
         }
+
         ListCounterItem.Clear();
+        
     }
 
     public bool isActiveKey()
@@ -892,9 +917,9 @@ public class Ctrl_Spawn : MonoBehaviour
        
 
 
-        int r = Random.Range(0,4);
+        int r = Random.Range(0,10);
 
-        if (r == 2)
+        if (r ==1)
         {
             return true;
         }
@@ -953,5 +978,14 @@ public class Ctrl_Spawn : MonoBehaviour
         a.GetComponent<DestroySelf>().time = 0.5f;
         
     }
+    
+    public void SpawnScoreFailed()
+    {
+        
+        int i = Random.Range(0, Type_Score.Length);
+        var a = Instantiate(PrebObjGame[5], TransUIGamePlay.transform.position, Quaternion.identity, TransEff);
+        a.GetComponent<Score>().SetText(Type_Score[i]);
+        a.GetComponent<DestroySelf>().time = 0.5f;
 
+    }
 }

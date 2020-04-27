@@ -8,7 +8,7 @@ public class NextLevel : MonoBehaviour
     public Text T_Diamond;
     public Text T_Level_Completel;
     public Transform Diamond;
-  
+    public Button X3;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,10 +22,16 @@ public class NextLevel : MonoBehaviour
     }
     private void OnEnable()
     {
-        Ctrl_Player.Ins.AddDiamond(Ctrl_Player.DiamondInPlayer);
+       
         T_Diamond.text = Ctrl_Player.DiamondInPlayer.ToString();
-        T_Level_Completel.text = "LEVEL" + " " + (Ctrl_Player.Ins.GetCurrLevel() - 1).ToString();
-        Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform,1);
+        X3.interactable = true;
+        if (Ctrl_Player.DiamondInPlayer != 0)
+        {
+            T_Level_Completel.text = "LEVEL" + " " + (Ctrl_Player.Ins.GetCurrLevel() - 1).ToString();
+            Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform, 1, Ctrl_Player.DiamondInPlayer);
+        }
+       
+       
     }
     public void X3Diamond()
     {
@@ -36,9 +42,9 @@ public class NextLevel : MonoBehaviour
                 int diamond = Ctrl_Player.DiamondInPlayer;
                 diamond = diamond * 3;
 
-                Ctrl_Player.Ins.AddDiamond(diamond);
-                Ctrl_Player.Ins.ProcessAddConin(Diamond.transform.position, transform,1);
-
+              
+                Ctrl_Player.Ins.ProcessAddConin(Diamond.transform.position, transform,1, diamond);
+                X3.interactable = false;
             }
 
 

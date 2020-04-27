@@ -29,7 +29,7 @@ RectTransform:
   m_GameObject: {fileID: 488444409013878169}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 38}
+  m_SizeDelta: {x: 74, y: 74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8804667940391795965
 CanvasRenderer:
@@ -67,7 +67,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9e56afbe9379dc046a234cda15b65fe5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4bd90f6fc538eb64cb81c25b905e0197, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -100,5 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dda16df28be9dd4186ee56b24a1382e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioName: 
   time: 0
   isWait: 1
+  EFF: {fileID: 0}

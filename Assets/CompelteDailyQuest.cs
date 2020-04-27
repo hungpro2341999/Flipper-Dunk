@@ -10,21 +10,29 @@ public class CompelteDailyQuest : MonoBehaviour
     public Transform Diamond;
 
     public Button Ads;
+
+    public Button X3;
     private void OnEnable()
     {
+
         if (Ctrl_Player.DiamondInPlayer!=0)
         {
 
 
             Ads.interactable = true;
-            Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform,1);
+           
         }
         else
         {
             Ads.interactable = false;
         }
-        Ctrl_Player.Ins.AddDiamond(Ctrl_Player.DiamondInPlayer);
-        T_Diamond.text = Ctrl_Player.DiamondInPlayer.ToString();
+        if (Ctrl_Player.DiamondInPlayer != 0)
+        {
+            Ctrl_Player.DiamondInPlayer = 100;
+            Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform, 1, Ctrl_Player.DiamondInPlayer);
+            T_Diamond.text = Ctrl_Player.DiamondInPlayer.ToString();
+        }
+        X3.interactable = true;
     }
       
     public void X3Diamond()
@@ -37,8 +45,8 @@ public class CompelteDailyQuest : MonoBehaviour
                 diamond = diamond * 3;
 
                 Ctrl_Player.Ins.AddDiamond(diamond);
-                Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform,0);
-
+                Ctrl_Player.Ins.ProcessAddConin(Diamond.position, transform,0,diamond);
+                X3.interactable = false;
             }
            
 
