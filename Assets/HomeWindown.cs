@@ -46,7 +46,16 @@ public class HomeWindown : MonoBehaviour
         }
 
     }
-   
+    private void OnEnable()
+    {
+        if (Setting.Ins != null)
+        {
+        
+        Setting.Ins.OpenSetting(false);
+        }
 
-   
+    }
+
+
+
 }

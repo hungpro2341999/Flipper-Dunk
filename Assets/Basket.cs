@@ -258,7 +258,7 @@ public class Basket : PoolItem
 
         try
         {
-            transform.DOScaleX(2.5f, 0.5f);
+            transform.DOScaleX(1.95f, 0.5f);
         }
         catch (System.Exception e)
         {

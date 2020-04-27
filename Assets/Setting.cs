@@ -66,4 +66,10 @@ public class Setting : MonoBehaviour
         AnimSetting.SetBool("Open", isOpen);
 
     }
+    public void OpenSetting(bool active)
+    {
+        isOpen = active;
+        AnimSetting.SetBool("Open", isOpen);
+
+    }
 }

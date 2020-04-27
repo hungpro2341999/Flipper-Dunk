@@ -25,6 +25,8 @@ public class OverGame_mode_3 : MonoBehaviour
     }
     private void OnEnable()
     {
+
+
         Ctrl_Player.Ins.SetHighScore(CtrlGamePlay.Ins.ScorePlayer);
         Score.text = CtrlGamePlay.Ins.ScorePlayer.ToString();
         BestScore.text = "BEST :" + Ctrl_Player.Ins.GetHighScore().ToString();
@@ -47,6 +49,8 @@ public class OverGame_mode_3 : MonoBehaviour
             Continue.interactable = true;
         }
         X3.interactable = true;
+
+        Setting.Ins.OpenSetting(false);
     }
 
     public void X3Diamond()

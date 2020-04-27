@@ -93,11 +93,11 @@ public class Ball : MonoBehaviour
         {
             if (collision.gameObject.tag == "1")
             {
-                MaxForce = 1.8f;
+                MaxForce = 1.6f;
             }
             if (collision.gameObject.tag == "Max")
             {
-                xMax = 2.15f;
+                MaxForce = 2.5f;
             }
 
 
@@ -114,11 +114,11 @@ public class Ball : MonoBehaviour
         {
             if (collision.gameObject.tag == "1")
             {
-                MaxForce = 1.2f;
+                MaxForce = 1;
             }
             if (collision.gameObject.tag == "Max")
             {
-                xMax =1f;
+                MaxForce = 1f;
             }
 
         }
@@ -160,8 +160,8 @@ public class Ball : MonoBehaviour
             //    body.velocity = (vec * CtrlGamePlay.Ins.offsetReflect);
             //}
 
-            vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * CtrlGamePlay.Ins.SpeedThrowBall * MaxForce * xMax;
-            body.AddForce(0.6f*vec * CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
+            vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * (1+CtrlGamePlay.Ins.SpeedThrowBall) * MaxForce ;
+            body.AddForce(vec * CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
 
 
             Debug.Log("Fire : " + " " + vec.x + "  " + vec.y + ":" + (int)(body.velocity.magnitude));   

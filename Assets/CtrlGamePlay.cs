@@ -264,7 +264,7 @@ public class CtrlGamePlay : MonoBehaviour
     // Update is called once per frame
 
     
-    private void FixedUpdate()
+    private void Update()
     {
         ThrowBall();
         if (GameMananger.Ins.isGameOver || GameMananger.Ins.isGamePause)
@@ -371,11 +371,23 @@ public class CtrlGamePlay : MonoBehaviour
                 //        isAddForce = true;
                 //    }
                 //}
-
-                if (DirectFlipper.Angle <= MaxAngle*0.9f)
+                if (DirectFlipper.Angle >= MaxAngle * 0.3f)
                 {
-                    Fliper.gameObject.GetComponent<Rigidbody2D>().AddTorque(SpeedRotation, ForceMode2D.Force);
-                    SpeedThrowBall += 0.025f;
+                  
+                //    isMax = true;
+                  
+                    Ball.Ins.ThrowBall();
+                    isAddForce = true;
+                }
+                else
+                {
+                    SpeedThrowBall += 0.018f;
+                }
+
+                    if (DirectFlipper.Angle <= MaxAngle*0.9f)
+                {
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().AddTorque(SpeedRotation);
+                    
                     
                     //if(DirectFlipper.Angle >= MaxAngle*0.75f)
                     //  {
@@ -396,15 +408,15 @@ public class CtrlGamePlay : MonoBehaviour
 
 
 
-                    if (!isAddForce)
-                    {
+                    //if (!isAddForce)
+                    //{
                         Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
                         Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
-                        isMax = true;
-                        SpeedThrowBall = 1.55f;
-                        Ball.Ins.ThrowBall();
-                        isAddForce = true;
-                    }
+                          isMax = true;
+                     //   SpeedThrowBall = 1.55f;
+                    //    Ball.Ins.ThrowBall();
+                    //    isAddForce = true;
+                    //}
 
                 }
 
@@ -457,7 +469,7 @@ public class CtrlGamePlay : MonoBehaviour
             if (!isCompleteGame)
             {
                 t += Time.deltaTime;
-                if (t >= limitTime)
+                if (t >= limitTime || Bar.fillAmount>=1)
                 {
                     GameMananger.Ins.isGameOver = true;
                     CtrlAudio.Ins.Play("TimeOut");
@@ -468,7 +480,7 @@ public class CtrlGamePlay : MonoBehaviour
                 else
                 {
                     //    Debug.Log("load");
-                    Bar.fillAmount += timeBar;
+                    Bar.fillAmount = t/limitTime;
 
                 }
             }
@@ -483,7 +495,7 @@ public class CtrlGamePlay : MonoBehaviour
     public void ThrowBall()
     {
 
-        ForceFlipperThrow =  DirectFlipper.Direct * Mathf.Clamp(Mathf.Abs(Fliper.transform.GetComponent<Rigidbody2D>().angularVelocity) * 0.8f,100,Mathf.Infinity);
+        ForceFlipperThrow =  DirectFlipper.Direct * Mathf.Clamp(Mathf.Abs(Fliper.transform.GetComponent<Rigidbody2D>().angularVelocity) * 0.1f,100,Mathf.Infinity);
        
 
         //  Debug.Log(ForceThrow);

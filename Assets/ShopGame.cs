@@ -19,6 +19,11 @@ public class ShopGame : MonoBehaviour
     {
         CtrlShop.Ins.LoadingShop();
         CtrlShop.Ins.isOpenShop = true;
+        if (Setting.Ins != null)
+        {
+
+            Setting.Ins.OpenSetting(false);
+        }
     }
     private void OnDisable()
     {
