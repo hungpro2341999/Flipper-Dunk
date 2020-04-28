@@ -97,7 +97,7 @@ public class Ball : MonoBehaviour
             }
             if (collision.gameObject.tag == "Max")
             {
-                MaxForce = 2.5f;
+                MaxForce = 2.25f;
             }
 
 
