@@ -63,6 +63,16 @@ public class CtrlShop : MonoBehaviour
     public List<Transform> TypeChose_Flipper;
     public List<Transform> TypeChose_BG;
 
+    public delegate void Lock_Ball();
+    public delegate void Lock_Flipper();
+    public delegate void Lock_BG();
+    public event Lock_Ball eventlockBall;
+    public event Lock_Flipper eventlockFLipper;
+    public event Lock_BG eventlockBG;
+
+
+
+
     public void Open(int chose,List<Transform> trans)
     {
         for(int i = 0; i < trans.Count; i++)
@@ -1036,34 +1046,28 @@ public class CtrlShop : MonoBehaviour
 
     }
 
-    public void BuyRandomAds()
+    public void BuyRandomAds(int diamond)
     {
-       
-    }
-    public void BuyRandom100Diamond(int diamond)
-    {
-
-
         switch (type)
         {
             case TypeShop.Skin:
-                
+
                 if (Ctrl_Player.Ins.GetDiamond() >= diamond)
                 {
                     Ctrl_Player.Ins.EarnDiamond(diamond);
                     List<int> Random_Item = new List<int>();
 
-                for (int i = 0; i < 9; i++)
-                {
+                    for (int i = 0; i < 9; i++)
+                    {
                         var a = SkinPerPage[PageCUrr][i].GetComponent<SkinBall>();
                         if (!a.isBuy)
                         {
                             Random_Item.Add(i);
                         }
 
-                       
 
-                }
+
+                    }
                     if (Random_Item.Count != 0)
                     {
                         int r = Random.Range(0, Random_Item.Count);
@@ -1075,6 +1079,10 @@ public class CtrlShop : MonoBehaviour
                         SaveShop();
                         CtrlAudio.Ins.Play("UnClock");
                         GameMananger.Ins.ShowDiamond();
+                        if (eventlockBall != null)
+                        {
+                            eventlockBall();
+                        }
 
                     }
                     else
@@ -1117,6 +1125,10 @@ public class CtrlShop : MonoBehaviour
                         SaveFliper();
                         CtrlAudio.Ins.Play("UnClock");
                         GameMananger.Ins.ShowDiamond();
+                        if (eventlockFLipper != null)
+                        {
+                            eventlockFLipper();
+                        }
                     }
                     else
                     {
@@ -1158,6 +1170,149 @@ public class CtrlShop : MonoBehaviour
                         SaveBG();
                         CtrlAudio.Ins.Play("UnClock");
                         GameMananger.Ins.ShowDiamond();
+
+                        if (eventlockBG != null)
+                        {
+                            eventlockBG();
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Out Of Random");
+                    }
+
+                }
+                else
+                {
+                    Debug.Log("Out of Diamond");
+                }
+                break;
+
+        }
+
+    }
+    public void BuyRandom100Diamond(int diamond)
+    {
+
+
+        switch (type)
+        {
+            case TypeShop.Skin:
+                
+                if (Ctrl_Player.Ins.GetDiamond() >= diamond)
+                {
+                    Ctrl_Player.Ins.EarnDiamond(diamond);
+                    List<int> Random_Item = new List<int>();
+
+                for (int i = 0; i < 9; i++)
+                {
+                        var a = SkinPerPage[PageCUrr][i].GetComponent<SkinBall>();
+                        if (!a.isBuy)
+                        {
+                            Random_Item.Add(i);
+                        }
+
+                       
+
+                }
+                    if (Random_Item.Count != 0)
+                    {
+                        int r = Random.Range(0, Random_Item.Count);
+
+                        SkinPerPage[PageCUrr][Random_Item[r]].GetComponent<SkinBall>().isBuy = true;
+                        SkinPerPage[PageCUrr][Random_Item[r]].GetComponent<SkinBall>().Select();
+                        SkinPerPage[PageCUrr][Random_Item[r]].GetComponent<SkinBall>().StartEFF();
+                        Debug.Log("UNCLOCK : " + r);
+                        SaveShop();
+                        CtrlAudio.Ins.Play("UnClock");
+                        GameMananger.Ins.ShowDiamond();
+                      
+
+                    }
+                    else
+                    {
+                        Debug.Log("Out Of Random");
+                    }
+
+                }
+                else
+                {
+                    Debug.Log("Out of Diamond");
+                }
+
+                break;
+            case TypeShop.FLipepr:
+                if (Ctrl_Player.Ins.GetDiamond() >= diamond)
+                {
+                    Ctrl_Player.Ins.EarnDiamond(diamond);
+                    List<int> Random_Item = new List<int>();
+
+                    for (int i = 0; i < 9; i++)
+                    {
+                        var a = SkinPerPage_Flipper[PageCurr_Flipper][i].GetComponent<SkinBall>();
+                        if (!a.isBuy)
+                        {
+                            Random_Item.Add(i);
+                        }
+
+
+
+                    }
+                    if (Random_Item.Count != 0)
+                    {
+                        int r = Random.Range(0, Random_Item.Count);
+
+                        SkinPerPage_Flipper[PageCurr_Flipper][Random_Item[r]].GetComponent<SkinBall>().isBuy = true;
+                        SkinPerPage_Flipper[PageCurr_Flipper][Random_Item[r]].GetComponent<SkinBall>().Select();
+                        SkinPerPage_Flipper[PageCurr_Flipper][Random_Item[r]].GetComponent<SkinBall>().StartEFF();
+                        Debug.Log("UNCLOCK : " + r);
+                        SaveFliper();
+                        CtrlAudio.Ins.Play("UnClock");
+                        GameMananger.Ins.ShowDiamond();
+                     
+                    }
+                    else
+                    {
+                        Debug.Log("Out Of Random");
+                    }
+
+                }
+                else
+                {
+                    Debug.Log("Out of Diamond");
+                }
+
+                break;
+            case TypeShop.BG:
+                if (Ctrl_Player.Ins.GetDiamond() >= diamond)
+                {
+                    Ctrl_Player.Ins.EarnDiamond(diamond);
+                    List<int> Random_Item = new List<int>();
+
+                    for (int i = 0; i < 9; i++)
+                    {
+                        var a = SkinPerPage_BG[PageCurr_BG][i].GetComponent<SkinBall>();
+                        if (!a.isBuy)
+                        {
+                            Random_Item.Add(i);
+                        }
+
+
+
+                    }
+                    if (Random_Item.Count != 0)
+                    {
+                        int r = Random.Range(0, Random_Item.Count);
+
+                        SkinPerPage_BG[PageCurr_BG][Random_Item[r]].GetComponent<SkinBall>().isBuy = true;
+                        SkinPerPage_BG[PageCurr_BG][Random_Item[r]].GetComponent<SkinBall>().Select();
+                        SkinPerPage_BG[PageCurr_BG][Random_Item[r]].GetComponent<SkinBall>().StartEFF();
+                        Debug.Log("UNCLOCK : " + r);
+                        SaveBG();
+                        CtrlAudio.Ins.Play("UnClock");
+                        GameMananger.Ins.ShowDiamond();
+
+                      
                     }
                     else
                     {

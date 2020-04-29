@@ -122,8 +122,8 @@ public class CtrlReward : MonoBehaviour
         yield return new WaitForSeconds(waittime);
         if (key<=0)
         {
-            GameMananger.Ins.Close_SigleWindow(TypeWindow.Reward);
-            GameMananger.Ins.Open(TypeWindow.NextLevel);
+            //GameMananger.Ins.Close_SigleWindow(TypeWindow.Reward);
+            //GameMananger.Ins.Open(TypeWindow.NextLevel);
         }
     }
 

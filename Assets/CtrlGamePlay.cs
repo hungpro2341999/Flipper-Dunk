@@ -371,17 +371,17 @@ public class CtrlGamePlay : MonoBehaviour
                 //        isAddForce = true;
                 //    }
                 //}
-                if (DirectFlipper.Angle >= MaxAngle * 0.3f)
+                if (DirectFlipper.Angle >= MaxAngle * 0.2f)
                 {
                   
                 //    isMax = true;
                   
                     Ball.Ins.ThrowBall();
-                    isAddForce = true;
+                
                 }
                 else
                 {
-                    SpeedThrowBall += 0.018f;
+                    SpeedThrowBall += 0.028f;
                 }
 
                     if (DirectFlipper.Angle <= MaxAngle*0.9f)
@@ -410,7 +410,8 @@ public class CtrlGamePlay : MonoBehaviour
 
                     //if (!isAddForce)
                     //{
-                        Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
+                    Fliper.transform.eulerAngles = new Vector3(0, 0, -MaxAngle);
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
                         Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
                           isMax = true;
                      //   SpeedThrowBall = 1.55f;
@@ -428,36 +429,37 @@ public class CtrlGamePlay : MonoBehaviour
         else if (!isPress)
         {
             
-            SpeedThrowBall = 1;
+            SpeedThrowBall = 0;
 
             if (isPress2)
             {
 
 
-                angle = Mathf.MoveTowards(angle, 0, Time.deltaTime*SpeedToque);
-                if (angle== 0)
-                {
-                    Fliper.gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
-                    isPress2 = false;
-                }
-                else
-                {
-                    Fliper.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
-                }
-                //if (DirectFlipper.Angle > 0)
+                //angle = Mathf.MoveTowards(angle, 0, Time.deltaTime*SpeedToque);
+                //if (angle== 0)
                 //{
-                //    Fliper.gameObject.GetComponent<Rigidbody2D>().AddTorque(-SpeedRotation, ForceMode2D.Force);
-                //    //  Debug.Log("Add");
-
+                //    Fliper.gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+                //    isPress2 = false;
                 //}
                 //else
                 //{
-
-                //    isPress2 = false;
-                //    Fliper.gameObject.transform.localEulerAngles = Vector3.zero;
-                //    Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
-                //    Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+                //    Fliper.gameObject.transform.localEulerAngles = new Vector3(0, 0, angle);
                 //}
+                if (DirectFlipper.Angle > 0)
+                {
+                    Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = true;
+                  //  Fliper.gameObject.GetComponent<Rigidbody2D>().AddTorque(-SpeedRotation, ForceMode2D.Force);
+                    //  Debug.Log("Add");
+
+                }
+                else
+                {
+
+                    isPress2 = false;
+                //    Fliper.gameObject.transform.localEulerAngles = Vector3.zero;
+                  //  Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
+                   Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+                }
             }
 
 
@@ -495,8 +497,8 @@ public class CtrlGamePlay : MonoBehaviour
     public void ThrowBall()
     {
 
-        ForceFlipperThrow =  DirectFlipper.Direct * Mathf.Clamp(Mathf.Abs(Fliper.transform.GetComponent<Rigidbody2D>().angularVelocity) * 0.1f,100,Mathf.Infinity);
-       
+        ForceFlipperThrow =  DirectFlipper.Direct *(Mathf.Abs(Fliper.transform.GetComponent<Rigidbody2D>().angularVelocity));
+
 
         //  Debug.Log(ForceThrow);
 
@@ -513,7 +515,7 @@ public class CtrlGamePlay : MonoBehaviour
     public void Reset()
     {
         firstPull = true;
-        CubeBlock.localPosition = new Vector3(-1.046f, 0.09f, 0);
+       // CubeBlock.localPosition = new Vector3(-1.046f, 0.09f, 0);
         Fliper.gameObject.transform.localEulerAngles = Vector3.zero;
         Fliper.gameObject.GetComponent<Rigidbody2D>().simulated = false;
         Fliper.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
@@ -1002,7 +1004,7 @@ public class CtrlGamePlay : MonoBehaviour
     }
     private void restoreBlock()
     {
-        CubeBlock.gameObject.SetActive(true);
+       // CubeBlock.gameObject.SetActive(true);
     }
 }
 

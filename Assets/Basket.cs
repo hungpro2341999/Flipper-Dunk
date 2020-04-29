@@ -133,7 +133,7 @@ public class Basket : PoolItem
         if (isLeft)
         {
             Debug.Log("Destroy Left");
-            transform.DOMoveX((x + 0.3f), 0.3f).OnComplete(() =>
+            transform.DOMoveX((x + 0.1f), 0.3f).OnComplete(() =>
             {
                 transform.DOMoveX((x - 6), 0.6f).OnComplete(() =>
                 {
@@ -150,7 +150,7 @@ public class Basket : PoolItem
             if (isLeft)
             {
                 Debug.Log("Destroy Right");
-                transform.DOMoveX((x - 0.5f * CtrlGamePlay.scaleScreen), 0.5f).OnComplete(() =>
+                transform.DOMoveX((x - 0.1f * CtrlGamePlay.scaleScreen), 0.5f).OnComplete(() =>
                 {
                     transform.DOMoveX((x + 6) * CtrlGamePlay.scaleScreen, 0.6f).OnComplete(() =>
                     {
@@ -165,7 +165,7 @@ public class Basket : PoolItem
             else
             {
 //Debug.Log("Right");
-                transform.DOMoveX((x - 0.5f) * CtrlGamePlay.scaleScreen, 0.5f).OnComplete(() =>
+                transform.DOMoveX((x - 0.1f) * CtrlGamePlay.scaleScreen, 0.5f).OnComplete(() =>
                 {
                     transform.DOMoveX((x + 6) * CtrlGamePlay.scaleScreen, 0.6f).OnComplete(() =>
                     {

@@ -6209,7 +6209,7 @@ Transform:
   m_GameObject: {fileID: 7036961150999913694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.156, y: -0.251, z: -0.02}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 1}
   m_Children:
   - {fileID: 1867998007193562475}
   - {fileID: 7036961151927029541}
@@ -6219,7 +6219,7 @@ Transform:
   - {fileID: 915129723183346782}
   - {fileID: 7791549366385809047}
   - {fileID: 8975518183211023731}
-  - {fileID: 1327369761539760077}
+  - {fileID: 6631412582505288464}
   m_Father: {fileID: 7036961152210956415}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6510,7 +6510,7 @@ MonoBehaviour:
   RangeX: 0
   RangeY: 0
   Key: {fileID: 5245369840458149770}
-  EffGolbal: {fileID: 1327369761539759948}
+  EffGolbal: {fileID: 6631412582505713456}
 --- !u!1 &7303016818383630196
 GameObject:
   m_ObjectHideFlags: 0
@@ -6768,13 +6768,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b5bf3990eb7e8841acf7f6617dc3184, type: 3}
---- !u!1 &1327369761539759948 stripped
+--- !u!1 &6631412582505713456 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5650963479081980447, guid: 6b5bf3990eb7e8841acf7f6617dc3184,
     type: 3}
   m_PrefabInstance: {fileID: 1327369761539759407}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1327369761539760077 stripped
+--- !u!4 &6631412582505288464 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5650963479082077759, guid: 6b5bf3990eb7e8841acf7f6617dc3184,
     type: 3}
@@ -6850,32 +6850,32 @@ PrefabInstance:
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Center.x
-      value: -4.3108335
+      value: -0.01583758
       objectReference: {fileID: 0}
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: -0.116508245
+      value: 0.011601925
       objectReference: {fileID: 0}
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 7.6762905
+      value: 0.0000002793968
       objectReference: {fileID: 0}
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: 0.13466454
+      value: -0.15965748
       objectReference: {fileID: 0}
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 1.449841
+      value: 1.1846775
       objectReference: {fileID: 0}
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 1.0508854
+      value: 1.1596575
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9e085f7fd0332345b5e9c433d3f935f, type: 3}

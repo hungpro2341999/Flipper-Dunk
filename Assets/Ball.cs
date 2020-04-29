@@ -30,6 +30,8 @@ public class Ball : MonoBehaviour
     public static bool isReset = false;
 
     public bool isWall = false;
+
+    public bool  isMax = false;
     private void Awake()
     {
 
@@ -69,12 +71,22 @@ public class Ball : MonoBehaviour
         var a = Physics2D.CircleCastAll(transform.position, 0.4f, Vector2.zero, 0.1f, layer);
         if (a.Length > 0)
         {
+            for(int i = 0; i < a.Length; i++)
+            {
+                if (a[i].collider.gameObject.tag == "Max")
+                {
+                    isMax = true;
+                }
+                  
+                
+            }
             Debug.Log(a.Length);
             isCollWithFlipper = true;
 
         }
         else
         {
+            isMax = false;
             isCollWithFlipper = false;
         }
     }
@@ -93,11 +105,11 @@ public class Ball : MonoBehaviour
         {
             if (collision.gameObject.tag == "1")
             {
-                MaxForce = 1.6f;
+           //     MaxForce = 1.6f;
             }
             if (collision.gameObject.tag == "Max")
             {
-                MaxForce = 2.25f;
+             //   MaxForce = 2.5f;
             }
 
 
@@ -114,11 +126,11 @@ public class Ball : MonoBehaviour
         {
             if (collision.gameObject.tag == "1")
             {
-                MaxForce = 1;
+              //  MaxForce = 1;
             }
             if (collision.gameObject.tag == "Max")
             {
-                MaxForce = 1f;
+              //  MaxForce = 1f;
             }
 
         }
@@ -159,15 +171,32 @@ public class Ball : MonoBehaviour
             //    vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))).normalized * MaxPush;
             //    body.velocity = (vec * CtrlGamePlay.Ins.offsetReflect);
             //}
+            if (isMax)
+            {
+                MaxForce = 2.1f;
+                vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * (1 + CtrlGamePlay.Ins.SpeedThrowBall) * MaxForce * 0.15f;
+            }
+            else
+            {
+                MaxForce = 1.6f;
+                vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * (1 + CtrlGamePlay.Ins.SpeedThrowBall) * MaxForce * 0.15f;
+            }
 
-            vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * (1+CtrlGamePlay.Ins.SpeedThrowBall) * MaxForce ;
+            Debug.Log("VEC : "+vec.magnitude);
+            if (vec.magnitude < 200)
+            {
+                vec = 200 * vec.normalized;
+            }
+
+
             body.AddForce(vec * CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
 
 
             Debug.Log("Fire : " + " " + vec.x + "  " + vec.y + ":" + (int)(body.velocity.magnitude));   
 
 
-            CtrlGamePlay.Ins.SpeedThrowBall = 1;
+            CtrlGamePlay.Ins.SpeedThrowBall = 0;
+            CtrlGamePlay.Ins.isAddForce = true;
 
 
             //body.AddForce( CtrlGamePlay.ForceFlipperThrow , ForceMode2D.Force);
