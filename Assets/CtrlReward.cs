@@ -22,7 +22,9 @@ public class CtrlReward : MonoBehaviour
     public Transform UnclockSkin;
     public Transform UnClockFlipper;
 
+    public Transform ActiveAds;
 
+    public TypeWindow windownBackToGame;
 
     private void Awake()
     {
@@ -116,6 +118,13 @@ public class CtrlReward : MonoBehaviour
         
     }
 
+    public void BackToGame()
+    {
+        GameMananger.Ins.Close_SigleWindow(TypeWindow.Reward);
+        GameMananger.Ins.Open(windownBackToGame);
+
+    }
+
     public IEnumerator OpenOverGame(float waittime)
     {
 
@@ -131,8 +140,9 @@ public class CtrlReward : MonoBehaviour
     {
         return key > 0;
     }
-    public void StartOpenStore()
+    public void StartOpenStore(TypeWindow windowBackTo)
     {
+        windownBackToGame = windowBackTo;
         UnClockRandom();
         for (int i = 0; i < Keys.Count; i++)
         {
@@ -163,7 +173,7 @@ public class CtrlReward : MonoBehaviour
     }
     private void OnEnable()
     {
-         
+        ActiveAds.gameObject.SetActive(false);
         key = 3;
         btn_Add_key.interactable = true;
     }
@@ -188,16 +198,16 @@ public class CtrlReward : MonoBehaviour
                 {
                     Keys[i].GetComponent<DestroySelf>().DestroyNormal();
                 }
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     var a = Instantiate(KeyObj, transKey);
                     Keys.Add(a);
                     a.GetComponent<Key>().Active_key();
                 }
-                for (int i = 0; i < key_rest; i++)
-                {
-                    Keys[Keys.Count - 1 - i].GetComponent<Key>().UnActive();
-                }
+                //for (int i = 0; i < key_rest; i++)
+                //{
+                //    Keys[Keys.Count - 1 - i].GetComponent<Key>().UnActive();
+                //}
             } 
         
 

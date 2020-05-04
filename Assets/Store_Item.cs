@@ -80,6 +80,7 @@ public class Store_Item : MonoBehaviour,IPointerClickHandler
         Open_Item();
         if (CtrlReward.Ins.key <= 0)
         {
+            CtrlReward.Ins.ActiveAds.gameObject.SetActive(true);
             StartCoroutine(CtrlReward.Ins.OpenOverGame(4));
         }
     }

@@ -25,17 +25,25 @@ public class ResetGameEvent : MonoBehaviour
             int live =  CtrlGamePlay.Ins.live--;
             if (CtrlGamePlay.Ins.CompleteLevel)
                 return;
-            if (live > 1)
+            if(CtrlGamePlay.Ins.typeGame == TypeGamePlay.Infinity)
             {
-                Debug.Log("1");
-                StartCoroutine(ResetGame());
+                CtrlGamePlay.Ins.OverGame();
             }
             else
             {
-               
-                Debug.Log("2");
-                CtrlGamePlay.Ins.OverGame();
+                if (live > 1)
+                {
+                    Debug.Log("1");
+                    StartCoroutine(ResetGame());
+                }
+                else
+                {
+
+                    Debug.Log("2");
+                    CtrlGamePlay.Ins.OverGame();
+                }
             }
+           
           
         }
     }

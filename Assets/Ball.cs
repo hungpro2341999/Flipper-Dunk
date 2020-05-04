@@ -80,7 +80,7 @@ public class Ball : MonoBehaviour
                   
                 
             }
-            Debug.Log(a.Length);
+          //  Debug.Log(a.Length);
             isCollWithFlipper = true;
 
         }
@@ -142,10 +142,11 @@ public class Ball : MonoBehaviour
 
         if (isCollWithFlipper)
         {
+            
             if (CtrlGamePlay.Ins.firstPull)
             {
                 CtrlGamePlay.Ins.firstPull = false;
-                CtrlGamePlay.Ins.CubeBlock.localPosition = new Vector3(-1.046f, 0.02f, 0);
+                CtrlGamePlay.Ins.CubeBlock.gameObject.SetActive(false);
             }
             CtrlGamePlay.Ins.VisibleBlock();
               //   Instantiate(CtrlGamePlay.Ins.Test, CtrlGamePlay.Ins.MainCanvas);
@@ -173,26 +174,30 @@ public class Ball : MonoBehaviour
             //}
             if (isMax)
             {
-                MaxForce = 2.1f;
-                vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * (1 + CtrlGamePlay.Ins.SpeedThrowBall) * MaxForce * 0.15f;
+                MaxForce = 2.22f;
+                vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * (1 + CtrlGamePlay.Ins.SpeedThrowBall) * MaxForce * 0.6f;
             }
             else
             {
                 MaxForce = 1.6f;
-                vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * (1 + CtrlGamePlay.Ins.SpeedThrowBall) * MaxForce * 0.15f;
+                vec = (new Vector2(CtrlGamePlay.ForceFlipperThrow.x, Mathf.Abs(CtrlGamePlay.ForceFlipperThrow.y))) * (1 + CtrlGamePlay.Ins.SpeedThrowBall) * MaxForce * 0.6f;
             }
 
-            Debug.Log("VEC : "+vec.magnitude);
-            if (vec.magnitude < 200)
+          //  Debug.Log("VEC : "+vec.magnitude);
+            if (vec.magnitude < 230)
             {
-                vec = 200 * vec.normalized;
+                vec = 230 * vec.normalized;
+            }
+            else if((vec.magnitude > 650))
+            {
+                vec = 650 * vec.normalized;
             }
 
 
             body.AddForce(vec * CtrlGamePlay.Ins.offsetReflect, ForceMode2D.Force);
 
 
-            Debug.Log("Fire : " + " " + vec.x + "  " + vec.y + ":" + (int)(body.velocity.magnitude));   
+          //  Debug.Log("Fire : " + " " + vec.x + "  " + vec.y + ":" + (int)(vec.magnitude));   
 
 
             CtrlGamePlay.Ins.SpeedThrowBall = 0;
@@ -203,7 +208,7 @@ public class Ball : MonoBehaviour
 
 
             Debug.Log("Add Force");
-
+          
         }
         else
         {

@@ -304,7 +304,7 @@ public class Ctrl_Player : MonoBehaviour
 
     public int GetCurrKey()
     {
-        return PlayerPrefs.GetInt(key_key);
+        return Mathf.Clamp(PlayerPrefs.GetInt(key_key),0,3);
     }
    
     public void ResetKey()
@@ -313,19 +313,12 @@ public class Ctrl_Player : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void RestoreKey(int key)
-    {
-        int k = GetCurrKey();
-        k -= key;
-        k = Mathf.Clamp(k, 0, 3);
-        PlayerPrefs.SetInt(key_key, k);
-        PlayerPrefs.Save();
-    }
+   
 
     public bool isInGameisFullKey()
     {
         Debug.Log(CtrlGamePlay.Ins.key_in_Game + GetCurrKey() + " Key");
-        if (CtrlGamePlay.Ins.key_in_Game + GetCurrKey() >= 3)
+        if (GetCurrKey() >= 3)
         {
             
             return true;
@@ -335,9 +328,11 @@ public class Ctrl_Player : MonoBehaviour
 
     public void AddKey(int key)
     {
-        int k = CtrlGamePlay.Ins.key_in_Game + GetCurrKey();
+        int k = key + GetCurrKey();
+        Debug.Log("Save : " + k);
         PlayerPrefs.SetInt(key_key, k);
         PlayerPrefs.Save();
+        Debug.Log("Key_Curr : " + k);
     }
 
    

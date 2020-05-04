@@ -29,7 +29,7 @@ public class OverGame_mode_3 : MonoBehaviour
 
         Ctrl_Player.Ins.SetHighScore(CtrlGamePlay.Ins.ScorePlayer);
         Score.text = CtrlGamePlay.Ins.ScorePlayer.ToString();
-        BestScore.text = "BEST :" + Ctrl_Player.Ins.GetHighScore().ToString();
+        BestScore.text = "BEST: " + Ctrl_Player.Ins.GetHighScore().ToString();
         Dimond.text = Ctrl_Player.DiamondInPlayer.ToString();
         
         CtrlGamePlay.Ins.OverMode_3();

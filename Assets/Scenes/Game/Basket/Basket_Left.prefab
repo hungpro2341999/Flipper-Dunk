@@ -90,7 +90,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.058076113, y: -0.114778616}
+  m_Offset: {x: -0.009899765, y: -0.2701353}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -101,7 +101,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6364766, y: 0.5422802}
+  m_Size: {x: 0.73449236, y: 0.74074644}
   m_EdgeRadius: 0
 --- !u!1 &1476246204641116458
 GameObject:
@@ -299,7 +299,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.037716925, y: -0.19524646}
+  m_Offset: {x: -0.015020847, y: -0.0924077}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -310,7 +310,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1437026, y: 1.3881128}
+  m_Size: {x: 1.2491782, y: 1.5937903}
   m_EdgeRadius: 0
 --- !u!114 &1732677190491604306
 MonoBehaviour:
@@ -450,7 +450,7 @@ MonoBehaviour:
   RangeX: 0
   RangeY: 0
   Key: {fileID: 7393368291107100196}
-  EffGolbal: {fileID: 3050825936737884317}
+  EffGolbal: {fileID: 3050825936737884302}
 --- !u!114 &6070833354612236736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,7 +569,7 @@ Transform:
   m_LocalScale: {x: -0.85, y: 0.85, z: 1}
   m_Children:
   - {fileID: 4601855068302938201}
-  - {fileID: 3050825936737884188}
+  - {fileID: 3050825936737884177}
   - {fileID: 1732677190652656570}
   - {fileID: 1732677190582843009}
   - {fileID: 1732677190788152998}
@@ -623,7 +623,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.058859512, y: 0.05500029}
+  m_Offset: {x: 0.12577467, y: 0.06491348}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -634,7 +634,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.58990455, y: 0.047313422}
+  m_Size: {x: 0.723735, y: 0.1960139}
   m_EdgeRadius: 0
 --- !u!114 &1732677190927028641
 MonoBehaviour:
@@ -676,7 +676,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732677191438152528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.104, y: 0.255, z: 0}
+  m_LocalPosition: {x: -0.104, y: 0.279, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1732677190652656570}
@@ -695,7 +695,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.04845518, y: 0.07427268}
+  m_Offset: {x: 0.05136347, y: 0.14300649}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -706,7 +706,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.66538167, y: 0.09798494}
+  m_Size: {x: 1.0498247, y: 0.43767342}
   m_EdgeRadius: 0
 --- !u!114 &5937223880861426652
 MonoBehaviour:
@@ -1178,7 +1178,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5619877283471805112}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.523, y: -0.242, z: 0}
+  m_LocalPosition: {x: -0.523, y: -0.458, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1732677190652656570}
@@ -6352,7 +6352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9185635430026364967}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.009, y: -0.242, z: 0}
+  m_LocalPosition: {x: 0.009, y: -0.325, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1732677190652656570}
@@ -6371,7 +6371,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.07770868, y: 0.09576378}
+  m_Offset: {x: -0.07770866, y: 0.11063382}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -6382,7 +6382,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.69462097, y: 0.03751467}
+  m_Size: {x: 0.69462097, y: 0.12673488}
   m_EdgeRadius: 0
 --- !u!114 &9185635430026364969
 MonoBehaviour:
@@ -6786,13 +6786,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b5bf3990eb7e8841acf7f6617dc3184, type: 3}
---- !u!4 &3050825936737884188 stripped
+--- !u!4 &3050825936737884177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5650963479082077759, guid: 6b5bf3990eb7e8841acf7f6617dc3184,
     type: 3}
   m_PrefabInstance: {fileID: 3050825936737884926}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3050825936737884317 stripped
+--- !u!1 &3050825936737884302 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5650963479081980447, guid: 6b5bf3990eb7e8841acf7f6617dc3184,
     type: 3}
@@ -6873,12 +6873,12 @@ PrefabInstance:
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: 0.000022649765
+      value: -0.00000023841858
       objectReference: {fileID: 0}
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: -0.000023841858
+      value: -0.00000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
@@ -6888,12 +6888,12 @@ PrefabInstance:
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 1.0001259
+      value: 1.0000002
       objectReference: {fileID: 0}
     - target: {fileID: 897182527463516604, guid: c9e085f7fd0332345b5e9c433d3f935f,
         type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 1.0000236
+      value: 1.0000002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9e085f7fd0332345b5e9c433d3f935f, type: 3}
