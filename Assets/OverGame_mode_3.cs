@@ -35,8 +35,8 @@ public class OverGame_mode_3 : MonoBehaviour
         CtrlGamePlay.Ins.OverMode_3();
         if (Ctrl_Player.DiamondInPlayer != 0)
         {
-            // Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform, 1, Ctrl_Player.DiamondInPlayer);
-            Ctrl_Player.DiamondInPlayer = 0;
+             Ctrl_Player.Ins.ProcessAddConin(ImgDiamond.transform.position, transform, 1, Ctrl_Player.DiamondInPlayer);
+            // Ctrl_Player.DiamondInPlayer = 0;
         }
 
      

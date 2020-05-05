@@ -242,7 +242,7 @@ public class CheckInBall : MonoBehaviour
                
                 isGolbal = true;
                 basket.EffGolbal.SetActive(true);
-              
+                
                 CtrlGamePlay.Ins.AddScore(3);
                 
 
@@ -264,7 +264,15 @@ public class CheckInBall : MonoBehaviour
         int golbal = Score[Point_1] + Score[Point_2] + Score[Point_3] + Score[Point_4];
         if (golbal == 2)
         {
-            Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket * 2;
+           
+            if(CtrlGamePlay.Ins.typeGame == TypeGamePlay.Infinity)
+            {
+                Ctrl_Player.DiamondInPlayer += 1;
+            }
+            else
+            {
+                Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket * 2;
+            }
             typeGolbal.Add("Well Done!");
             typeGolbal.Add("Good Job!");
             typeGolbal.Add("Wonderful!");
@@ -290,7 +298,15 @@ public class CheckInBall : MonoBehaviour
             {
                 CtrlAudio.Ins.Play("Golbal");
             }
-            Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket+1;
+           
+            if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Infinity)
+            {
+                Ctrl_Player.DiamondInPlayer += 1;
+            }
+            else
+            {
+                Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket + 1;
+            }
             typeGolbal.Add("Superb!");
             typeGolbal.Add("Great!");
             typeGolbal.Add("Wonderful!");
@@ -299,8 +315,16 @@ public class CheckInBall : MonoBehaviour
         else
         {
             Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket;
-           
-                CtrlAudio.Ins.Play("Golbal");
+            if (CtrlGamePlay.Ins.typeGame == TypeGamePlay.Infinity)
+            {
+                 Ctrl_Player.DiamondInPlayer += 1;
+            }
+            else
+            {
+                Ctrl_Player.DiamondInPlayer += Ctrl_Player.Ins.DiamondPerBasket;
+            }
+
+            CtrlAudio.Ins.Play("Golbal");
             
             typeGolbal.Add("Marvelous");
             typeGolbal.Add("Amazing");

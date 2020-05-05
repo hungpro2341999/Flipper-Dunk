@@ -121,10 +121,12 @@ public class CtrlGamePlay : MonoBehaviour
 
     // Mode 3:
 
-    public Text Score;
-    public Text HighScore;
+    public TextMesh Score;
+    public TextMesh HighScore;
     public int ScorePlayer;
-
+    public Transform ScoreMode3;
+    public Transform DailyMoode2;
+    public Transform Mode1;
     private void Awake()
     {
         // speedPlushThrow = (PLushPerSecond * MaxForceThrow) / Mathf.Abs(MinAngle);
@@ -212,11 +214,14 @@ public class CtrlGamePlay : MonoBehaviour
 
                 eventClearObj();
                 live = 3;
-
+               
                 eventForStartGame();
                 CompleteLevel = false;
                 eventForRerestGame();
                 Open(0);
+                ScoreMode3.gameObject.SetActive(false);
+                DailyMoode2.gameObject.SetActive(false);
+                Mode1.gameObject.SetActive(true);
 
                 break;
             case TypeGamePlay.Chanelegend:
@@ -230,7 +235,9 @@ public class CtrlGamePlay : MonoBehaviour
                 live = 1;
                 Ctrl_Player.DiamondInPlayer = 0;
                 Open(1);
-
+                ScoreMode3.gameObject.SetActive(false);
+                DailyMoode2.gameObject.SetActive(true);
+                Mode1.gameObject.SetActive(false);
 
                 eventForRerestGame();
                 break;
@@ -245,7 +252,9 @@ public class CtrlGamePlay : MonoBehaviour
 
                 eventForRerestGame();
                 Open(2);
-
+                ScoreMode3.gameObject.SetActive(true);
+                DailyMoode2.gameObject.SetActive(false);
+                Mode1.gameObject.SetActive(false);
                 break;
         }
 

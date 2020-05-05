@@ -317,6 +317,7 @@ public class Ctrl_Player : MonoBehaviour
 
     public bool isInGameisFullKey()
     {
+       
         Debug.Log(CtrlGamePlay.Ins.key_in_Game + GetCurrKey() + " Key");
         if (GetCurrKey() >= 3)
         {

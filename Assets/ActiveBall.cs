@@ -47,7 +47,7 @@ public class ActiveBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float timeActive = PlayerPrefs.GetFloat(Key) - (System.DateTime.Now.Second + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Hour * 60*60);
+        float timeActive = PlayerPrefs.GetFloat(Key) - ( System.DateTime.Now.Second + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Hour * 60*60 + System.DateTime.Now.Day*24*60*60 +  System.DateTime.Now.Month * 30 * 24 * 60 * 60);
         if (timeActive<=0)
         {
             Debug.Log("Active");
@@ -88,7 +88,7 @@ public class ActiveBall : MonoBehaviour
     public void SeTTimeForNext()
     {
          
-           float timenext = (System.DateTime.Now.Second + System.DateTime.Now.Minute*60 + System.DateTime.Now.Hour*60*60) +time;
+           float timenext = (System.DateTime.Now.Second + System.DateTime.Now.Minute*60 + System.DateTime.Now.Hour*60*60 * System.DateTime.Now.Day * 24 * 60 * 60 + System.DateTime.Now.Month * 30 * 24 * 60 * 60) +time;
             PlayerPrefs.SetFloat(Key,timenext);
             PlayerPrefs.Save();
             ButtonHandle.interactable = false;

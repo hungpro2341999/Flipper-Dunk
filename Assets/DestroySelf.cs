@@ -45,6 +45,7 @@ public class DestroySelf : MonoBehaviour
     }
     public void DestroyNormal()
     {
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 }

@@ -64,7 +64,7 @@ public class Basket : PoolItem
 
                 if (Ctrl_Spawn.Ins.isActiveKey())
                 {
-                    if(type == TypeBasket.Change_Size || type == TypeBasket.Change_Size_vs_Move)
+                    if(type == TypeBasket.X2)
                     {
                         Key.gameObject.SetActive(false);
                     }
@@ -92,13 +92,26 @@ public class Basket : PoolItem
         {
             Key.gameObject.SetActive(false);
         }
-      //  Key.gameObject.SetActive(true);
+
+      
+    
 
 
     }
 
 
-
+    public bool isKeyActive()
+    {
+        if (Key != null)
+        {
+            return Key.active;
+        }
+        else
+        {
+            return false;
+        }
+       
+    }
 
 
     // Update is called once per frame
@@ -181,6 +194,10 @@ public class Basket : PoolItem
             }
 
 
+        }
+        if (isKeyActive())
+        {
+            Key.GetComponent<Active_key>().GetActiveKey();
         }
 
         CtrlGamePlay.Ins.basket.Remove(this);

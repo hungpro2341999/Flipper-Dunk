@@ -116,6 +116,7 @@ MonoBehaviour:
   BG_Light: {fileID: 4797806788968067103, guid: aa97d1a9cdaa70b498b45f448c47ed0e,
     type: 3}
   text: {fileID: 5178057261718038365}
+  Anim: {fileID: 0}
 --- !u!114 &8703663270313425681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,5 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dda16df28be9dd4186ee56b24a1382e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0.4
+  audioName: 
+  time: 0.7
   isWait: 0
+  EFF: {fileID: 0}

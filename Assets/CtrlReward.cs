@@ -143,6 +143,7 @@ public class CtrlReward : MonoBehaviour
     public void StartOpenStore(TypeWindow windowBackTo)
     {
         windownBackToGame = windowBackTo;
+        ActiveAds.gameObject.SetActive(false);
         UnClockRandom();
         for (int i = 0; i < Keys.Count; i++)
         {
@@ -173,9 +174,10 @@ public class CtrlReward : MonoBehaviour
     }
     private void OnEnable()
     {
-        ActiveAds.gameObject.SetActive(false);
+      
         key = 3;
         btn_Add_key.interactable = true;
+        ActiveAds.gameObject.SetActive(false);
     }
     public void AddKey(int key)
     {
