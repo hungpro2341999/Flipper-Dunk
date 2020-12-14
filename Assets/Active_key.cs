@@ -24,6 +24,7 @@ public class Active_key : MonoBehaviour
 
     public void GetActiveKey()
     {
+        
         Ctrl_Player.Ins.AddKey(1);
         CtrlAudio.Ins.Play("KeyCollect");
         transform.parent = Ctrl_Spawn.Ins.TransGamePlay;

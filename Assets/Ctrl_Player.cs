@@ -80,14 +80,22 @@ public class Ctrl_Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetCurrKey1 = GetCurrKey();
-     //   Debug.Log(GetCurrKey1);
+     
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayerPrefs.SetInt(key_key, 3);
+            GetCurrKey1 = GetCurrKey();
+        }
+
+       
+        //   Debug.Log(GetCurrKey1);
     }
     public void Init()
     {
+      
 
-
-       // PlayerPrefs.DeleteKey(key_key);
+        // PlayerPrefs.DeleteKey(key_key);
         if (!PlayerPrefs.HasKey(key_key))
         {
             PlayerPrefs.SetInt(key_key, 0);
@@ -196,6 +204,7 @@ public class Ctrl_Player : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    
     public void  SetSkinBG(int id)
     {
         PlayerPrefs.SetInt(Key_BG, id);
@@ -304,7 +313,7 @@ public class Ctrl_Player : MonoBehaviour
 
     public int GetCurrKey()
     {
-        return Mathf.Clamp(PlayerPrefs.GetInt(key_key),0,3);
+        return PlayerPrefs.GetInt(key_key);
     }
    
     public void ResetKey()
@@ -318,7 +327,7 @@ public class Ctrl_Player : MonoBehaviour
     public bool isInGameisFullKey()
     {
        
-        Debug.Log(CtrlGamePlay.Ins.key_in_Game + GetCurrKey() + " Key");
+        Debug.Log(GetCurrKey() + " Key");
         if (GetCurrKey() >= 3)
         {
             
@@ -330,10 +339,18 @@ public class Ctrl_Player : MonoBehaviour
     public void AddKey(int key)
     {
         int k = key + GetCurrKey();
-        Debug.Log("Save : " + k);
-        PlayerPrefs.SetInt(key_key, k);
-        PlayerPrefs.Save();
-        Debug.Log("Key_Curr : " + k);
+        if (k <= 3)
+        {
+            Debug.Log("Save : " + k);
+            PlayerPrefs.SetInt(key_key, k);
+            PlayerPrefs.Save();
+            Debug.Log("Key_Curr : " + k);
+        }
+        else
+        {
+            Debug.Log("Full");
+        }
+      
     }
 
    

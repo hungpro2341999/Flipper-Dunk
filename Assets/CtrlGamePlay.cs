@@ -322,6 +322,7 @@ public class CtrlGamePlay : MonoBehaviour
 
         }
 
+       
 
         // Debug.Log(angle);
         if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
@@ -618,13 +619,17 @@ public class CtrlGamePlay : MonoBehaviour
                     Ctrl_Player.Ins.CompleteNextLevel();
                     if (Ctrl_Player.Ins.isInGameisFullKey())
                     {
-                        
-                        GameMananger.Ins.Open(TypeWindow.Reward);
-                        Ball.Ins.ActiveBall(false);
                         CtrlReward.Ins.StartOpenStore(TypeWindow.NextLevel);
+                      
+                        Debug.Log("Open Reward: ");
+                        Ctrl_Player.Ins.ResetKey();
+                        Ball.Ins.ActiveBall(false);
+                      
                     }
                     else
                     {
+                     
+
                        // Ctrl_Player.Ins.AddKey(key_in_Game);
                         var a = Ctrl_Spawn.Ins.SpawnUIEff(3, Vector2.zero, MainCanvas);
                         a.localPosition = Vector3.zero;

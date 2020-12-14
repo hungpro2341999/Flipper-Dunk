@@ -42,12 +42,16 @@ public class CtrlReward : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Init();
+      //  Init();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            StartOpenStore(TypeWindow.NextLevel);
+        }
     }
     public void UnClockRandom()
     {
@@ -142,16 +146,23 @@ public class CtrlReward : MonoBehaviour
     }
     public void StartOpenStore(TypeWindow windowBackTo)
     {
-        windownBackToGame = windowBackTo;
+        GameMananger.Ins.Open(TypeWindow.Reward);
+        Debug.Log("as");
+        key = 3;
+        btn_Add_key.interactable = true;
         ActiveAds.gameObject.SetActive(false);
-        UnClockRandom();
+        windownBackToGame = windowBackTo;
+       
+       
         for (int i = 0; i < Keys.Count; i++)
         {
+            if(Keys[i]!=null)
             Keys[i].GetComponent<DestroySelf>().DestroyNormal();
         }
         Keys.Clear();
+        Keys = new List<GameObject>();
         Ctrl_Player.Ins.ResetKey();
-        key = 3;
+       
         for(int i = 0; i < key; i++)
         {
             var a = Instantiate(KeyObj, transKey);
@@ -162,22 +173,23 @@ public class CtrlReward : MonoBehaviour
         ActiveAllKey();
         for(int i = 0;i< List_Item.Count; i++)
         {
+            
             List_Item[i].GetComponent<DestroySelf>().Destroy();
         }
-        List_Item.Clear();
+       
+        List_Item = new List<Store_Item>();
         for (int i = 0; i < 9; i++)
         {
             var a = Instantiate(StoreItem, trans);
             List_Item.Add(a.GetComponent<Store_Item>());
 
         }
+        UnClockRandom();
     }
     private void OnEnable()
     {
-      
-        key = 3;
-        btn_Add_key.interactable = true;
-        ActiveAds.gameObject.SetActive(false);
+       
+
     }
     public void AddKey(int key)
     {

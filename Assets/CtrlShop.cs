@@ -337,7 +337,7 @@ public class CtrlShop : MonoBehaviour
     {
         PlayerPrefs.DeleteKey(key_Shop_Skin);
         PlayerPrefs.DeleteKey(key_Shop_Flipper);
-         PlayerPrefs.DeleteKey(Key_Shop_BG);
+        PlayerPrefs.DeleteKey(Key_Shop_BG);
         if (!PlayerPrefs.HasKey(key_Shop_Skin))
         {
             // Load_Skin
@@ -352,7 +352,8 @@ public class CtrlShop : MonoBehaviour
                 }
                 else
                 {
-                    skin = new SaveSkin(i, false, false);
+                    //skin = new SaveSkin(i, false, false);
+                    skin = new SaveSkin(i, true, true);
                 }
                 Saves.Add(skin);
                 DataSave data = new DataSave(Saves);
@@ -376,7 +377,8 @@ public class CtrlShop : MonoBehaviour
                 }
                 else
                 {
-                    skin = new SaveSkin(i, false, false);
+                  //  skin = new SaveSkin(i, false, false);
+                    skin = new SaveSkin(i, true, true);
                 }
                 Saves.Add(skin);
                 DataSave data = new DataSave(Saves);
@@ -403,7 +405,8 @@ public class CtrlShop : MonoBehaviour
                 }
                 else
                 {
-                    skin = new SaveSkin(i, false, false);
+                  //  skin = new SaveSkin(i, false, false);
+                     skin = new SaveSkin(i, true, true);
                 }
                 Saves.Add(skin);
                 DataSave data = new DataSave(Saves);

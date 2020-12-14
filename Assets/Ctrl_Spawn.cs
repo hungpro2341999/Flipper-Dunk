@@ -962,7 +962,7 @@ public class Ctrl_Spawn : MonoBehaviour
             if (!ListKey[i].isActive)
             {
 
-                return Camera.main.ScreenToWorldPoint(ListKey[i].transform.position);
+                return Camera.main.ViewportToWorldPoint(ListKey[i].transform.position);
                 
             }
 

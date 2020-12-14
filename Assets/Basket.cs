@@ -104,7 +104,15 @@ public class Basket : PoolItem
     {
         if (Key != null)
         {
-            return Key.active;
+            if (!Key.GetComponent<Active_key>().active)
+            {
+                return Key.active;
+            }
+            else
+            {
+                return false;
+            }
+          
         }
         else
         {

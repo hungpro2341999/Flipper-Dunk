@@ -16,6 +16,7 @@ public class Windown : MonoBehaviour
     public void Open()
     {
         gameObject.SetActive(true);
+       
     }
     public void Close()
     {

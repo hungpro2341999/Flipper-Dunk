@@ -246,6 +246,11 @@ public class GameMananger : MonoBehaviour
                     CtrlShop.Ins.type = TypeShop.BG;
                 }
 
+                if(windowns[i].type == TypeWindow.Reward)
+                {
+                  
+                }
+
             }
         }
         CurrWindown = type;

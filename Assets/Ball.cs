@@ -68,7 +68,7 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var a = Physics2D.CircleCastAll(transform.position, 0.4f, Vector2.zero, 0.1f, layer);
+        var a = Physics2D.CircleCastAll(transform.position, 0.45f, Vector2.zero, 0.1f, layer);
         if (a.Length > 0)
         {
             for(int i = 0; i < a.Length; i++)
